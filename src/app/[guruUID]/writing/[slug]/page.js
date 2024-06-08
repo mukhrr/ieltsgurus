@@ -47,12 +47,7 @@ export default async function WritingSlug({ params }) {
     headline: seoTitle,
     description: seoDescription,
     datePublished,
-    dateModified,
-    author: {
-      '@type': 'Person',
-      name: 'Onur Şuyalçınkaya'
-    },
-    url: `https://onur.dev/writing/${slug}`
+    dateModified
   }
 
   return (

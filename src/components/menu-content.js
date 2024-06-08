@@ -3,8 +3,8 @@
 import Link from 'next/link'
 
 import { NavigationLink } from '@/components/navigation-link'
-import { PROFILES, LINKS } from '@/lib/constants'
 import { useParams } from 'next/navigation'
+import { LINKS } from '@/lib/constants'
 
 export const MenuContent = () => {
   const params = useParams()
@@ -33,11 +33,7 @@ export const MenuContent = () => {
       <hr />
       <div className="flex flex-col gap-2 text-sm">
         <span className="px-2 text-xs font-medium leading-relaxed text-gray-600">Online</span>
-        <div className="flex flex-col gap-1">
-          {Object.values(PROFILES).map((profile) => (
-            <NavigationLink key={profile.url} href={profile.url} label={profile.title} icon={profile.icon} />
-          ))}
-        </div>
+        <div className="flex flex-col gap-1"></div>
       </div>
     </div>
   )
