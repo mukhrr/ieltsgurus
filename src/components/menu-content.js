@@ -14,8 +14,7 @@ export const MenuContent = () => {
       <div className="flex flex-col gap-4">
         <Link href="/" className="link-card inline-flex items-center gap-2 p-2">
           <div className="flex flex-col">
-            <span className="font-semibold tracking-tight">Onur Şuyalçınkaya</span>
-            <span className="text-gray-600">Software Engineer</span>
+            <span className="font-semibold tracking-tight">IELTS Gurus</span>
           </div>
         </Link>
         <div className="flex flex-col gap-1">

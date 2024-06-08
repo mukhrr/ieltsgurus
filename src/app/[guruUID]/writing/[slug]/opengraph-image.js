@@ -11,7 +11,6 @@ export const size = {
   width: sharedImage.width,
   height: sharedImage.height
 }
-export const contentType = sharedImage.type
 
 export default async function Image({ params }) {
   const { slug } = params
@@ -26,13 +25,7 @@ export default async function Image({ params }) {
   } = seoData
 
   return new ImageResponse(
-    (
-      <OpenGraphImage
-        title={ogImageTitle || title}
-        description={ogImageSubtitle || 'by Onur Şuyalçınkaya'}
-        url="writing"
-      />
-    ),
+    <OpenGraphImage title={ogImageTitle || title} description={ogImageSubtitle} url="writing" />,
     {
       ...size,
       fonts: [
