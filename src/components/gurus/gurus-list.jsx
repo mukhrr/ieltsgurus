@@ -11,7 +11,7 @@ export default function GurusList({ category }) {
 
   useEffect(() => {
     const getMentors = async () => {
-      const data = await fetchMentorsByCategory('writing')
+      const data = await fetchMentorsByCategory(category.toLowerCase())
       setMentors(data)
     }
 

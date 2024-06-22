@@ -14,7 +14,7 @@ export default async function Index() {
         <div className="mx-auto max-w-4xl px-6 py-12">
           <div className="mb-8 flex items-center justify-between" />
           <div className="text-center">
-            <h1 className="mb-2 text-5xl font-bold">Discover IELTS Instructors</h1>
+            <h1 className="mb-2 text-5xl font-bold tracking-wide">Discover Top IELTS Instructors</h1>
             <p className="mb-6 text-lg">150 gurus found and counting</p>
             <div className="relative">
               <Input placeholder="Search within the top IELTS intructors hub" className="w-full py-3 pl-4 pr-10" />
@@ -31,13 +31,13 @@ export default async function Index() {
 
       <Categories />
 
-      <GurusList category="TRENDING" list={gurus_mock_data} />
-      <GurusList category="NINERS" list={gurus_mock_data} />
-      <GurusList category="WRITING_GURUS" list={gurus_mock_data} />
-      <GurusList category="SPEAKING_GURUS" list={gurus_mock_data} />
-      <GurusList category="LISTENING_GURUS" list={gurus_mock_data} />
-      <GurusList category="READING_GURUS" list={gurus_mock_data} />
-      <GurusList category="FEATURED" list={gurus_mock_data} />
+      <GurusList category="TRENDING" />
+      <GurusList category="NINERS" />
+      <GurusList category="WRITING" />
+      <GurusList category="SPEAKING" />
+      <GurusList category="LISTENING" />
+      <GurusList category="READING" />
+      <GurusList category="FEATURED" />
     </div>
   )
 }

@@ -49,7 +49,7 @@ export default function GuruCard({ fullName, image, score, shortInfo, descriptio
         <div className="mt-4 space-y-2">
           <p>{description}</p>
           <div className="flex items-center justify-between">
-            <p className="text-xl font-semibold text-gray-700">Overall Score: 7.5</p>
+            <p className="text-xl font-semibold text-gray-700">Overall Score: {score.overall}</p>
             <Button variant="outline" size="sm" className="flex items-center gap-2 px-4 py-2">
               View Profile
               <Send className="h-4 w-4" />
