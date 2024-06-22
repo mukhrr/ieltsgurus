@@ -134,3 +134,14 @@ export const CONTENT_TYPES = {
   POST: 'post',
   LOGBOOK: 'logbook'
 }
+
+export const CATEGORIES = {
+  TRENDING: "Today's Trending IELTS Gurus",
+  NINERS: 'NINERS',
+  WRITING_GURUS: 'Top WRITING Instructors',
+  SPEAKING_GURUS: 'Top SPEAKING Instructors',
+  LISTENING_GURUS: 'Top LISTENING Instructors',
+  READING_GURUS: 'Top READING Instructors',
+  FEATURED: 'Featured IELTS Mentors',
+  SEARCHED: 'Search Results:'
+}

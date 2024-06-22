@@ -24,3 +24,7 @@ workbox-*.js
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# database data
+/src/lib/seedMentors.js
+/src/lib/mentors.json

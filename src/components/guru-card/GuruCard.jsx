@@ -1,21 +1,25 @@
 'use client'
 
 import { useState } from 'react'
+import { ChevronsDownUpIcon, BookIcon, HeadphonesIcon, MicIcon, PencilIcon, Send } from 'lucide-react'
+
 import { Card } from '@/components/ui/card'
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
-import { ChevronsDownUpIcon, BookIcon, HeadphonesIcon, MicIcon, PencilIcon, Send } from 'lucide-react'
+
+import { getInitials } from '@/lib/utils'
 
 export default function GuruCard({ fullName, image, score, shortInfo, description }) {
-  const [isCollapsed, setIsCollapsed] = useState(true)
+  const [isCollapsed, setIsCollapsed] = useState(false)
+  const imagePathOnStore = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${image}`
 
   return (
     <Card className="w-full max-w-md rounded-lg bg-white p-6 shadow-md transition-shadow duration-300 ease-in-out hover:shadow-lg">
       <div className="flex items-center justify-between gap-6">
         <div className="flex items-center gap-4">
           <Avatar className="h-16 w-16 border-2 border-gray-200">
-            <AvatarImage src={image} alt="Guru Avatar" />
-            <AvatarFallback>JD</AvatarFallback>
+            <AvatarImage src={imagePathOnStore} alt="Guru Avatar" />
+            <AvatarFallback>{getInitials(fullName)}</AvatarFallback>
           </Avatar>
           <div className="flex items-center gap-6">
             <div className="flex flex-col">

@@ -1,6 +1,6 @@
-import {cache} from 'react'
-import {twMerge} from 'tailwind-merge'
-import {cx} from 'classix'
+import { cache } from 'react'
+import { twMerge } from 'tailwind-merge'
+import { cx } from 'classix'
 
 /**
  * Combines and merges multiple CSS class names or values using the classix and tailwind-merge libraries.
@@ -12,7 +12,7 @@ import {cx} from 'classix'
  * @returns - A merged string containing the combined CSS class names or values.
  */
 export function cn(...args) {
-    return twMerge(cx(...args))
+  return twMerge(cx(...args))
 }
 
 /**
@@ -24,8 +24,8 @@ export function cn(...args) {
  * @returns - A boolean value indicating whether the link is an external link.
  */
 export const isExternalLink = (href) => {
-    if (!href) return false
-    return !href.startsWith('/') && !href.startsWith('#')
+  if (!href) return false
+  return !href.startsWith('/') && !href.startsWith('#')
 }
 
 /**
@@ -37,12 +37,12 @@ export const isExternalLink = (href) => {
  * @returns - A localized date string representation formatted as 'Month Day, Year'.
  */
 export const getDateTimeFormat = (date) => {
-    const dateObj = new Date(date)
-    return Intl.DateTimeFormat('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: '2-digit'
-    }).format(dateObj)
+  const dateObj = new Date(date)
+  return Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: '2-digit'
+  }).format(dateObj)
 }
 
 /**
@@ -70,18 +70,18 @@ export const isDevelopment = process.env.NODE_ENV === 'development'
  * @returns - The sorted array in ascending order based on the specified property.
  */
 export const sortByProperty = cache((arr, prop) => {
-    return arr?.sort((a, b) => {
-        const itemA = a[prop].toUpperCase()
-        const itemB = b[prop].toUpperCase()
+  return arr?.sort((a, b) => {
+    const itemA = a[prop].toUpperCase()
+    const itemB = b[prop].toUpperCase()
 
-        if (itemA < itemB) {
-            return -1
-        } else if (itemA > itemB) {
-            return 1
-        }
+    if (itemA < itemB) {
+      return -1
+    } else if (itemA > itemB) {
+      return 1
+    }
 
-        return 0
-    })
+    return 0
+  })
 })
 
 /**
@@ -93,11 +93,11 @@ export const sortByProperty = cache((arr, prop) => {
  * @returns - The sorted array of blog posts in descending order based on their publication dates.
  */
 export const getSortedPosts = cache((posts) => {
-    return posts.sort((a, b) => {
-        const dateA = a.date || a.sys.firstPublishedAt
-        const dateB = b.date || b.sys.firstPublishedAt
-        return new Date(dateB) - new Date(dateA)
-    })
+  return posts.sort((a, b) => {
+    const dateA = a.date || a.sys.firstPublishedAt
+    const dateB = b.date || b.sys.firstPublishedAt
+    return new Date(dateB) - new Date(dateA)
+  })
 })
 
 /**
@@ -106,8 +106,8 @@ export const getSortedPosts = cache((posts) => {
  * This formatter can be used to format date objects into a string representation with only the month and year.
  */
 export const dateWithMonthAndYearFormatter = Intl.DateTimeFormat('en-US', {
-    month: '2-digit',
-    year: 'numeric'
+  month: '2-digit',
+  year: 'numeric'
 })
 
 /**
@@ -116,8 +116,8 @@ export const dateWithMonthAndYearFormatter = Intl.DateTimeFormat('en-US', {
  * This formatter can be used to format date objects into a string representation with the day and month included.
  */
 export const dateWithDayAndMonthFormatter = Intl.DateTimeFormat('tr-TR', {
-    day: '2-digit',
-    month: '2-digit'
+  day: '2-digit',
+  month: '2-digit'
 })
 
 /**
@@ -138,15 +138,28 @@ export const viewCountFormatter = new Intl.NumberFormat('nl-NL')
  * @returns - An array of arrays, each containing items grouped by year.
  */
 export const getItemsByYear = (items) => {
-    return items.reduce((acc, item) => {
-        const year = new Date(item.date || item.sys.firstPublishedAt).getFullYear()
-        const yearArr = acc.find((item) => item[0] === year)
-        if (!yearArr) {
-            acc.push([year, [item]])
-        } else {
-            yearArr[1].push(item)
-        }
+  return items.reduce((acc, item) => {
+    const year = new Date(item.date || item.sys.firstPublishedAt).getFullYear()
+    const yearArr = acc.find((item) => item[0] === year)
+    if (!yearArr) {
+      acc.push([year, [item]])
+    } else {
+      yearArr[1].push(item)
+    }
 
-        return acc
-    }, [])
+    return acc
+  }, [])
+}
+
+/**
+ * Function to get first two letters of name.
+ *
+ * @param fullName - The full name of mentor
+ * @returns - The first letter of full name.
+ */
+export const getInitials = (fullName) => {
+  return fullName
+    .split(' ')
+    .map((name) => name[0])
+    .join('')
 }

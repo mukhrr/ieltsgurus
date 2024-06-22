@@ -3,7 +3,9 @@ import { MicroscopeIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import Categories from '@/components/categories'
-import GurusSearched from '@/components/gurus/gurus-searched'
+// import GurusSearched from '@/components/gurus/gurus-searched'
+import GurusList from '@/components/gurus/gurus-list'
+import gurus_mock_data from '@/lib/mock-data/gurus.json'
 
 export default async function Index() {
   return (
@@ -26,8 +28,16 @@ export default async function Index() {
           </div>
         </div>
       </section>
+
       <Categories />
-      <GurusSearched />
+
+      <GurusList category="TRENDING" list={gurus_mock_data} />
+      <GurusList category="NINERS" list={gurus_mock_data} />
+      <GurusList category="WRITING_GURUS" list={gurus_mock_data} />
+      <GurusList category="SPEAKING_GURUS" list={gurus_mock_data} />
+      <GurusList category="LISTENING_GURUS" list={gurus_mock_data} />
+      <GurusList category="READING_GURUS" list={gurus_mock_data} />
+      <GurusList category="FEATURED" list={gurus_mock_data} />
     </div>
   )
 }
