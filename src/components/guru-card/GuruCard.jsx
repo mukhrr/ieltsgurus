@@ -16,6 +16,12 @@ export default function GuruCard({ fullName, image, score, shortInfo, descriptio
   const [isOverflowing, setIsOverflowing] = useState(false)
   const imagePathOnStore = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${image}`
 
+  const truncateString = {
+    display: '-webkit-box',
+    webkitLineClamp: '3',
+    webkitBoxOrient: 'vertical'
+  }
+
   useEffect(() => {
     if (descriptionRef.current) {
       setIsOverflowing(descriptionRef.current.scrollHeight > descriptionRef.current.clientHeight)
@@ -34,12 +40,16 @@ export default function GuruCard({ fullName, image, score, shortInfo, descriptio
           </Avatar>
           <div className="flex items-center gap-6">
             <div className="flex flex-col">
-              <h3 className="font-semibold xl:text-lg">{fullName}</h3>
+              <h3 title={fullName} className="font-semibold xl:text-lg" style={truncateString}>
+                {fullName}
+              </h3>
 
               {isCollapsed ? (
                 <p className="text-base text-gray-500">Overall: {score.overall}</p>
               ) : (
-                <p className="text-base text-gray-500">{shortInfo}</p>
+                <p title={shortInfo} className="overflow-hidden text-base text-gray-500" style={truncateString}>
+                  {shortInfo}
+                </p>
               )}
             </div>
             {isCollapsed && (
