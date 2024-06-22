@@ -5,7 +5,6 @@ import { Input } from '@/components/ui/input'
 import Categories from '@/components/categories'
 // import GurusSearched from '@/components/gurus/gurus-searched'
 import GurusList from '@/components/gurus/gurus-list'
-import gurus_mock_data from '@/lib/mock-data/gurus.json'
 
 export default async function Index() {
   return (

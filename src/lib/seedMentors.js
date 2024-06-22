@@ -8,8 +8,19 @@ const supabase = createClient(supabaseUrl, supabaseKey)
 
 const data = JSON.parse(fs.readFileSync('mentors.json', 'utf8'))
 
+const toSnakeCase = (str) => {
+  return str
+    .normalize('NFD') // Normalize the string
+    .replace(/[\u0300-\u036f]/g, '') // Remove diacritics
+    .replace(/[^a-zA-Z0-9\s]/g, '') // Remove special characters but keep spaces
+    .split(' ') // Split the string into words
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) // Capitalize each word
+    .join('') // Join the words without spaces
+}
+
 data.forEach(async (mentor) => {
-  const imagePath = `mentor-images/${mentor.fullName}.jpg`
+  const imageFileName = toSnakeCase(mentor.fullName)
+  const imagePath = `mentor-images/${imageFileName}.jpg`
 
   const { data, error } = await supabase.from('mentors').insert([
     {
