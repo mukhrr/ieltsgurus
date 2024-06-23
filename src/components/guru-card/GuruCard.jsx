@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button'
 
 import { getInitials } from '@/lib/utils'
 
-export default function GuruCard({ fullName, image, score, shortInfo, description }) {
+export default function GuruCard({ fullName, image, score, shortInfo, description, socialNetworks }) {
   const descriptionRef = useRef(null)
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [isExpandedDescription, setIsExpandedDescription] = useState(false)
@@ -18,10 +18,10 @@ export default function GuruCard({ fullName, image, score, shortInfo, descriptio
 
   const truncateString = {
     display: '-webkit-box',
-    webkitLineClamp: '3',
-    webkitBoxOrient: 'vertical'
+    WebkitLineClamp: '3',
+    WebkitBoxOrient: 'vertical'
   }
-
+  // truncate description if it overflows content
   useEffect(() => {
     if (descriptionRef.current) {
       setIsOverflowing(descriptionRef.current.scrollHeight > descriptionRef.current.clientHeight)
@@ -53,11 +53,11 @@ export default function GuruCard({ fullName, image, score, shortInfo, descriptio
               )}
             </div>
             {isCollapsed && (
-              <div title="Telegram channel">
-                <Button variant="outline" size="sm" className="flex items-center gap-2 px-4 py-2">
+              <Button variant="outline" size="sm" asChild>
+                <a href={socialNetworks.telegram} title="Telegram channel" target="_blank" rel="noopener noreferrer">
                   <Send className="h-4 w-4" />
-                </Button>
-              </div>
+                </a>
+              </Button>
             )}
           </div>
         </div>
@@ -84,9 +84,17 @@ export default function GuruCard({ fullName, image, score, shortInfo, descriptio
           </div>
           <div className="flex items-center justify-between">
             <p className="text-xl font-semibold text-gray-700">Overall Score: {score.overall}</p>
-            <Button variant="outline" size="sm" className="flex items-center gap-2 px-4 py-2">
-              View Profile
-              <Send className="h-4 w-4" />
+            <Button variant="outline" size="sm" asChild>
+              <a
+                href={socialNetworks.telegram}
+                title="Telegram channel"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1"
+              >
+                View Profile
+                <Send className="h-4 w-4" />
+              </a>
             </Button>
           </div>
           <div className="grid grid-cols-2 gap-4">

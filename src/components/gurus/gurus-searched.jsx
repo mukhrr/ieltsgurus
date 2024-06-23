@@ -7,7 +7,7 @@ export default function GurusSearched() {
 
   return (
     <div className="grid grid-cols-2 gap-3 p-4 lg:grid-cols-3">
-      {searchResult.map(({ id, fullName, image, ieltsScore, shortInfo, description }) => (
+      {searchResult.map(({ id, fullName, image, ieltsScore, shortInfo, description, social_networks }) => (
         <GuruCard
           key={id}
           fullName={fullName}
@@ -15,6 +15,7 @@ export default function GurusSearched() {
           score={ieltsScore}
           shortInfo={shortInfo}
           description={description}
+          social_networks={social_networks}
         />
       ))}
     </div>

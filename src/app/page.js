@@ -1,10 +1,12 @@
+import { Suspense } from 'react'
 import { MicroscopeIcon } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import Categories from '@/components/categories'
-// import GurusSearched from '@/components/gurus/gurus-searched'
 import GurusList from '@/components/gurus/gurus-list'
+import Loading from '@/app/loading'
+// import GurusSearched from '@/components/gurus/gurus-searched'
 
 export default async function Index() {
   return (
@@ -30,13 +32,27 @@ export default async function Index() {
 
       <Categories />
 
-      <GurusList category="TRENDING" />
-      <GurusList category="NINERS" />
-      <GurusList category="WRITING" />
-      <GurusList category="SPEAKING" />
-      <GurusList category="LISTENING" />
-      <GurusList category="READING" />
-      <GurusList category="FEATURED" />
+      <Suspense fallback={<Loading />}>
+        <GurusList category="TRENDING" />
+      </Suspense>
+      <Suspense fallback={<Loading />}>
+        <GurusList category="NINERS" />
+      </Suspense>
+      <Suspense fallback={<Loading />}>
+        <GurusList category="WRITING" />
+      </Suspense>
+      <Suspense fallback={<Loading />}>
+        <GurusList category="SPEAKING" />
+      </Suspense>
+      <Suspense fallback={<Loading />}>
+        <GurusList category="LISTENING" />
+      </Suspense>
+      <Suspense fallback={<Loading />}>
+        <GurusList category="READING" />
+      </Suspense>
+      <Suspense fallback={<Loading />}>
+        <GurusList category="FEATURED" />
+      </Suspense>
     </div>
   )
 }
