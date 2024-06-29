@@ -36,9 +36,6 @@ export default async function Index() {
         <GurusList category="TRENDING" />
       </Suspense>
       <Suspense fallback={<Loading />}>
-        <GurusList category="NINERS" />
-      </Suspense>
-      <Suspense fallback={<Loading />}>
         <GurusList category="WRITING" />
       </Suspense>
       <Suspense fallback={<Loading />}>
@@ -49,6 +46,9 @@ export default async function Index() {
       </Suspense>
       <Suspense fallback={<Loading />}>
         <GurusList category="READING" />
+      </Suspense>
+      <Suspense fallback={<Loading />}>
+        <GurusList category="NINERS" />
       </Suspense>
       <Suspense fallback={<Loading />}>
         <GurusList category="FEATURED" />

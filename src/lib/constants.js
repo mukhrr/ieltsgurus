@@ -137,11 +137,32 @@ export const CONTENT_TYPES = {
 
 export const CATEGORIES = {
   TRENDING: "Today's Trending IELTS Gurus",
-  NINERS: 'NINERS',
   WRITING: 'Top WRITING Instructors',
   SPEAKING: 'Top SPEAKING Instructors',
   LISTENING: 'Top LISTENING Instructors',
   READING: 'Top READING Instructors',
-  FEATURED: 'Featured IELTS Mentors',
+  // FEATURED: 'Featured IELTS Mentors',
+  NINERS: 'NINERS',
   SEARCHED: 'Search Results:'
 }
+
+export const FILTERS = [
+  'Featured',
+  'Niners',
+  'Newest',
+  'Listening',
+  'Reading',
+  'Writing',
+  'Speaking',
+  'Overall 5+',
+  'Overall 6.5+',
+  'Overall 8',
+  'Overall 9',
+  'General IELTS Preparation',
+  'Academic IELTS Preparation',
+  'Reading Guru',
+  'Writing Expert',
+  'Speaking Practice Master',
+  'Experienced in Listening',
+  'Most Recommended'
+]

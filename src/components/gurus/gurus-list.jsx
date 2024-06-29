@@ -4,10 +4,10 @@ import { Suspense, useEffect, useState } from 'react'
 
 import GuruCard from '@/components/guru-card/GuruCard'
 import CardLoading from '@/components/guru-card/CardLoading'
+import Loading from '@/app/loading'
 
 import { fetchMentorsByCategory } from '@/lib/actions/fetchMentorsByCategory'
 import { CATEGORIES } from '@/lib/constants'
-import Loading from '@/app/loading'
 
 export default function GurusList({ category }) {
   const [mentors, setMentors] = useState([])
@@ -15,8 +15,9 @@ export default function GurusList({ category }) {
 
   useEffect(() => {
     const getMentors = async () => {
-      // const data = await fetchMentorsByCategory(category.toLowerCase())
-      const data = await fetchMentorsByCategory('')
+      const data = await fetchMentorsByCategory(category.toLowerCase())
+
+      // const data = await fetchMentorsByCategory('')
       setMentors(data)
     }
 
