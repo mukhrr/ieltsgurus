@@ -19,7 +19,7 @@
     "react/prop-types": 0,
     "react/display-name": 0,
     "@next/next/no-img-element": 0,
-    "no-unused-vars": "warn",
+    "no-unused-vars": "error",
     "import/no-unresolved": [
       2,
       {

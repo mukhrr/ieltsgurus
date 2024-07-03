@@ -19,7 +19,7 @@ const scoreFilters = {
   'Most Recommended': 8
 }
 
-export const fetchMentorsByFilter = async ({ filters = [], keywords = '' }) => {
+export const fetchMentorsByFilter = async ({ filters = ['newest'], keywords = '' }) => {
   let query = supabase.from('mentors').select('*')
 
   if (filters.includes('newest')) {
