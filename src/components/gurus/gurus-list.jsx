@@ -1,48 +1,56 @@
 'use client'
 
-import { Suspense, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useSetAtom } from 'jotai'
 
 import GuruCard from '@/components/guru-card/GuruCard'
-import CardLoading from '@/components/guru-card/CardLoading'
 import Loading from '@/app/loading'
 
 import { fetchMentorsByCategory } from '@/lib/actions/fetchMentorsByCategory'
 import { CATEGORIES } from '@/lib/constants'
+import { mentorsCount } from '@/lib/atoms/mentors-atom'
+import { fetchMentorsCount } from '@/lib/actions/fetchMentorsCount'
 
 export default function GurusList({ category }) {
-  const [mentors, setMentors] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const [mentors, setMentors] = useState([])
+  const setMentorCount = useSetAtom(mentorsCount)
 
+  // fetching mentors list and count
   useEffect(() => {
     const getMentors = async () => {
       const data = await fetchMentorsByCategory(category.toLowerCase())
 
-      // const data = await fetchMentorsByCategory('')
       setMentors(data)
+      setIsLoading(false)
+    }
+    const getMentorsCount = async () => {
+      const count = await fetchMentorsCount()
+
+      setMentorCount(count)
     }
 
     getMentors()
-    setIsLoading(false)
-  }, [category])
+    getMentorsCount()
+  }, [category, setMentorCount])
 
   return (
     <div className="mt-8 flex flex-col gap-6 p-4">
       <h6 className="text-lg font-semibold xl:text-2xl">{CATEGORIES[category]}</h6>
-      {isLoading && !mentors?.length ? (
+      {isLoading ? (
         <Loading />
       ) : (
         <div className="grid gap-3 md:grid-cols-2  lg:grid-cols-3">
           {mentors.map(({ id, fullName, image, ielts_score, short_info, description, social_networks }) => (
-            <Suspense key={id} fallback={<CardLoading />}>
-              <GuruCard
-                fullName={fullName}
-                image={image}
-                score={ielts_score}
-                shortInfo={short_info}
-                description={description}
-                socialNetworks={social_networks}
-              />
-            </Suspense>
+            <GuruCard
+              key={id}
+              fullName={fullName}
+              image={image}
+              score={ielts_score}
+              shortInfo={short_info}
+              description={description}
+              socialNetworks={social_networks}
+            />
           ))}
         </div>
       )}

@@ -1,14 +1,20 @@
-import { Suspense } from 'react'
-import { MicroscopeIcon } from 'lucide-react'
+'use client'
+
+import { useAtomValue } from 'jotai'
 
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import Categories from '@/components/categories'
 import GurusList from '@/components/gurus/gurus-list'
-import Loading from '@/app/loading'
-// import GurusSearched from '@/components/gurus/gurus-searched'
+import GurusSearched from '@/components/gurus/gurus-searched'
 
-export default async function Index() {
+import { mentorsCount } from '@/lib/atoms/mentors-atom'
+import { inputKeyword } from '@/lib/atoms/filters-atom'
+import { SearchInput } from '@/components/ui/search-input'
+
+export default function Index() {
+  const mentorsAmount = useAtomValue(mentorsCount)
+  const inputValue = useAtomValue(inputKeyword)
+
   return (
     <div className="m-auto max-w-[1230px]">
       <section>
@@ -16,11 +22,8 @@ export default async function Index() {
           <div className="mb-8 flex items-center justify-between" />
           <div className="text-center">
             <h1 className="mb-2 text-5xl font-bold tracking-wide">Discover Top IELTS Instructors</h1>
-            <p className="mb-6 text-lg">150 gurus found and counting</p>
-            <div className="relative">
-              <Input placeholder="Search within the top IELTS intructors hub" className="w-full py-3 pl-4 pr-10" />
-              <MicroscopeIcon className="absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 transform" />
-            </div>
+            <p className="mb-6 text-lg">{mentorsAmount} gurus found and counting</p>
+            <SearchInput />
             <div className="mt-6 flex items-center justify-center space-x-4">
               {/*<Button variant="outline">Submit your profile</Button>*/}
               {/*<span>|</span>*/}
@@ -32,27 +35,15 @@ export default async function Index() {
 
       <Categories />
 
-      <Suspense fallback={<Loading />}>
-        <GurusList category="TRENDING" />
-      </Suspense>
-      <Suspense fallback={<Loading />}>
-        <GurusList category="WRITING" />
-      </Suspense>
-      <Suspense fallback={<Loading />}>
-        <GurusList category="SPEAKING" />
-      </Suspense>
-      <Suspense fallback={<Loading />}>
-        <GurusList category="LISTENING" />
-      </Suspense>
-      <Suspense fallback={<Loading />}>
-        <GurusList category="READING" />
-      </Suspense>
-      <Suspense fallback={<Loading />}>
-        <GurusList category="NINERS" />
-      </Suspense>
-      <Suspense fallback={<Loading />}>
-        <GurusList category="FEATURED" />
-      </Suspense>
+      {inputValue?.length > 0 && <GurusSearched />}
+
+      <GurusList category="TRENDING" />
+      <GurusList category="WRITING" />
+      <GurusList category="SPEAKING" />
+      <GurusList category="LISTENING" />
+      <GurusList category="READING" />
+      <GurusList category="NINERS" />
+      <GurusList category="FEATURED" />
     </div>
   )
 }

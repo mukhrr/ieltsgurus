@@ -1,67 +1,48 @@
-"use client"
+'use client'
 
-import {useEffect, useRef, useState} from "react"
-import {Menu} from "lucide-react"
+import { useEffect, useState } from 'react'
+import { MessageSquareShareIcon } from 'lucide-react'
 
-import {cn} from "@/lib/utils"
-
-import CommandMenu from "@/components/command-menu"
+// import CommandMenu from '@/components/command-menu'
 // import MobileSidebar from "../MobileSidebar"
-import {Button} from "@/components/ui/button"
+import { Button } from '@/components/ui/button'
+import Link from 'next/link'
+import Image from 'next/image'
+import { SearchInput } from '@/components/ui/search-input'
 
+export default function Header() {
+  const [scroll, setScroll] = useState(false)
 
-export default function Header({children}) {
-    const navRef = useRef(null)
-    const [scroll, setScroll] = useState(false)
-    const [open, setOpen] = useState(false)
+  const handleScroll = () => {
+    setScroll(window.scrollY > 0)
+  }
 
-    console.log(open)
-    useEffect(() => {
-        const intersectionObserver = new IntersectionObserver(
-            (entries) => {
-                setScroll(!entries[0].isIntersecting)
-            },
-            {
-                root: null,
-                rootMargin: `10px 0px`,
-                threshold: 0,
-            },
-        )
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll)
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
 
-        intersectionObserver.observe(navRef.current
-        )
+  return (
+    <header className="sticky top-0 z-50 m-auto w-full max-w-[1230px] border-b bg-background backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="flex h-14 w-full items-center justify-between px-6 xl:p-0">
+        <div className="mr-4 md:flex">
+          <Link href="/" className="mr-6 flex items-center space-x-2">
+            <Image width="24" height="24" src="/assets/logo.png" alt="Logo" className="border-0" />
+            <span className="font-bold sm:inline-block">IELTS GURUS</span>
+          </Link>
+        </div>
 
-        return () => intersectionObserver.disconnect()
-    }, [])
+        {scroll && <SearchInput />}
 
-    return (
-        <>
-            <div ref={navRef}></div>
-            <div
-                className={cn(
-                    "fixed right-0 top-0 z-50 flex h-16 w-full items-center justify-between border-b bg-background px-6 xl:w-[calc(100%-240px)]",
-                    {
-                        "h-12": scroll,
-                    },
-                )}
-            >
-                <div className='flex items-center gap-4'>
-                    <Button
-                        variant='ghost'
-                        className='-ml-3 xl:hidden'
-                        size='icon'
-                        onClick={() => setOpen(true)}
-                    >
-                        <Menu size={24}/>
-                    </Button>
-
-                    <CommandMenu/>
-                </div>
-
-                <div className='flex items-center gap-4'>{children}</div>
-            </div>
-
-            {/*<MobileSidebar open={open} onOpenChange={setOpen}/>*/}
-        </>
-    )
+        {/*<nav className='flex items-center gap-4'>*/}
+        {/*    <AuthButton/>*/}
+        {/*</nav>*/}
+        <Button variant="outline" className="hidden items-center gap-2 sm:flex">
+          Feedback <MessageSquareShareIcon className="h-4 w-4" />
+        </Button>
+      </div>
+    </header>
+  )
 }
