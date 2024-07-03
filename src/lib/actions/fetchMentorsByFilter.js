@@ -1,44 +1,46 @@
 import supabase from '@/lib/supabase/client'
+import { convertFilterToColumnName } from '@/lib/utils'
 
 const today = new Date()
 
-export const fetchMentorsByFilter = async ({ filter, name = '' }) => {
+const categoryFilters = [
+  'Featured',
+  'Reading Guru',
+  'Writing Expert',
+  'Speaking Practice Master',
+  'Experienced in Listening'
+]
+
+const scoreFilters = {
+  Niners: 9,
+  'Overall 5+': 5,
+  'Overall 6.5+': 6.5,
+  'Overall 8': 8,
+  'Most Recommended': 8
+}
+
+export const fetchMentorsByFilter = async ({ filters = [], keywords = '' }) => {
   let query = supabase.from('mentors').select('*')
 
-  if (filter) {
-    switch (filter) {
-      case 'Featured':
-      case 'Reading Guru':
-      case 'Writing Expert':
-      case 'Speaking Practice Master':
-      case 'Experienced in Listening':
-        query = query.contains('categories', [filter])
-        break
-      case 'Newest':
-        today.setDate(today.getDate() - 7)
-        query = query.gte('created_at', today.toISOString())
-        break
-      case 'Niners':
-        query = query.eq('overall_score', 9)
-        break
-      case 'Overall 5+':
-        query = query.gte('overall_score', 5)
-        break
-      case 'Overall 6.5+':
-        query = query.gte('overall_score', 6.5)
-        break
-      case 'Overall 8':
-      case 'Most Recommended':
-        query = query.gte('overall_score', 8)
-        break
-      default:
-        console.error('Invalid filter:', filter)
-        return []
+  if (filters.includes('newest')) {
+    today.setDate(today.getDate() - 7)
+    query = query.gte('created_at', today.toISOString())
+  }
+
+  for (const filter of filters) {
+    const lowerCasedFilter = convertFilterToColumnName(filter)
+    if (categoryFilters.includes(lowerCasedFilter)) {
+      query = query.contains('categories', [lowerCasedFilter])
+    } else if (scoreFilters[lowerCasedFilter] !== undefined) {
+      query = query.gte('ielts_score.overall', scoreFilters[lowerCasedFilter])
+    } else {
+      console.error('Invalid filter:', filter)
+      return []
     }
   }
 
-  if (name) {
-    query = query.ilike('fullName', `%${name}%`)
+  if (keywords) {
+    query = query.ilike('fullName', `%${keywords}%`)
   }
 
   const { data, error } = await query

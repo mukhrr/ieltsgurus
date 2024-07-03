@@ -163,3 +163,13 @@ export const getInitials = (fullName) => {
     .map((name) => name[0])
     .join('')
 }
+
+export const convertFilterToColumnName = (filter) => {
+  // Remove special characters like '+', replace spaces with underscores
+  const columnName = filter
+    .replace(/[^\w\s]/gi, '')
+    .replace(/\s+/g, '_')
+    .toLowerCase()
+
+  return columnName
+}

@@ -8,24 +8,22 @@ import Loading from '@/app/loading'
 
 import { searchedMentors } from '@/lib/atoms/mentors-atom'
 import { fetchMentorsByFilter } from '@/lib/actions/fetchMentorsByFilter'
-import { inputKeyword } from '@/lib/atoms/filters-atom'
+import { inputKeyword, mentorFilters } from '@/lib/atoms/filters-atom'
 
 export default function GurusSearched() {
   const [searched, setSearched] = useAtom(searchedMentors)
   const [isLoading, setIsLoading] = useState(true)
-  const keyword = useAtomValue(inputKeyword)
+  const keywords = useAtomValue(inputKeyword)
+  const filters = useAtomValue(mentorFilters)
 
   // fetching mentors list and count
   useEffect(() => {
-    const getMentors = async () => {
-      const data = await fetchMentorsByFilter({ name: keyword })
-
-      setSearched(data)
-      setIsLoading(false)
-    }
+    const getMentors = async () => await fetchMentorsByFilter({ filters, keywords })
 
     getMentors()
-  }, [keyword, setSearched])
+      .then((data) => setSearched(data))
+      .finally(() => setIsLoading(false))
+  }, [keywords, filters.length, setSearched])
 
   return (
     <div className="mt-8 flex flex-col gap-6 p-4">
