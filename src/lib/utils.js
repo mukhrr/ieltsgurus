@@ -171,5 +171,21 @@ export const convertFilterToColumnName = (filter) => {
     .replace(/\s+/g, '_')
     .toLowerCase()
 
-  return columnName
+  switch (columnName) {
+    case 'writing_expert':
+      return 'writing'
+    case 'general_ielts_preparation':
+      return 'general'
+    case 'reading_guru':
+      return 'reading'
+    case 'speaking_practice_master':
+      return 'speaking'
+    case 'experienced_in_listening':
+      return 'listening'
+    case 'most_recommended':
+      return 'recommended'
+
+    default:
+      return columnName
+  }
 }

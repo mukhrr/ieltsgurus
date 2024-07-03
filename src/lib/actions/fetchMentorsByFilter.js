@@ -3,23 +3,17 @@ import { convertFilterToColumnName } from '@/lib/utils'
 
 const today = new Date()
 
-const categoryFilters = [
-  'Featured',
-  'Reading Guru',
-  'Writing Expert',
-  'Speaking Practice Master',
-  'Experienced in Listening'
-]
+const categoryFilters = ['featured', 'reading', 'writing', 'speaking', 'listening', 'recommended']
 
 const scoreFilters = {
-  Niners: 9,
-  'Overall 5+': 5,
-  'Overall 6.5+': 6.5,
-  'Overall 8': 8,
-  'Most Recommended': 8
+  niners: 9,
+  overall_6: 6,
+  overall_7: 7,
+  overall_8: 8,
+  most_recommended: 8
 }
 
-export const fetchMentorsByFilter = async ({ filters = ['newest'], keywords = '' }) => {
+export const fetchMentorsByFilter = async ({ filters = [], keywords = '' }) => {
   let query = supabase.from('mentors').select('*')
 
   if (filters.includes('newest')) {
@@ -32,7 +26,7 @@ export const fetchMentorsByFilter = async ({ filters = ['newest'], keywords = ''
     if (categoryFilters.includes(lowerCasedFilter)) {
       query = query.contains('categories', [lowerCasedFilter])
     } else if (scoreFilters[lowerCasedFilter] !== undefined) {
-      query = query.gte('ielts_score.overall', scoreFilters[lowerCasedFilter])
+      query = query.gte('ielts_score->overall', scoreFilters[lowerCasedFilter])
     } else {
       console.error('Invalid filter:', filter)
       return []

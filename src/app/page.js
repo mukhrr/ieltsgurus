@@ -3,17 +3,18 @@
 import { useAtomValue } from 'jotai'
 
 import { Button } from '@/components/ui/button'
-import Categories from '@/components/categories'
+import Filters from '@/components/filters'
 import GurusList from '@/components/gurus/gurus-list'
 import GurusSearched from '@/components/gurus/gurus-searched'
 
 import { mentorsCount } from '@/lib/atoms/mentors-atom'
-import { inputKeyword } from '@/lib/atoms/filters-atom'
+import { inputKeyword, mentorFilters } from '@/lib/atoms/filters-atom'
 import { SearchInput } from '@/components/ui/search-input'
 
 export default function Index() {
   const mentorsAmount = useAtomValue(mentorsCount)
   const inputValue = useAtomValue(inputKeyword)
+  const filters = useAtomValue(mentorFilters)
 
   return (
     <div className="m-auto max-w-[1230px]">
@@ -33,9 +34,9 @@ export default function Index() {
         </div>
       </section>
 
-      <Categories />
+      <Filters />
 
-      {inputValue?.length > 0 && <GurusSearched />}
+      {(inputValue?.length > 0 || filters?.length > 0) && <GurusSearched />}
 
       <GurusList category="TRENDING" />
       <GurusList category="WRITING" />
