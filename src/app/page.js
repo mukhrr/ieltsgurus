@@ -1,20 +1,24 @@
 'use client'
 
 import { useAtomValue } from 'jotai'
+import { ChevronUpIcon } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import Filters from '@/components/filters'
 import GurusList from '@/components/gurus/gurus-list'
 import GurusSearched from '@/components/gurus/gurus-searched'
+import { SearchInput } from '@/components/ui/search-input'
 
 import { mentorsCount } from '@/lib/atoms/mentors-atom'
-import { inputKeyword, mentorFilters } from '@/lib/atoms/filters-atom'
-import { SearchInput } from '@/components/ui/search-input'
+import { mentorFilters } from '@/lib/atoms/filters-atom'
+import { isVisibleScrollTop } from '@/lib/atoms/common-atom'
+import { useSearchParams } from 'next/navigation'
 
 export default function Index() {
   const mentorsAmount = useAtomValue(mentorsCount)
-  const inputValue = useAtomValue(inputKeyword)
+  const searchParams = useSearchParams()
   const filters = useAtomValue(mentorFilters)
+  const isVisibleScrollTopButton = useAtomValue(isVisibleScrollTop)
 
   return (
     <div className="m-auto max-w-[1230px]">
@@ -36,7 +40,7 @@ export default function Index() {
 
       <Filters />
 
-      {(inputValue?.length > 0 || filters?.length > 0) && <GurusSearched />}
+      {(searchParams.get('q')?.length > 0 || filters?.length > 0) && <GurusSearched />}
 
       <GurusList category="TRENDING" />
       <GurusList category="WRITING" />
@@ -45,6 +49,17 @@ export default function Index() {
       <GurusList category="READING" />
       <GurusList category="NINERS" />
       <GurusList category="FEATURED" />
+
+      {isVisibleScrollTopButton && (
+        <ChevronUpIcon
+          className="fixed bottom-20 right-20 hidden cursor-pointer rounded-full bg-black p-1 text-white md:block"
+          width={30}
+          height={30}
+          onClick={() => {
+            window.scrollTo({ top: 0, behavior: 'smooth' })
+          }}
+        />
+      )}
     </div>
   )
 }

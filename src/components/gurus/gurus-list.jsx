@@ -10,11 +10,23 @@ import { fetchMentorsByCategory } from '@/lib/actions/fetchMentorsByCategory'
 import { CATEGORIES } from '@/lib/constants'
 import { mentorsCount } from '@/lib/atoms/mentors-atom'
 import { fetchMentorsCount } from '@/lib/actions/fetchMentorsCount'
+import { Button } from '@/components/ui/button'
+
+const ITEMS_PER_PAGE = 6
 
 export default function GurusList({ category }) {
   const [isLoading, setIsLoading] = useState(true)
   const [mentors, setMentors] = useState([])
+  const [currentPage, setCurrentPage] = useState(1)
   const setMentorCount = useSetAtom(mentorsCount)
+
+  const handleShowMore = () => {
+    setCurrentPage((prevPage) => prevPage + 1)
+  }
+
+  const displayedItems = mentors.slice(0, currentPage * ITEMS_PER_PAGE)
+  const hasMoreItems = mentors.length > displayedItems.length
+  const hiddenItemsCount = mentors.length - displayedItems.length
 
   // fetching mentors list and count
   useEffect(() => {
@@ -40,18 +52,25 @@ export default function GurusList({ category }) {
       {isLoading ? (
         <Loading />
       ) : (
-        <div className="grid gap-3 md:grid-cols-2  lg:grid-cols-3">
-          {mentors.map(({ id, fullName, image, ielts_score, short_info, description, social_networks }) => (
-            <GuruCard
-              key={id}
-              fullName={fullName}
-              image={image}
-              score={ielts_score}
-              shortInfo={short_info}
-              description={description}
-              socialNetworks={social_networks}
-            />
-          ))}
+        <div className="flex flex-col items-end gap-4">
+          <div className="grid gap-3 md:grid-cols-2  lg:grid-cols-3">
+            {displayedItems.map(({ id, fullName, image, ielts_score, short_info, description, social_networks }) => (
+              <GuruCard
+                key={id}
+                fullName={fullName}
+                image={image}
+                score={ielts_score}
+                shortInfo={short_info}
+                description={description}
+                socialNetworks={social_networks}
+              />
+            ))}
+          </div>
+          {hasMoreItems && (
+            <Button variant="outline" onClick={handleShowMore}>
+              Show More {hiddenItemsCount}
+            </Button>
+          )}
         </div>
       )}
     </div>
