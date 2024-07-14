@@ -7,30 +7,26 @@ import { z } from 'zod'
 import { AnimatePresence, motion } from 'framer-motion'
 
 import { Button } from '@/components/ui/button'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormDescription, FormMessage } from '@/components/ui/form'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { submitBookmark } from '@/app/actions'
+import { Textarea } from '@/components/ui/textarea'
+
 import { cn } from '@/lib/utils'
 
+import { submitFeedback } from '@/lib/actions/submitFeedback'
+
 const formSchema = z.object({
-  url: z.string().url({
-    message: 'Invalid URL.'
-  }),
-  email: z.string().email({
-    message: 'Invalid email address.'
-  }),
-  type: z.string().optional()
+  thoughts: z.string().min(10, { message: 'Your ideas must be at least 10 characters long.' }),
+  email: z.string().email('Invalid email address.').optional().or(z.literal(''))
 })
 
-export function SubmitBookmarkForm({ className, setFormOpen, bookmarks, currentBookmark }) {
+export function SubmitBookmarkForm({ className, setFormOpen }) {
   const form = useForm({
     resolver: zodResolver(formSchema),
     // mode: 'onChange',
     defaultValues: {
-      url: '',
-      email: '',
-      type: currentBookmark?.title ?? ''
+      thoughts: '',
+      email: ''
     }
   })
   const {
@@ -41,16 +37,16 @@ export function SubmitBookmarkForm({ className, setFormOpen, bookmarks, currentB
 
   async function onSubmit(values) {
     try {
-      await submitBookmark(values)
+      await submitFeedback(values)
 
-      toast('Bookmark submitted!', {
-        type: 'success',
-        description: (
-          <span>
-            <span className="underline underline-offset-4">{values.url}</span> has been submitted. Thank you!
-          </span>
-        )
-      })
+      toast(
+        <span>
+          <span className="underline underline-offset-4">Your feedback</span> has been submitted. Thank you!
+        </span>,
+        {
+          type: 'success'
+        }
+      )
     } catch (error) {
       setError('api.limitError', {
         type: 'manual',
@@ -67,12 +63,12 @@ export function SubmitBookmarkForm({ className, setFormOpen, bookmarks, currentB
       <form onSubmit={form.handleSubmit(onSubmit)} className={cn('space-y-6', className)}>
         <FormField
           control={form.control}
-          name="url"
+          name="thoughts"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Website URL</FormLabel>
+              <FormLabel>I think...</FormLabel>
               <FormControl>
-                <Input placeholder="https://example.com" {...field} />
+                <Textarea placeholder="It would be better if..." {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -87,42 +83,19 @@ export function SubmitBookmarkForm({ className, setFormOpen, bookmarks, currentB
               <FormControl>
                 <Input placeholder="johndoe@gmail.com" {...field} />
               </FormControl>
+              <FormDescription>Optional but helps me to get in touch back to you with a new release.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="type"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Type</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a bookmark type" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {bookmarks.map((bookmark) => (
-                    <SelectItem key={bookmark.slug} value={bookmark.title}>
-                      {bookmark.title}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <FormDescription>Optional but helps me categorize the bookmark.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+
         <Button type="submit" className="w-full" disabled={isSubmitting || errors?.api?.limitError}>
           {hasErrors ? (
             'Submit'
           ) : (
             <AnimatePresence mode="wait" initial={false}>
               <motion.span
-                key={isSubmitting ? 'summitting' : 'submit'}
+                key={isSubmitting ? 'submitting' : 'submit'}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
@@ -134,6 +107,12 @@ export function SubmitBookmarkForm({ className, setFormOpen, bookmarks, currentB
           )}
         </Button>
       </form>
+      <span className="text-sm">
+        Have a technical issue?! Or found wrong information?! <br /> Contact{' '}
+        <a href="mailto:mshakhriyorov8@gmail.com" className="underline" target="_blank" rel="noopener noreferrer">
+          Ieltsgurus support
+        </a>
+      </span>
     </Form>
   )
 }

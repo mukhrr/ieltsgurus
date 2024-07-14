@@ -9,9 +9,9 @@ import { ArrowLeftIcon, RadioIcon } from 'lucide-react'
 import { MobileDrawer } from '@/components/mobile-drawer'
 import { Button } from '@/components/ui/button.jsx'
 import { SubmitBookmarkDrawer } from '@/components/submit-bookmark/drawer'
-import { SCROLL_AREA_ID, MOBILE_SCROLL_THRESHOLD } from '@/lib/constants'
+import { MOBILE_SCROLL_THRESHOLD, SCROLL_AREA_ID } from '@/lib/constants'
 
-export const FloatingHeader = memo(({ scrollTitle, title, goBackLink, bookmarks, currentBookmark, children }) => {
+export const FloatingHeader = memo(({ scrollTitle, title, goBackLink, children }) => {
   const [transformValues, setTransformValues] = useState({ translateY: 0, opacity: scrollTitle ? 0 : 1 })
   const pathname = usePathname()
   const isWritingIndexPage = pathname === '/writing'
@@ -90,7 +90,7 @@ export const FloatingHeader = memo(({ scrollTitle, title, goBackLink, bookmarks,
                     </a>
                   </Button>
                 )}
-                {isBookmarkPath && <SubmitBookmarkDrawer bookmarks={bookmarks} currentBookmark={currentBookmark} />}
+                {isBookmarkPath && <SubmitBookmarkDrawer />}
               </div>
             </div>
           </div>

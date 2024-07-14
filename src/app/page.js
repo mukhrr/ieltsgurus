@@ -13,6 +13,7 @@ import { mentorsCount } from '@/lib/atoms/mentors-atom'
 import { mentorFilters } from '@/lib/atoms/filters-atom'
 import { isVisibleScrollTop } from '@/lib/atoms/common-atom'
 import { useSearchParams } from 'next/navigation'
+import FeedbackButton from '@/components/feedback-button'
 
 export default function Index() {
   const mentorsAmount = useAtomValue(mentorsCount)
@@ -32,7 +33,10 @@ export default function Index() {
             <div className="mt-6 flex items-center justify-center space-x-4">
               {/*<Button variant="outline">Submit your profile</Button>*/}
               {/*<span>|</span>*/}
-              <Button variant="outline">Help us to grow - Share your feedback*</Button>
+
+              <FeedbackButton>
+                <Button variant="outline">Help us to grow - Share your feedback*</Button>
+              </FeedbackButton>
             </div>
           </div>
         </div>

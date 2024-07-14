@@ -10,6 +10,7 @@ import { MessageSquareShareIcon } from 'lucide-react'
 // import MobileSidebar from "../MobileSidebar"
 import { Button } from '@/components/ui/button'
 import { SearchInput } from '@/components/ui/search-input'
+import FeedbackButton from '@/components/feedback-button'
 
 import { isVisibleScrollTop } from '@/lib/atoms/common-atom'
 
@@ -44,9 +45,11 @@ export default function Header() {
         {/*<nav className='flex items-center gap-4'>*/}
         {/*    <AuthButton/>*/}
         {/*</nav>*/}
-        <Button variant="outline" className="hidden items-center gap-2 md:flex">
-          Feedback <MessageSquareShareIcon className="h-4 w-4" />
-        </Button>
+        <FeedbackButton>
+          <Button variant="outline" className="hidden items-center gap-2 md:flex">
+            Feedback <MessageSquareShareIcon className="h-4 w-4" />
+          </Button>
+        </FeedbackButton>
       </div>
     </header>
   )

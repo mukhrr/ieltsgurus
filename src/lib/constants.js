@@ -1,4 +1,4 @@
-import { SparklesIcon, PencilLineIcon, NavigationIcon, Wand2Icon, BookmarkIcon, ArmchairIcon } from 'lucide-react'
+import { ArmchairIcon, BookmarkIcon, NavigationIcon, PencilLineIcon, SparklesIcon, Wand2Icon } from 'lucide-react'
 
 export const TWEETS_COLLECTION_ID = 15896982
 
@@ -122,11 +122,11 @@ export const WORKSPACE_ITEMS = [
 export const SCROLL_AREA_ID = 'scroll-area'
 export const MOBILE_SCROLL_THRESHOLD = 20
 
-export const SUBMIT_BOOKMARK_FORM_TITLE = 'Submit a bookmark'
-export const SUBMIT_BOOKMARK_FORM_DESCRIPTION =
-  "Send me a website you like and if I like it too, you'll see it in the bookmarks list. With respect, please do not submit more than 5 websites a day."
-export const MAX_BOOKMARK_SUBMISSIONS_PER_DAY = 5
-export const BOOKMARK_SUBMISSION_COUNT_COOKIE_NAME = 'formSubmissionCount'
+export const SUBMIT_FEEDBACK_FORM_TITLE = 'Submit a feedback'
+export const SUBMIT_FEEDBACK_FORM_DESCRIPTION =
+  'Share your thoughts on what you like/hate about the project and what would be the next cool feature you want. Sharing is caring :)'
+export const MAX_FEEDBACK_SUBMISSIONS_PER_DAY = 5
+export const FEEDBACK_SUBMISSION_COUNT_COOKIE_NAME = 'feedback_submission_count'
 
 export const CONTENT_TYPES = {
   PAGE: 'page',
