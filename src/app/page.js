@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useAtomValue } from 'jotai'
+import { useSearchParams } from 'next/navigation'
 import { ChevronUpIcon } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
@@ -14,7 +15,6 @@ import GurusSearched from '@/components/gurus/gurus-searched'
 import { mentorsCount } from '@/lib/atoms/mentors-atom'
 import { mentorFilters } from '@/lib/atoms/filters-atom'
 import { isVisibleScrollTop } from '@/lib/atoms/common-atom'
-import { useSearchParams } from 'next/navigation'
 
 export default function Index() {
   const mentorsAmount = useAtomValue(mentorsCount)

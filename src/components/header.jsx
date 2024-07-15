@@ -4,19 +4,18 @@ import { useEffect, useState } from 'react'
 import { useSetAtom } from 'jotai'
 import Image from 'next/image'
 import Link from 'next/link'
-import { MessageSquareShareIcon } from 'lucide-react'
+import { MessageCircleHeart, MessageSquareShareIcon } from 'lucide-react'
 
-// import CommandMenu from '@/components/command-menu'
-// import MobileSidebar from "../MobileSidebar"
 import { Button } from '@/components/ui/button'
 import { SearchInput } from '@/components/ui/search-input'
 
+import useMediaQuery from '@/hooks/useMediaQuery'
 import { isVisibleScrollTop } from '@/lib/atoms/common-atom'
 
 export default function Header() {
   const [scroll, setScroll] = useState(false)
   const setScrollTopVisible = useSetAtom(isVisibleScrollTop)
-  // const isMobile = useMediaQuery('(max-width: 600px)')
+  const isMobile = useMediaQuery('(max-width: 600px)')
 
   const handleScroll = () => {
     setScroll(window.scrollY > 200)
@@ -55,6 +54,15 @@ export default function Header() {
           {/*    className="h-[32px] w-[114px] rounded-md border-0 bg-transparent"*/}
           {/*  />*/}
           {/*)}*/}
+
+          {!isMobile && (
+            <Link href="https://t.me/ieltsgurus_support_bot" rel="noopener noreferrer" target="_blank">
+              <Button variant="outline" className="hidden items-center gap-2 md:flex">
+                Support <MessageCircleHeart className="h-4 w-4" />
+              </Button>
+            </Link>
+          )}
+
           <Link href="https://ieltsgurus.productroad.com/board/features" rel="noopener noreferrer" target="_blank">
             <Button variant="outline" className="hidden items-center gap-2 md:flex">
               Feedback <MessageSquareShareIcon className="h-4 w-4" />

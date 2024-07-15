@@ -13,7 +13,7 @@ import { ThemeProvider } from '@/components/theme-provider'
 import Footer from '@/components/footer'
 import Header from '@/components/header'
 
-import { sharedDescription, sharedTitle, defaultUrl } from '@/app/shared-metadata'
+import { defaultUrl, sharedDescription, sharedTitle } from '@/app/shared-metadata'
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
