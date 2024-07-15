@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { useAtomValue } from 'jotai'
 import { ChevronUpIcon } from 'lucide-react'
 
@@ -13,7 +14,6 @@ import { mentorsCount } from '@/lib/atoms/mentors-atom'
 import { mentorFilters } from '@/lib/atoms/filters-atom'
 import { isVisibleScrollTop } from '@/lib/atoms/common-atom'
 import { useSearchParams } from 'next/navigation'
-import FeedbackButton from '@/components/feedback-button'
 
 export default function Index() {
   const mentorsAmount = useAtomValue(mentorsCount)
@@ -30,13 +30,19 @@ export default function Index() {
             <h1 className="mb-2 text-5xl font-bold tracking-wide">Discover Top IELTS Instructors</h1>
             <p className="mb-6 text-lg">{mentorsAmount} gurus found and counting</p>
             <SearchInput />
-            <div className="mt-6 flex items-center justify-center space-x-4">
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-2 space-x-4">
               {/*<Button variant="outline">Submit your profile</Button>*/}
               {/*<span>|</span>*/}
 
-              <FeedbackButton>
-                <Button variant="outline">Help us to grow - Share your feedback*</Button>
-              </FeedbackButton>
+              {/*<FeedbackButton>*/}
+              <Link href="https://ieltsgurus.productroad.com/board/features" rel="noopener noreferrer" target="_blank">
+                <Button variant="secondary">Help us to grow - Share your feedback*</Button>
+              </Link>
+              {/*</FeedbackButton>*/}
+
+              <Link href="https://ieltsgurus.productroad.com/roadmap/roadmap" rel="noopener noreferrer" target="_blank">
+                <Button variant="secondary">Roadmap</Button>
+              </Link>
             </div>
           </div>
         </div>
