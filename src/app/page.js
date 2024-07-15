@@ -5,10 +5,11 @@ import { useAtomValue } from 'jotai'
 import { ChevronUpIcon } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
+import { SearchInput } from '@/components/ui/search-input'
+import FAQ from '@/components/faq'
 import Filters from '@/components/filters'
 import GurusList from '@/components/gurus/gurus-list'
 import GurusSearched from '@/components/gurus/gurus-searched'
-import { SearchInput } from '@/components/ui/search-input'
 
 import { mentorsCount } from '@/lib/atoms/mentors-atom'
 import { mentorFilters } from '@/lib/atoms/filters-atom'
@@ -30,7 +31,7 @@ export default function Index() {
             <h1 className="mb-2 text-5xl font-bold tracking-wide">Discover Top IELTS Instructors</h1>
             <p className="mb-6 text-lg">{mentorsAmount} gurus found and counting</p>
             <SearchInput />
-            <div className="mt-6 flex flex-wrap items-center justify-center gap-2 space-x-4">
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
               {/*<Button variant="outline">Submit your profile</Button>*/}
               {/*<span>|</span>*/}
 
@@ -43,6 +44,10 @@ export default function Index() {
               <Link href="https://ieltsgurus.productroad.com/roadmap/roadmap" rel="noopener noreferrer" target="_blank">
                 <Button variant="secondary">Roadmap</Button>
               </Link>
+
+              <Button onClick={() => window.scroll(0, 10000)} variant="secondary">
+                FAQ
+              </Button>
             </div>
           </div>
         </div>
@@ -59,6 +64,8 @@ export default function Index() {
       <GurusList category="READING" />
       <GurusList category="NINERS" />
       <GurusList category="FEATURED" />
+
+      <FAQ />
 
       {isVisibleScrollTopButton && (
         <ChevronUpIcon
