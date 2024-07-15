@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useAtom } from 'jotai'
+import { useSetAtom } from 'jotai'
 import Image from 'next/image'
 import Link from 'next/link'
 import { MessageSquareShareIcon } from 'lucide-react'
@@ -12,12 +12,11 @@ import { Button } from '@/components/ui/button'
 import { SearchInput } from '@/components/ui/search-input'
 
 import { isVisibleScrollTop } from '@/lib/atoms/common-atom'
-import useMediaQuery from '@/hooks/useMediaQuery'
 
 export default function Header() {
   const [scroll, setScroll] = useState(false)
-  const [isVisibleTop, setScrollTopVisible] = useAtom(isVisibleScrollTop)
-  const isMobile = useMediaQuery('(max-width: 600px)')
+  const setScrollTopVisible = useSetAtom(isVisibleScrollTop)
+  // const isMobile = useMediaQuery('(max-width: 600px)')
 
   const handleScroll = () => {
     setScroll(window.scrollY > 200)
@@ -49,13 +48,13 @@ export default function Header() {
         {/*<FeedbackButton>*/}
         <div className="flex items-center space-x-2">
           {/*TODO: show sponsor button */}
-          {!isVisibleTop && !isMobile && (
-            <iframe
-              src="https://github.com/sponsors/mukhrr/button"
-              title="Sponsor IELTSGURUS"
-              className="h-[32px] w-[114px] rounded-md border-0 bg-transparent"
-            />
-          )}
+          {/*{!isVisibleTop && !isMobile && (*/}
+          {/*  <iframe*/}
+          {/*    src="https://github.com/sponsors/mukhrr/button"*/}
+          {/*    title="Sponsor IELTSGURUS"*/}
+          {/*    className="h-[32px] w-[114px] rounded-md border-0 bg-transparent"*/}
+          {/*  />*/}
+          {/*)}*/}
           <Link href="https://ieltsgurus.productroad.com/board/features" rel="noopener noreferrer" target="_blank">
             <Button variant="outline" className="hidden items-center gap-2 md:flex">
               Feedback <MessageSquareShareIcon className="h-4 w-4" />
