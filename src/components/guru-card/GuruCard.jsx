@@ -24,7 +24,7 @@ export default function GuruCard({ fullName, image, score, shortInfo, descriptio
   }
 
   const onCopyMentor = (name) => {
-    window.navigator.clipboard.writeText(`${process.env.VERCEL_URL ?? 'http://localhost:3000'}/?q=${name}`)
+    window.navigator.clipboard.writeText(`https://ieltsgurus.vercel.app/?q=${name}`)
     toast.info(`${name} is copied to clipboard. Now you can share with :)`)
   }
 
