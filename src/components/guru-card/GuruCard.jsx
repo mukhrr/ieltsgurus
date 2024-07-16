@@ -8,7 +8,7 @@ import { Card } from '@/components/ui/card'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 
-import { getInitials } from '@/lib/utils'
+import { getInitials, replaceSpacesWithPlus } from '@/lib/utils'
 
 export default function GuruCard({ fullName, image, score, shortInfo, description, socialNetworks }) {
   const descriptionRef = useRef(null)
@@ -24,7 +24,7 @@ export default function GuruCard({ fullName, image, score, shortInfo, descriptio
   }
 
   const onCopyMentor = (name) => {
-    window.navigator.clipboard.writeText(`https://ieltsgurus.vercel.app/?q=${name}`)
+    window.navigator.clipboard.writeText(`https://ieltsgurus.vercel.app/?q=${replaceSpacesWithPlus(name)}`)
     toast.info(`${name} is copied to clipboard. Now you can share with :)`)
   }
 

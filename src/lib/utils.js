@@ -189,3 +189,12 @@ export const convertFilterToColumnName = (filter) => {
       return columnName
   }
 }
+
+/**
+ * Replaces all spaces in the input string with a plus sign.
+ * @param {string} str - The input string.
+ * @return {string} - The modified string with spaces replaced by plus signs.
+ */
+export const replaceSpacesWithPlus = (str) => {
+  return str.split(' ').join('+')
+}
