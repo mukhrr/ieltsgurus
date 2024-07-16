@@ -1,10 +1,11 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { ChevronsDownUpIcon, BookIcon, HeadphonesIcon, MicIcon, PencilIcon, Send } from 'lucide-react'
+import { toast } from 'sonner'
+import { BookIcon, ChevronsDownUpIcon, HeadphonesIcon, MicIcon, PencilIcon, Send, Share2 } from 'lucide-react'
 
 import { Card } from '@/components/ui/card'
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 
 import { getInitials } from '@/lib/utils'
@@ -21,6 +22,12 @@ export default function GuruCard({ fullName, image, score, shortInfo, descriptio
     WebkitLineClamp: '3',
     WebkitBoxOrient: 'vertical'
   }
+
+  const onCopyMentor = (name) => {
+    window.navigator.clipboard.writeText(`${process.env.VERCEL_URL ?? 'http://localhost:3000'}/?q=${name}`)
+    toast.info(`${name} is copied to clipboard. Now you can share with :)`)
+  }
+
   // truncate description if it overflows content
   useEffect(() => {
     if (descriptionRef.current) {
@@ -53,11 +60,22 @@ export default function GuruCard({ fullName, image, score, shortInfo, descriptio
               )}
             </div>
             {isCollapsed && (
-              <Button variant="outline" size="sm" asChild>
-                <a href={socialNetworks.telegram} title="Telegram channel" target="_blank" rel="noopener noreferrer">
-                  <Send className="h-4 w-4" />
-                </a>
-              </Button>
+              <div className="flex items-center gap-1">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="flex items-center gap-1"
+                  title="Share mentor"
+                  onClick={() => onCopyMentor(fullName)}
+                >
+                  <Share2 className="h-4 w-4" />
+                </Button>
+                <Button variant="outline" size="sm" asChild>
+                  <a href={socialNetworks.telegram} title="Telegram channel" target="_blank" rel="noopener noreferrer">
+                    <Send className="h-4 w-4" />
+                  </a>
+                </Button>
+              </div>
             )}
           </div>
         </div>
@@ -83,19 +101,31 @@ export default function GuruCard({ fullName, image, score, shortInfo, descriptio
             )}
           </div>
           <div className="flex items-center justify-between">
-            <p className="text-xl font-semibold text-gray-700">Overall Score: {score.overall}</p>
-            <Button variant="outline" size="sm" asChild>
-              <a
-                href={socialNetworks.telegram}
-                title="Telegram channel"
-                target="_blank"
-                rel="noopener noreferrer"
+            <p className="text-lg font-semibold text-gray-700">Overall Score: {score.overall}</p>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                size="sm"
                 className="flex items-center gap-1"
+                title="Share mentor"
+                onClick={() => onCopyMentor(fullName)}
               >
-                View Profile
-                <Send className="h-4 w-4" />
-              </a>
-            </Button>
+                Share
+                <Share2 className="h-4 w-4" />
+              </Button>
+              <Button variant="outline" size="sm" asChild>
+                <a
+                  href={socialNetworks.telegram}
+                  title="Telegram channel"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1"
+                >
+                  View
+                  <Send className="h-4 w-4" />
+                </a>
+              </Button>
+            </div>
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div className="flex items-center gap-2 text-sm text-gray-500">
