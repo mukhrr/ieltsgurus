@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader } from 'lucide-react'
 import { useForm } from 'react-hook-form'
@@ -14,10 +14,9 @@ import { Input } from '@/components/ui/input'
 import { cn } from '@/lib/utils'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
-export default function ChangePasswordForm() {
+export default function ChangePasswordForm({ user }) {
   const [loading, setLoading] = useState(false)
   const supabase = createClientComponentClient()
-  const [user, setUser] = useState(null)
 
   const formSchema = z
     .object({
@@ -69,16 +68,6 @@ export default function ChangePasswordForm() {
       setLoading(false)
     }
   }
-
-  useEffect(() => {
-    const getUser = async () => {
-      const {
-        data: { user }
-      } = await supabase.auth.getUser()
-      setUser(user)
-    }
-    getUser()
-  }, [])
 
   return (
     <Card>
