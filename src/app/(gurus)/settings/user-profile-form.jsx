@@ -13,14 +13,14 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { cn, getInitials } from '@/lib/utils'
+import { cn, getInitials, strToCamelCase } from '@/lib/utils'
 
 const formSchema = z.object({
   full_name: z.string().min(1, { message: 'Name is required.' }),
   email: z.string().email({ message: 'Invalid email address.' })
 })
 
-export default function UserProfileForm({ user, userId }) {
+export default function UserProfileForm({ user }) {
   const supabase = createClientComponentClient()
   const [loading, setLoading] = useState(false)
   const [avatarUrl, setAvatarUrl] = useState(user?.user_metadata?.avatar_url || user?.picture)
@@ -64,39 +64,14 @@ export default function UserProfileForm({ user, userId }) {
 
       setLoading(true)
       try {
-        // Upload file to Supabase Storage
         const fileExt = file.name.split('.').pop()
-        const fileName = `${userId}-${Math.random()}.${fileExt}`
-        const filePath = `avatars/${fileName}`
+        const fileName = `${strToCamelCase(user?.full_name)}.${fileExt}`
 
-        const { error } = await supabase.storage.from('avatars').upload(filePath, file)
+        const { error } = await supabase.storage.from('mentor-images').upload(fileName, file)
 
         if (error) throw error
 
-        // Get public URL of uploaded file
-        const {
-          data: { publicUrl },
-          error: urlError
-        } = supabase.storage.from('avatars').getPublicUrl(filePath)
-
-        if (urlError) throw urlError
-
-        // Insert or update the avatar record in the avatars table
-        const { error: dbError } = await supabase.from('avatars').upsert(
-          {
-            user_id: userId,
-            file_name: fileName,
-            file_path: filePath,
-            content_type: file.type
-          },
-          {
-            onConflict: 'user_id'
-          }
-        )
-
-        if (dbError) throw dbError
-
-        setAvatarUrl(publicUrl)
+        setAvatarUrl(fileName)
         toast.success('Avatar uploaded successfully')
       } catch (error) {
         console.error('Error uploading avatar:', error)
@@ -105,7 +80,7 @@ export default function UserProfileForm({ user, userId }) {
         setLoading(false)
       }
     },
-    [supabase, userId]
+    [supabase.storage, user?.full_name]
   )
 
   return (

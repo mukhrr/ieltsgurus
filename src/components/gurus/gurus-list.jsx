@@ -54,17 +54,19 @@ export default function GurusList({ category }) {
       ) : (
         <div className="flex flex-col items-end gap-4">
           <div className="grid gap-3 md:grid-cols-2  lg:grid-cols-3">
-            {displayedItems.map(({ id, fullName, image, ielts_score, short_info, description, social_networks }) => (
-              <GuruCard
-                key={id}
-                fullName={fullName}
-                image={image}
-                score={ielts_score}
-                shortInfo={short_info}
-                description={description}
-                socialNetworks={social_networks}
-              />
-            ))}
+            {displayedItems.map(
+              ({ id, full_name, image_path, ielts_score, short_info, description, social_networks }) => (
+                <GuruCard
+                  key={id}
+                  fullName={full_name}
+                  image={image_path}
+                  score={ielts_score}
+                  shortInfo={short_info}
+                  description={description}
+                  socialNetworks={social_networks}
+                />
+              )
+            )}
           </div>
           {hasMoreItems && (
             <Button variant="outline" onClick={handleShowMore}>

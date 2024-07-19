@@ -6,13 +6,14 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { MessageSquareShareIcon } from 'lucide-react'
 
-import { Button } from '@/components/ui/button'
+import { buttonVariants } from '@/components/ui/button'
 import { SearchInput } from '@/components/ui/search-input'
 
 import useMediaQuery from '@/hooks/useMediaQuery'
 import { isVisibleScrollTop } from '@/lib/atoms/common-atom'
 import AuthButton from '@/components/ui/auth-button'
 import ProfileButton from '@/components/ui/profile-button'
+import { cn } from '@/lib/utils'
 
 export default function Header({ user }) {
   const [scroll, setScroll] = useState(false)
@@ -54,14 +55,33 @@ export default function Header({ user }) {
           {/*)}*/}
 
           {!isMobile && !user && (
-            <Link href="https://ieltsgurus.productroad.com/board/features" rel="noopener noreferrer" target="_blank">
-              <Button variant="outline" className="items-center gap-2 md:flex">
-                Feedback <MessageSquareShareIcon className="h-4 w-4" />
-              </Button>
+            <Link
+              href="https://ieltsgurus.productroad.com/board/features"
+              className={cn(buttonVariants({ variant: 'outline' }), 'items-center gap-2 md:flex')}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Feedback <MessageSquareShareIcon className="h-4 w-4" />
             </Link>
           )}
 
-          {!scroll && <>{user?.id ? <ProfileButton user={user.user_metadata} /> : <AuthButton />}</>}
+          {(!scroll || !isMobile) && (
+            <>
+              {user ? (
+                <div className="flex items-center space-x-4">
+                  <Link
+                    href="/mentor"
+                    className={cn(buttonVariants({ variant: 'outline' }), 'items-center gap-2 md:flex')}
+                  >
+                    I am a mentor
+                  </Link>
+                  <ProfileButton user={user.user_metadata} />
+                </div>
+              ) : (
+                <AuthButton />
+              )}
+            </>
+          )}
         </div>
       </div>
     </header>

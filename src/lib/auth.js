@@ -10,13 +10,13 @@ export const signUp = async (formData) => {
   const supabase = createClient()
 
   const origin = headers().get('origin')
-  const { email, password, username } = formData
+  const { email, password, full_name } = formData
 
   const { error } = await supabase.auth.signUp({
     email,
     password,
     options: {
-      data: { username },
+      data: { full_name },
       emailRedirectTo: `${origin}/auth/callback`
     }
   })

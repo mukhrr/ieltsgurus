@@ -13,13 +13,14 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { getInitials } from '@/lib/utils'
 import { signOut } from '@/lib/auth'
 import { useRouter } from 'next/navigation'
+import { UserRound } from 'lucide-react'
 
 export default function ProfileButton({ user }) {
   const router = useRouter()
 
   const onClickOption = (option) => {
     switch (option) {
-      case 'settings':
+      case 'profile':
         router.push('/settings')
         break
       case 'feedback':
@@ -43,7 +44,13 @@ export default function ProfileButton({ user }) {
         <Button variant="secondary" size="icon" className="rounded-full shadow-sm ring-1 ring-gray-950">
           <Avatar className="h-8 w-8 scale-125">
             <AvatarImage src={user?.picture} />
-            <AvatarFallback>{getInitials(user?.username || user?.full_name || 'U')}</AvatarFallback>
+            <AvatarFallback>
+              {user?.username || user?.full_name ? (
+                getInitials(user?.username || user?.full_name)
+              ) : (
+                <UserRound className="h-4 w-4" />
+              )}
+            </AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
@@ -52,12 +59,8 @@ export default function ProfileButton({ user }) {
         <DropdownMenuLabel>{user?.username || user?.full_name || 'My Account'}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            I am a mentor!
-            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-          </DropdownMenuItem>
-          <DropdownMenuItem onSelect={() => onClickOption('settings')}>
-            Settings
+          <DropdownMenuItem onSelect={() => onClickOption('profile')}>
+            Profile
             <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
           </DropdownMenuItem>
         </DropdownMenuGroup>

@@ -34,7 +34,7 @@ export const fetchMentorsByFilter = async ({ filters = [], keywords = '' }) => {
   }
 
   if (keywords) {
-    query = query.ilike('fullName', `%${keywords}%`)
+    query = query.ilike('full_name', `%${keywords}%`)
   }
 
   const { data, error } = await query

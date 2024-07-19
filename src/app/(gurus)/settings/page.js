@@ -42,7 +42,7 @@ export default async function SettingsPage() {
           </nav>
 
           <div className="grid gap-6">
-            <UserProfileForm user={user?.user_metadata} userId={user?.id} />
+            <UserProfileForm user={user?.user_metadata} />
             {/*<ChangePasswordForm />*/}
           </div>
         </div>
