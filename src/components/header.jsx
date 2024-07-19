@@ -12,8 +12,9 @@ import { SearchInput } from '@/components/ui/search-input'
 import useMediaQuery from '@/hooks/useMediaQuery'
 import { isVisibleScrollTop } from '@/lib/atoms/common-atom'
 import AuthButton from '@/components/ui/auth-button'
+import ProfileButton from '@/components/ui/profile-button'
 
-export default function Header() {
+export default function Header({ user }) {
   const [scroll, setScroll] = useState(false)
   const setScrollTopVisible = useSetAtom(isVisibleScrollTop)
   const isMobile = useMediaQuery('(max-width: 600px)')
@@ -52,7 +53,7 @@ export default function Header() {
           {/*  />*/}
           {/*)}*/}
 
-          {!isMobile && (
+          {!isMobile && !user && (
             <Link href="https://ieltsgurus.productroad.com/board/features" rel="noopener noreferrer" target="_blank">
               <Button variant="outline" className="items-center gap-2 md:flex">
                 Feedback <MessageSquareShareIcon className="h-4 w-4" />
@@ -60,7 +61,7 @@ export default function Header() {
             </Link>
           )}
 
-          {!scroll && <AuthButton />}
+          {!scroll && <>{user?.id ? <ProfileButton user={user.user_metadata} /> : <AuthButton />}</>}
         </div>
       </div>
     </header>

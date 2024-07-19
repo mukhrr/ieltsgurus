@@ -1,59 +1,73 @@
-'use server'
-
-import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuSeparator,
+  DropdownMenuShortcut,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { getInitials } from '@/lib/utils'
 import { signOut } from '@/lib/auth'
+import { useRouter } from 'next/navigation'
 
-export default async function ProfileButton() {
+export default function ProfileButton({ user }) {
+  const router = useRouter()
+
+  const onClickOption = (option) => {
+    switch (option) {
+      case 'settings':
+        router.push('/settings')
+        break
+      case 'feedback':
+        window.open('https://ieltsgurus.productroad.com/board/features', '_blank')
+        break
+      case 'support':
+        window.open('https://t.me/ieltsgurus_support_bot', '_blank')
+        break
+      case 'logout':
+        signOut()
+        break
+
+      default:
+        return
+    }
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="rounded-full">
-          <Avatar className="h-8 w-8">
-            <AvatarImage src="/placeholder-user.jpg" />
-            <AvatarFallback>JD</AvatarFallback>
+        <Button variant="secondary" size="icon" className="rounded-full shadow-sm ring-1 ring-gray-950">
+          <Avatar className="h-8 w-8 scale-125">
+            <AvatarImage src={user?.picture} />
+            <AvatarFallback>{getInitials(user?.username || user?.full_name || 'U')}</AvatarFallback>
           </Avatar>
-          <span className="sr-only">Toggle user menu</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <div className="flex items-center gap-2 p-2">
-          <Avatar className="h-8 w-8">
-            <AvatarImage src="/placeholder-user.jpg" />
-            <AvatarFallback>JD</AvatarFallback>
-          </Avatar>
-          <div className="grid gap-0.5 leading-none">
-            <div className="font-semibold">John Doe</div>
-            <div className="text-muted-foreground text-sm">john@example.com</div>
-          </div>
-        </div>
+
+      <DropdownMenuContent className="w-56" sideOffset={4} align="end">
+        <DropdownMenuLabel>{user?.username || user?.full_name || 'My Account'}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          <Link href="#" className="flex items-center gap-2" prefetch={false}>
-            <div className="h-4 w-4" />
-            <span>Profile</span>
-          </Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <Link href="#" className="flex items-center gap-2" prefetch={false}>
-            <div className="h-4 w-4" />
-            <span>Settings</span>
-          </Link>
-        </DropdownMenuItem>
+        <DropdownMenuGroup>
+          <DropdownMenuItem>
+            I am a mentor!
+            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem onSelect={() => onClickOption('settings')}>
+            Settings
+            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          <Link href="#" className="flex items-center gap-2" prefetch={false} onClick={signOut}>
-            <div className="h-4 w-4" />
-            <span>Sign out</span>
-          </Link>
+        <DropdownMenuItem onSelect={() => onClickOption('feedback')}>Feedback</DropdownMenuItem>
+        <DropdownMenuItem onSelect={() => onClickOption('support')}>Support</DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onSelect={() => onClickOption('logout')}>
+          Log out
+          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

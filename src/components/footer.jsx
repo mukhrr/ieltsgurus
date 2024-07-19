@@ -10,11 +10,7 @@ export default function Footer() {
           <CustomLink href="https://t.me/ieltsgurus_support_bot" target="_blank">
             Support
           </CustomLink>
-          <Link
-            href="https://buymeacoffee.com/mukher"
-            className="text-sm hover:underline dark:text-gray-400"
-            target="_blank"
-          >
+          <Link href="https://buymeacoffee.com/mukher" className="text-sm hover:underline" target="_blank">
             Say Thanks :)
           </Link>
           {/*<Link href="#" className="text-sm hover:underline dark:text-gray-400" prefetch={false}>*/}
