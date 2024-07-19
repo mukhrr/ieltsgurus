@@ -19,6 +19,7 @@ workbox-*.js
 
 # misc
 .DS_Store
+.name
 
 # debug
 npm-debug.log*

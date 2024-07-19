@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { useSetAtom } from 'jotai'
 
 import GuruCard from '@/components/guru-card/GuruCard'
-import Loading from '@/app/loading'
+import Loading from '@/app/(gurus)/loading'
 
 import { fetchMentorsByCategory } from '@/lib/actions/fetchMentorsByCategory'
 import { CATEGORIES } from '@/lib/constants'

@@ -5,7 +5,7 @@ import { useAtom, useAtomValue } from 'jotai'
 import { useSearchParams } from 'next/navigation'
 
 import GuruCard from '@/components/guru-card/GuruCard'
-import Loading from '@/app/loading'
+import Loading from '@/app/(gurus)/loading'
 
 import { searchedMentors } from '@/lib/atoms/mentors-atom'
 import { fetchMentorsByFilter } from '@/lib/actions/fetchMentorsByFilter'

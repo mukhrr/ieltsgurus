@@ -1,41 +1,44 @@
-import { createClient } from '@/lib/supabase/server'
+'use client'
+
+import { useEffect, useState } from 'react'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import Link from 'next/link'
-import { redirect } from 'next/navigation'
+import { LogInIcon } from 'lucide-react'
 
-import { cn } from '@/lib/utils'
-import { buttonVariants } from '@/components/ui/button'
-import { SubmitButton } from '@/components/ui/submit-button'
+import { Button } from '@/components/ui/button'
+import ProfileButton from '@/components/ui/profile-button'
 
-export default async function AuthButton() {
-  const supabase = createClient()
+export default function AuthButton() {
+  const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const supabase = createClientComponentClient()
 
-  const {
-    data: { user }
-  } = await supabase.auth.getUser()
+  useEffect(() => {
+    const getUser = async () => {
+      const {
+        data: { user }
+      } = await supabase.auth.getUser()
+      setUser(user)
+      setLoading(false)
+    }
+    getUser()
+  }, [supabase.auth])
 
-  const signOut = async () => {
-    'use server'
-
-    const supabase = createClient()
-    await supabase.auth.signOut()
-    return redirect('/login')
+  if (loading) {
+    return (
+      <Button variant="outline" disabled>
+        Loading...
+      </Button>
+    )
   }
 
   return user ? (
-    <div className="flex items-center gap-4">
-      Hey, {user.user_metadata?.name || user.user_metadata?.username || user.email}!
-      <form action={signOut}>
-        <SubmitButton formAction={signOut}>Logout</SubmitButton>
-      </form>
-    </div>
+    <ProfileButton />
   ) : (
-    <div className="flex items-center gap-4">
-      <Link href="/login" className={cn(buttonVariants({ variant: 'outline' }))}>
-        Login
-      </Link>
-      <Link href="/signup" className={cn(buttonVariants({ variant: 'default' }))}>
-        Signup
-      </Link>
-    </div>
+    <Link href="/login">
+      <Button variant="outline" className="items-center gap-2 md:flex">
+        Login <LogInIcon className="h-4 w-4" />
+      </Button>
+    </Link>
   )
 }

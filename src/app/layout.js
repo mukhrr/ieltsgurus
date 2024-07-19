@@ -1,19 +1,17 @@
-export const revalidate = 60
-
+import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import { GeistSans } from 'geist/font/sans'
 import { JetBrains_Mono } from 'next/font/google'
-import { Analytics } from '@vercel/analytics/react'
 import { Provider } from 'jotai'
-import { SpeedInsights } from '@vercel/speed-insights/next'
 
 import '@/globals.css'
 
-import { Toaster } from '@/components/ui/sonner'
 import { ThemeProvider } from '@/components/theme-provider'
-import Footer from '@/components/footer'
-import Header from '@/components/header'
+import { Toaster } from '@/components/ui/sonner'
 
 import { defaultUrl, sharedDescription, sharedTitle } from '@/app/shared-metadata'
+
+export const revalidate = 60
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
@@ -28,26 +26,18 @@ export default function RootLayout({ children }) {
       <html lang="en" className={`${GeistSans.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
         <body suppressHydrationWarning>
           <ThemeProvider attribute="class" defaultTheme="light" disableTransitionOnChange>
-            <main className="min-h-screen bg-white animate-in">
-              <div className="min-h-screen">
-                <Header />
-
-                {children}
-
-                <Footer />
-              </div>
-
-              <Analytics />
-              <SpeedInsights />
-              <Toaster
-                closeButton
-                richColors
-                toastOptions={{
-                  duration: 5000
-                }}
-              />
-            </main>
+            {children}
           </ThemeProvider>
+
+          <Analytics />
+          <SpeedInsights />
+          <Toaster
+            closeButton
+            richColors
+            toastOptions={{
+              duration: 5000
+            }}
+          />
         </body>
       </html>
     </Provider>

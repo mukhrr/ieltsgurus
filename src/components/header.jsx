@@ -4,13 +4,14 @@ import { useEffect, useState } from 'react'
 import { useSetAtom } from 'jotai'
 import Image from 'next/image'
 import Link from 'next/link'
-import { MessageCircleHeart, MessageSquareShareIcon } from 'lucide-react'
+import { MessageSquareShareIcon } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { SearchInput } from '@/components/ui/search-input'
 
 import useMediaQuery from '@/hooks/useMediaQuery'
 import { isVisibleScrollTop } from '@/lib/atoms/common-atom'
+import AuthButton from '@/components/ui/auth-button'
 
 export default function Header() {
   const [scroll, setScroll] = useState(false)
@@ -41,10 +42,6 @@ export default function Header() {
 
         {scroll && <SearchInput />}
 
-        {/*<nav className='flex items-center gap-4'>*/}
-        {/*    <AuthButton/>*/}
-        {/*</nav>*/}
-        {/*<FeedbackButton>*/}
         <div className="flex items-center space-x-2">
           {/*TODO: show sponsor button */}
           {/*{!isVisibleTop && !isMobile && (*/}
@@ -56,20 +53,15 @@ export default function Header() {
           {/*)}*/}
 
           {!isMobile && (
-            <Link href="https://t.me/ieltsgurus_support_bot" rel="noopener noreferrer" target="_blank">
-              <Button variant="outline" className="hidden items-center gap-2 md:flex">
-                Support <MessageCircleHeart className="h-4 w-4" />
+            <Link href="https://ieltsgurus.productroad.com/board/features" rel="noopener noreferrer" target="_blank">
+              <Button variant="outline" className="items-center gap-2 md:flex">
+                Feedback <MessageSquareShareIcon className="h-4 w-4" />
               </Button>
             </Link>
           )}
 
-          <Link href="https://ieltsgurus.productroad.com/board/features" rel="noopener noreferrer" target="_blank">
-            <Button variant="outline" className="hidden items-center gap-2 md:flex">
-              Feedback <MessageSquareShareIcon className="h-4 w-4" />
-            </Button>
-          </Link>
+          {!scroll && <AuthButton />}
         </div>
-        {/*</FeedbackButton>*/}
       </div>
     </header>
   )
