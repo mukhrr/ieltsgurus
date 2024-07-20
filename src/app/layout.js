@@ -11,7 +11,7 @@ import { Toaster } from '@/components/ui/sonner'
 
 import { defaultUrl, sharedDescription, sharedTitle } from '@/app/shared-metadata'
 
-export const revalidate = 60
+export const revalidate = 60 * 60 * 24 * 2 // 2 days
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],

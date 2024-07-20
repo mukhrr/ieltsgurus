@@ -1,8 +1,8 @@
 'use client'
 
-import { useCallback, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Loader } from 'lucide-react'
+import { Loader, UserRound } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 import { toast } from 'sonner'
@@ -13,7 +13,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { cn, getInitials, strToCamelCase } from '@/lib/utils'
+import { cn, getInitials } from '@/lib/utils'
+import { updateUserProfileAvatar, uploadAvatar } from '@/lib/actions/uploadAvatar'
 
 const formSchema = z.object({
   full_name: z.string().min(1, { message: 'Name is required.' }),
@@ -23,7 +24,7 @@ const formSchema = z.object({
 export default function UserProfileForm({ user }) {
   const supabase = createClientComponentClient()
   const [loading, setLoading] = useState(false)
-  const [avatarUrl, setAvatarUrl] = useState(user?.user_metadata?.avatar_url || user?.picture)
+  const [avatarUrl, setAvatarUrl] = useState(user?.avatar_url)
   const fileInputRef = useRef(null)
 
   const form = useForm({
@@ -56,32 +57,31 @@ export default function UserProfileForm({ user }) {
     }
   }
 
-  // TODO: fix handling avatar picture
-  const handleAvatarChange = useCallback(
-    async (event) => {
-      const file = event.target.files[0]
-      if (!file) return
+  // TODO: fix handling avatar picture. Error with RLS(row-level security) on Supabase
+  const handleAvatarChange = async (event) => {
+    const file = event.target.files[0]
+    if (!file) return
 
-      setLoading(true)
-      try {
-        const fileExt = file.name.split('.').pop()
-        const fileName = `${strToCamelCase(user?.full_name)}.${fileExt}`
+    if (!user) {
+      toast.error('No user is logged in')
+      return
+    }
 
-        const { error } = await supabase.storage.from('mentor-images').upload(fileName, file)
+    const avatar_url = await uploadAvatar(file, user.id)
 
-        if (error) throw error
+    if (!avatar_url) {
+      toast.error('Failed to upload avatar')
+      return
+    }
 
-        setAvatarUrl(fileName)
-        toast.success('Avatar uploaded successfully')
-      } catch (error) {
-        console.error('Error uploading avatar:', error)
-        toast.error(error.message || 'Failed to upload avatar')
-      } finally {
-        setLoading(false)
-      }
-    },
-    [supabase.storage, user?.full_name]
-  )
+    const updatedProfile = await updateUserProfileAvatar(user.id, avatar_url)
+
+    if (updatedProfile) {
+      setAvatarUrl(updatedProfile.avatar_url)
+    } else {
+      toast.error('Failed to update user profile')
+    }
+  }
 
   return (
     <Card>
@@ -95,8 +95,14 @@ export default function UserProfileForm({ user }) {
             <div className="flex items-center gap-4">
               <Button variant="secondary" size="icon" className="rounded-full shadow-sm ring-1 ring-gray-950">
                 <Avatar className="h-8 w-8 scale-125">
-                  <AvatarImage src={user?.picture} />
-                  <AvatarFallback>{getInitials(user?.username || user?.full_name || 'U')}</AvatarFallback>
+                  <AvatarImage src={avatarUrl} />
+                  <AvatarFallback>
+                    {user?.username || user?.full_name ? (
+                      getInitials(user?.username || user?.full_name)
+                    ) : (
+                      <UserRound className="h-4 w-4" />
+                    )}
+                  </AvatarFallback>
                 </Avatar>
               </Button>
               <input

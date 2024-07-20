@@ -7,6 +7,7 @@ import { ArrowLeft } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { buttonVariants } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { getUserProfile } from '@/lib/actions/getUserProfile'
 
 export default async function SettingsPage() {
   const supabase = createClient()
@@ -14,6 +15,7 @@ export default async function SettingsPage() {
   const {
     data: { user }
   } = await supabase.auth.getUser()
+  const profile = await getUserProfile(user?.id)
 
   return (
     <div className="flex min-h-screen w-full flex-col">
@@ -42,7 +44,7 @@ export default async function SettingsPage() {
           </nav>
 
           <div className="grid gap-6">
-            <UserProfileForm user={user?.user_metadata} />
+            <UserProfileForm user={profile} />
             {/*<ChangePasswordForm user={user} />*/}
           </div>
         </div>
