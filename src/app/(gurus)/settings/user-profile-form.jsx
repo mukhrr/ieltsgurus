@@ -44,10 +44,10 @@ export default function UserProfileForm({ user }) {
   const onSubmit = async (formData) => {
     setLoading(true)
     try {
-      const { error } = await supabase.auth.updateUser({
-        email: formData.email,
-        data: { full_name: formData.full_name, picture: avatarUrl }
-      })
+      const { error } = await supabase
+        .from('profiles')
+        .update({ full_name: formData.full_name, email: formData.email, avatar_url: avatarUrl })
+        .eq('id', user?.id)
       if (error) toast.error(error)
       else toast.success('Profile updated successfully')
     } catch (error) {

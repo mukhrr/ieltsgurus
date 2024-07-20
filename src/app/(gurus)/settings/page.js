@@ -1,13 +1,13 @@
 import Link from 'next/link'
+import { ArrowLeft } from 'lucide-react'
+
+import { Badge } from '@/components/ui/badge'
+import UserProfileForm from '@/app/(gurus)/settings/user-profile-form'
 
 import { createClient } from '@/lib/supabase/server'
-
-import UserProfileForm from '@/app/(gurus)/settings/user-profile-form'
-import { ArrowLeft } from 'lucide-react'
+import { getUserProfile } from '@/lib/actions/getUserProfile'
 import { cn } from '@/lib/utils'
 import { buttonVariants } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { getUserProfile } from '@/lib/actions/getUserProfile'
 
 export default async function SettingsPage() {
   const supabase = createClient()
