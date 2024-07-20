@@ -1,24 +1,26 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { usePathname } from 'next/navigation'
 import { useSetAtom } from 'jotai'
 import Image from 'next/image'
 import Link from 'next/link'
 import { MessageSquareShareIcon } from 'lucide-react'
 
-import { buttonVariants } from '@/components/ui/button'
 import { SearchInput } from '@/components/ui/search-input'
-
-import useMediaQuery from '@/hooks/useMediaQuery'
-import { isVisibleScrollTop } from '@/lib/atoms/common-atom'
 import AuthButton from '@/components/ui/auth-button'
 import ProfileButton from '@/components/ui/profile-button'
+
+import { buttonVariants } from '@/components/ui/button'
+import useMediaQuery from '@/hooks/useMediaQuery'
+import { isVisibleScrollTop } from '@/lib/atoms/common-atom'
 import { cn } from '@/lib/utils'
 
 export default function Header({ user }) {
   const [scroll, setScroll] = useState(false)
   const setScrollTopVisible = useSetAtom(isVisibleScrollTop)
   const isMobile = useMediaQuery('(max-width: 600px)')
+  const pathname = usePathname()
 
   const handleScroll = () => {
     setScroll(window.scrollY > 200)
@@ -70,8 +72,12 @@ export default function Header({ user }) {
               {user ? (
                 <div className="flex items-center space-x-4">
                   <Link
-                    href="/mentor"
-                    className={cn(buttonVariants({ variant: 'outline' }), 'items-center gap-2 md:flex')}
+                    href="/account"
+                    className={cn(
+                      buttonVariants({ variant: 'outline' }),
+                      'items-center gap-2 md:flex',
+                      `${pathname?.includes('account') ? 'ring-1 ring-gray-950' : ''}`
+                    )}
                   >
                     I am a mentor
                   </Link>

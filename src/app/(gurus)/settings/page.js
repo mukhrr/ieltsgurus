@@ -3,19 +3,12 @@ import { ArrowLeft } from 'lucide-react'
 
 import { Badge } from '@/components/ui/badge'
 import UserProfileForm from '@/app/(gurus)/settings/user-profile-form'
-
-import { createClient } from '@/lib/supabase/server'
 import { getUserProfile } from '@/lib/actions/getUserProfile'
 import { cn } from '@/lib/utils'
 import { buttonVariants } from '@/components/ui/button'
 
 export default async function SettingsPage() {
-  const supabase = createClient()
-
-  const {
-    data: { user }
-  } = await supabase.auth.getUser()
-  const profile = await getUserProfile(user?.id)
+  const profile = await getUserProfile()
 
   return (
     <div className="flex min-h-screen w-full flex-col">

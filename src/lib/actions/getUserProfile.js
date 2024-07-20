@@ -1,7 +1,12 @@
 import supabase from '@/lib/supabase/client'
+import { createClient } from '@/lib/supabase/server'
 
-export async function getUserProfile(userId) {
-  const { data, error } = await supabase.from('profiles').select('*').eq('id', userId)
+export async function getUserProfile() {
+  const serverSupabase = createClient()
+  const {
+    data: { user }
+  } = await serverSupabase.auth.getUser()
+  const { data, error } = await supabase.from('profiles').select('*').eq('id', user?.id)
 
   if (error) {
     console.error('Error fetching user profile:', error)
@@ -9,7 +14,7 @@ export async function getUserProfile(userId) {
   }
 
   if (data && data.length > 0) {
-    return data[0] // Assuming userId is unique, so we return the first result
+    return data[0]
   }
 
   return null
