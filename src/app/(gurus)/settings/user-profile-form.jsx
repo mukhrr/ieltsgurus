@@ -123,7 +123,7 @@ export default function UserProfileForm({ user }) {
                 <FormItem>
                   <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="John Doe" {...field} className={cn(errors.full_name && erStyle)} />
+                    <Input placeholder="Muhammad Ali" {...field} className={cn(errors.full_name && erStyle)} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

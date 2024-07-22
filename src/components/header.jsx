@@ -44,7 +44,7 @@ export default function Header({ user }) {
           </Link>
         </div>
 
-        {scroll && <SearchInput />}
+        {scroll && pathname === '/' && <SearchInput />}
 
         <div className="flex items-center space-x-2">
           {/*TODO: show sponsor button */}

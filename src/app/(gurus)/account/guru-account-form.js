@@ -114,27 +114,27 @@ export default function GuruAccountForm({ user }) {
           <div className="grid grid-cols-1 gap-6 border-t border-gray-200 pt-2 sm:grid-cols-3">
             <div className="space-y-2">
               <Label htmlFor="telegram">Telegram</Label>
-              <Input id="telegram" name="telegram" placeholder="Enter your Telegram username" />
+              <Input id="telegram" name="telegram" placeholder="Enter Telegram username" />
             </div>
             <div className="space-y-2">
               <Label htmlFor="instagram">Instagram</Label>
-              <Input id="instagram" name="instagram" placeholder="Enter your Instagram username" />
+              <Input id="instagram" name="instagram" placeholder="Enter Instagram username" />
             </div>
             <div className="space-y-2">
               <Label htmlFor="twitter">Twitter</Label>
-              <Input id="twitter" name="twitter" placeholder="Enter your Twitter username" />
+              <Input id="twitter" name="twitter" placeholder="Enter Twitter username" />
             </div>
             <div className="space-y-2">
               <Label htmlFor="facebook">Facebook</Label>
-              <Input id="facebook" name="facebook" placeholder="Enter your Facebook username" />
+              <Input id="facebook" name="facebook" placeholder="Enter Facebook username" />
             </div>
             <div className="space-y-2">
               <Label htmlFor="linkedin">LinkedIn</Label>
-              <Input id="linkedin" name="linkedin" placeholder="Enter your LinkedIn profile URL" />
+              <Input id="linkedin" name="linkedin" placeholder="Enter LinkedIn profile URL" />
             </div>
             <div className="space-y-2">
               <Label htmlFor="youtube">YouTube</Label>
-              <Input id="youtube" name="youtube" placeholder="Enter your YouTube channel URL" />
+              <Input id="youtube" name="youtube" placeholder="Enter YouTube channel URL" />
             </div>
           </div>
         </div>
