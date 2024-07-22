@@ -67,7 +67,7 @@ export default function Header({ user }) {
             </Link>
           )}
 
-          {(!scroll || !isMobile) && (
+          {(!scroll || !isMobile || pathname !== '/') && (
             <>
               {user ? (
                 <div className="flex items-center space-x-4">

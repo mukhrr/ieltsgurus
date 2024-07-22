@@ -111,7 +111,7 @@ export default function GuruAccountForm({ user }) {
           <Label>
             Your Socials <span className="text-gray-400">(at least, one is required)</span>
           </Label>
-          <div className="grid grid-cols-1 gap-6 border-t border-gray-200 pt-2 sm:grid-cols-3">
+          <div className="grid grid-cols-1 gap-6 border-t border-gray-200 pt-2 sm:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="telegram">Telegram</Label>
               <Input id="telegram" name="telegram" placeholder="Enter Telegram username" />
