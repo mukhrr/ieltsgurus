@@ -139,7 +139,7 @@ export default function GuruAccountForm({ user }) {
           </div>
         </div>
         <div className="flex justify-end">
-          <Button type="submit" className="bg-primary text-primary-foreground hover:bg-primary/90">
+          <Button disabled type="submit" className="bg-primary text-primary-foreground hover:bg-primary/90">
             Submit
           </Button>
         </div>
