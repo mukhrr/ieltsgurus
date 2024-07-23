@@ -1,8 +1,10 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { UserRound } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { Loader, UserRound } from 'lucide-react'
 import { useForm } from 'react-hook-form'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import { Label } from '@/components/ui/label'
@@ -11,28 +13,32 @@ import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
-
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 
-import { getInitials } from '@/lib/utils'
+import { calculateIeltsOverall, getInitials } from '@/lib/utils'
 import { socialsInputPlaceholder } from './utils/socialsInputPlaceholder'
 import { formSchema } from './utils/formSchema'
+import { toast } from 'sonner'
 
 export default function GuruAccountForm({ user }) {
+  const router = useRouter()
+  const supabase = createClientComponentClient()
   const fileInputRef = useRef(null)
   const [avatarUrl, setAvatarUrl] = useState(user?.avatar_url)
+  const [avatarFile, setAvatarFile] = useState(null)
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      fullName: user?.full_name || '',
+      full_name: user?.full_name || '',
       username: user?.username || '',
       about: '',
-      listening: undefined,
-      speaking: undefined,
-      writing: undefined,
-      reading: undefined,
+      listening: 0,
+      speaking: 0,
+      writing: 0,
+      reading: 0,
       telegram: '',
       instagram: '',
       twitter: '',
@@ -45,13 +51,79 @@ export default function GuruAccountForm({ user }) {
   const handleAvatarChange = (e) => {
     const file = e.target.files[0]
     if (file) {
+      setAvatarFile(file)
       setAvatarUrl(URL.createObjectURL(file))
     }
   }
 
-  const onSubmit = (data) => {
-    console.log(data)
-    // Handle form submission
+  const onSubmit = async (data) => {
+    setIsLoading(true)
+    try {
+      let avatar_url = user?.avatar_url
+
+      // Upload new avatar if changed
+      if (avatarFile) {
+        const { data: uploadData, error: uploadError } = await supabase.storage
+          .from('avatars')
+          .upload(`${user.id}/${Date.now()}.png`, avatarFile)
+
+        if (uploadError) throw uploadError
+
+        const {
+          data: { publicUrl }
+        } = supabase.storage.from('avatars').getPublicUrl(uploadData.path)
+
+        avatar_url = publicUrl
+      }
+
+      // Update or insert mentor data
+      const { data: mentorData, error: mentorError } = await supabase
+        .from('mentors')
+        .upsert({
+          user_id: user.id,
+          description: data.about,
+          full_name: data.full_name,
+          username: data.username,
+          image_path: avatar_url,
+          ielts_score: {
+            reading: data.reading,
+            listening: data.listening,
+            writing: data.writing,
+            speaking: data.speaking,
+            overall: calculateIeltsOverall(data)
+          },
+          social_networks: {
+            twitter: data.twitter,
+            linkedin: data.linkedin,
+            telegram: data.telegram,
+            instagram: data.instagram,
+            youtube: data.youtube,
+            facebook: data.facebook
+          }
+        })
+        .select()
+
+      if (mentorError) toast.error(mentorError)
+
+      // Update profile data
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .update({
+          full_name: data.fullName,
+          username: data.username,
+          avatar_url: avatar_url
+        })
+        .eq('id', user.id)
+
+      if (profileError) toast.error(profileError)
+
+      router.refresh()
+    } catch (error) {
+      console.error('Error updating mentor profile:', error)
+      alert('An error occurred while updating your profile. Please try again.')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   // disable submit button in case there is no at least a social media link
@@ -97,7 +169,7 @@ export default function GuruAccountForm({ user }) {
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <FormField
               control={form.control}
-              name="fullName"
+              name="full_name"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
@@ -197,10 +269,10 @@ export default function GuruAccountForm({ user }) {
                   <span>
                     <Button
                       type="submit"
-                      className="bg-primary text-primary-foreground hover:bg-primary/90"
-                      disabled={isSubmitDisabled}
+                      className="bg-primary text-primary-foreground hover:bg-primary/90 flex items-center gap-2"
+                      disabled={isSubmitDisabled || isLoading}
                     >
-                      Submit
+                      Submit {isLoading ? <Loader className="animate-spin" /> : null}
                     </Button>
                   </span>
                 </TooltipTrigger>
