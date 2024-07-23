@@ -77,7 +77,7 @@ export default function GuruAccountForm({ user }) {
       }
 
       // Update or insert mentor data
-      const { data: mentorData, error: mentorError } = await supabase
+      const { error: mentorError } = await supabase
         .from('mentors')
         .upsert({
           user_id: user.id,
