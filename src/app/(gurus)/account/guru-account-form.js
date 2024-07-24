@@ -67,7 +67,7 @@ export default function GuruAccountForm({ user }) {
           .from('avatars')
           .upload(`${user.id}/${Date.now()}.png`, avatarFile)
 
-        if (uploadError) throw uploadError
+        if (uploadError) toast.error(uploadError)
 
         const {
           data: { publicUrl }
@@ -76,51 +76,39 @@ export default function GuruAccountForm({ user }) {
         avatar_url = publicUrl
       }
 
+      const mentorData = {
+        user_id: user.id,
+        description: data.about,
+        full_name: data.full_name,
+        username: data.username,
+        image_path: avatar_url,
+        ielts_score: {
+          reading: data.reading,
+          listening: data.listening,
+          writing: data.writing,
+          speaking: data.speaking,
+          overall: calculateIeltsOverall(data)
+        },
+        social_networks: {
+          twitter: data.twitter,
+          linkedin: data.linkedin,
+          telegram: data.telegram,
+          instagram: data.instagram,
+          youtube: data.youtube,
+          facebook: data.facebook
+        }
+      }
+
       // Update or insert mentor data
-      const { error: mentorError } = await supabase
-        .from('mentors')
-        .upsert({
-          user_id: user.id,
-          description: data.about,
-          full_name: data.full_name,
-          username: data.username,
-          image_path: avatar_url,
-          ielts_score: {
-            reading: data.reading,
-            listening: data.listening,
-            writing: data.writing,
-            speaking: data.speaking,
-            overall: calculateIeltsOverall(data)
-          },
-          social_networks: {
-            twitter: data.twitter,
-            linkedin: data.linkedin,
-            telegram: data.telegram,
-            instagram: data.instagram,
-            youtube: data.youtube,
-            facebook: data.facebook
-          }
-        })
-        .select()
+      const { error: mentorError } = await supabase.from('mentors').upsert(mentorData, { onConflict: 'user_id' })
 
       if (mentorError) toast.error(mentorError)
-
-      // Update profile data
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .update({
-          full_name: data.fullName,
-          username: data.username,
-          avatar_url: avatar_url
-        })
-        .eq('id', user.id)
-
-      if (profileError) toast.error(profileError)
+      else toast.success('Updated successfully')
 
       router.refresh()
     } catch (error) {
       console.error('Error updating mentor profile:', error)
-      alert('An error occurred while updating your profile. Please try again.')
+      toast.error(error)
     } finally {
       setIsLoading(false)
     }
@@ -263,24 +251,34 @@ export default function GuruAccountForm({ user }) {
             </div>
           </div>
           <div className="flex justify-end">
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <span>
-                    <Button
-                      type="submit"
-                      className="bg-primary text-primary-foreground hover:bg-primary/90 flex items-center gap-2"
-                      disabled={isSubmitDisabled || isLoading}
-                    >
-                      Submit {isLoading ? <Loader className="animate-spin" /> : null}
-                    </Button>
-                  </span>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>At least one social media profile is required</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            {isSubmitDisabled ? (
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <span>
+                      <Button
+                        type="submit"
+                        className="bg-primary text-primary-foreground hover:bg-primary/90 flex items-center gap-2"
+                        disabled={isSubmitDisabled || isLoading}
+                      >
+                        Submit
+                      </Button>
+                    </span>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>At least one social media profile is required</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            ) : (
+              <Button
+                type="submit"
+                className="bg-primary text-primary-foreground hover:bg-primary/90 flex items-center gap-2"
+                disabled={isLoading}
+              >
+                {isLoading ? <Loader className="animate-spin" /> : null} Submit
+              </Button>
+            )}
           </div>
         </form>
       </Form>

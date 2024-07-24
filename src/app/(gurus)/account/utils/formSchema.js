@@ -4,7 +4,7 @@ const scoreSchema = z.preprocess((val) => Number(val), z.number().int().min(0).m
 
 export const formSchema = z
   .object({
-    fullName: z.string().min(1, 'Full name is required'),
+    full_name: z.string().min(1, 'Full name is required'),
     username: z.string().min(1, 'Username is required'),
     about: z.string().min(50, 'About section must be at least 50 characters'),
     listening: scoreSchema,

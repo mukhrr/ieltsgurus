@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button'
 
 import { getInitials, replaceSpacesWithPlus } from '@/lib/utils'
 
-export default function GuruCard({ fullName, image, score, shortInfo, description, socialNetworks }) {
+export default function GuruCard({ fullName, image, score, shortInfo, description, socialNetworks, username }) {
   const descriptionRef = useRef(null)
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [isExpandedDescription, setIsExpandedDescription] = useState(false)
@@ -54,8 +54,8 @@ export default function GuruCard({ fullName, image, score, shortInfo, descriptio
               {isCollapsed ? (
                 <p className="text-base text-gray-500">Overall: {score.overall}</p>
               ) : (
-                <p title={shortInfo} className="overflow-hidden text-base text-gray-500" style={truncateString}>
-                  {shortInfo}
+                <p title={username} className="max-w-48 truncate text-base text-gray-500">
+                  @{username}
                 </p>
               )}
             </div>
@@ -87,8 +87,11 @@ export default function GuruCard({ fullName, image, score, shortInfo, descriptio
       {!isCollapsed && (
         <div className="mt-4 space-y-4">
           <div className="relative">
-            <p ref={descriptionRef} className={`${isExpandedDescription ? 'max-h-none' : 'max-h-56 overflow-hidden'}`}>
-              {description}
+            <p
+              ref={descriptionRef}
+              className={`text-sm ${isExpandedDescription ? 'max-h-none' : 'max-h-56 overflow-hidden'}`}
+            >
+              {description || shortInfo}
             </p>
             {isOverflowing && (
               <span
