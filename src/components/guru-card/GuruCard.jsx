@@ -15,7 +15,9 @@ export default function GuruCard({ fullName, image, score, shortInfo, descriptio
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [isExpandedDescription, setIsExpandedDescription] = useState(false)
   const [isOverflowing, setIsOverflowing] = useState(false)
-  const imagePathOnStore = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${image}`
+  const imagePathOnStore = image.startsWith('/')
+    ? `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${image}`
+    : image
 
   const truncateString = {
     display: '-webkit-box',

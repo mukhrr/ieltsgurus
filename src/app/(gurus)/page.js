@@ -16,7 +16,7 @@ import { mentorsCount } from '@/lib/atoms/mentors-atom'
 import { mentorFilters } from '@/lib/atoms/filters-atom'
 import { isVisibleScrollTop } from '@/lib/atoms/common-atom'
 
-export default function Index() {
+export default function GurusIndex() {
   const mentorsAmount = useAtomValue(mentorsCount)
   const searchParams = useSearchParams()
   const filters = useAtomValue(mentorFilters)
