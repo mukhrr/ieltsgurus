@@ -69,19 +69,32 @@ export default function Header({ user }) {
 
           {(!scroll || !isMobile || pathname !== '/') && (
             <>
-              {user ? (
+              {user?.id ? (
                 <div className="flex items-center space-x-4">
-                  <Link
-                    href="/account"
-                    className={cn(
-                      buttonVariants({ variant: 'outline' }),
-                      'items-center gap-2 md:flex',
-                      `${pathname?.includes('account') ? 'ring-1 ring-gray-950' : ''}`
-                    )}
-                  >
-                    I am a mentor
-                  </Link>
-                  <ProfileButton user={user.user_metadata} />
+                  {user?.username ? (
+                    <Link
+                      href={`/${user?.username}`}
+                      className={cn(
+                        buttonVariants({ variant: 'outline' }),
+                        'items-center gap-2 md:flex',
+                        `${pathname?.includes('account') ? 'ring-1 ring-gray-950' : ''}`
+                      )}
+                    >
+                      My Profile
+                    </Link>
+                  ) : (
+                    <Link
+                      href="/account"
+                      className={cn(
+                        buttonVariants({ variant: 'outline' }),
+                        'items-center gap-2 md:flex',
+                        `${pathname?.includes('account') ? 'ring-1 ring-gray-950' : ''}`
+                      )}
+                    >
+                      I am a mentor
+                    </Link>
+                  )}
+                  <ProfileButton user={user} />
                 </div>
               ) : (
                 <AuthButton />

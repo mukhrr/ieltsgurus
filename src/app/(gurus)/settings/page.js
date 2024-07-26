@@ -6,9 +6,13 @@ import UserProfileForm from '@/app/(gurus)/settings/user-profile-form'
 import { getUserProfile } from '@/lib/actions/getUserProfile'
 import { cn } from '@/lib/utils'
 import { buttonVariants } from '@/components/ui/button'
+import { redirect } from 'next/navigation'
 
 export default async function SettingsPage() {
   const profile = await getUserProfile()
+
+  if (profile?.username) redirect('/account')
+  if (!profile?.id) redirect('/login')
 
   return (
     <div className="flex min-h-screen w-full flex-col">

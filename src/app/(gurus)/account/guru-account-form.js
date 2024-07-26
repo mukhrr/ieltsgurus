@@ -14,37 +14,50 @@ import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { toast } from 'sonner'
 
-import { calculateIeltsOverall, getInitials } from '@/lib/utils'
+import { calculateIeltsOverall, getInitials, isUrl } from '@/lib/utils'
 import { socialsInputPlaceholder } from './utils/socialsInputPlaceholder'
 import { formSchema } from './utils/formSchema'
-import { toast } from 'sonner'
+import { checkUsernameUniqueness } from '@/lib/actions/checkUniqueUserName'
 
 export default function GuruAccountForm({ user }) {
   const router = useRouter()
+  const imagePathOnStore = isUrl(user?.image_path)
+    ? user?.image_path
+    : `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${user?.image_path}`
   const supabase = createClientComponentClient()
   const fileInputRef = useRef(null)
-  const [avatarUrl, setAvatarUrl] = useState(user?.avatar_url)
+  const [avatarUrl, setAvatarUrl] = useState(user?.avatar_url || imagePathOnStore)
   const [avatarFile, setAvatarFile] = useState(null)
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true)
   const [isLoading, setIsLoading] = useState(false)
+  const [overallScore, setOverallScore] = useState(user?.ielts_score?.reading.toString())
+  const [isCheckingUserName, setIsCheckingUserName] = useState(false)
+  const [userName, setUserName] = useState(user?.username)
+
+  const scoreOptions = Array.from({ length: 19 }, (_, i) => 9 - i * 0.5).map((score) => ({
+    value: score.toString(),
+    label: score.toFixed(1)
+  }))
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       full_name: user?.full_name || '',
-      username: user?.username || '',
-      about: '',
-      listening: 0,
-      speaking: 0,
-      writing: 0,
-      reading: 0,
-      telegram: '',
-      instagram: '',
-      twitter: '',
-      facebook: '',
-      linkedin: '',
-      youtube: ''
+      username: userName || '',
+      about: user?.description || '',
+      listening: user?.ielts_score?.listening.toString(),
+      speaking: user?.ielts_score?.speaking.toString(),
+      writing: user?.ielts_score?.writing.toString(),
+      reading: user?.ielts_score?.reading.toString(),
+      telegram: user?.social_networks?.telegram || '',
+      instagram: user?.social_networks?.instagram || '',
+      twitter: user?.social_networks?.twitter || '',
+      facebook: user?.social_networks?.facebook || '',
+      linkedin: user?.social_networks?.linkedin || '',
+      youtube: user?.social_networks?.youtube || ''
     }
   })
 
@@ -77,7 +90,7 @@ export default function GuruAccountForm({ user }) {
       }
 
       const mentorData = {
-        user_id: user.id,
+        user_id: user?.user_id || user.id,
         description: data.about,
         full_name: data.full_name,
         username: data.username,
@@ -87,7 +100,7 @@ export default function GuruAccountForm({ user }) {
           listening: data.listening,
           writing: data.writing,
           speaking: data.speaking,
-          overall: calculateIeltsOverall(data)
+          overall: overallScore
         },
         social_networks: {
           twitter: data.twitter,
@@ -103,9 +116,9 @@ export default function GuruAccountForm({ user }) {
       const { error: mentorError } = await supabase.from('mentors').upsert(mentorData, { onConflict: 'user_id' })
 
       if (mentorError) toast.error(mentorError)
-      else toast.success('Updated successfully')
+      else toast.success('Success!')
 
-      router.refresh()
+      router.push(`/${userName}`)
     } catch (error) {
       console.error('Error updating mentor profile:', error)
       toast.error(error)
@@ -119,6 +132,17 @@ export default function GuruAccountForm({ user }) {
     const subscription = form.watch((value) => {
       const socials = [value.telegram, value.instagram, value.twitter, value.facebook, value.linkedin, value.youtube]
       setIsSubmitDisabled(!socials.some((social) => social && social.length > 0))
+
+      setOverallScore(
+        calculateIeltsOverall({
+          listening: Number(value.listening) || 0.0,
+          reading: Number(value.reading) || 0.0,
+          writing: Number(value.writing) || 0.0,
+          speaking: Number(value.speaking) || 0.0
+        })
+      )
+
+      setUserName(value?.username)
     })
     return () => subscription.unsubscribe()
   }, [form])
@@ -176,10 +200,23 @@ export default function GuruAccountForm({ user }) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    Username <span className="text-gray-400">(Required)</span>
+                    Username <span className="text-gray-400">({isCheckingUserName ? 'Checking' : 'Required'})</span>
                   </FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter your username" {...field} />
+                    <Input
+                      placeholder="Enter your username"
+                      {...field}
+                      onBlur={(e) => {
+                        field.onBlur(e)
+                        if (e.target.value) {
+                          checkUsernameUniqueness({
+                            username: e.target.value,
+                            setIsLoading: setIsCheckingUserName,
+                            form
+                          })
+                        }
+                      }}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -204,8 +241,11 @@ export default function GuruAccountForm({ user }) {
           />
 
           <div className="space-y-2 pt-8">
-            <Label>
-              Your Scores <span className="text-gray-400">(Required)</span>
+            <Label className="flex items-center justify-between text-sm">
+              <p>
+                Your Scores <span className="text-gray-400">(Required)</span>
+              </p>
+              <span>Overall: {overallScore}</span>
             </Label>
             <div className="grid grid-cols-1 gap-6 border-t border-gray-200 pt-2 sm:grid-cols-2">
               {['listening', 'speaking', 'writing', 'reading'].map((score) => (
@@ -217,7 +257,18 @@ export default function GuruAccountForm({ user }) {
                     <FormItem>
                       <FormLabel>{score.charAt(0).toUpperCase() + score.slice(1)}</FormLabel>
                       <FormControl>
-                        <Input type="number" min={0} max={9} placeholder={`Enter your ${score} score`} {...field} />
+                        <Select onValueChange={field.onChange} value={field.value}>
+                          <SelectTrigger className="w-full">
+                            <SelectValue placeholder={`Select ${score} score`} />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {scoreOptions.map((option) => (
+                              <SelectItem key={option.value} value={option.value}>
+                                {option.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
                       </FormControl>
                       <FormMessage />
                     </FormItem>

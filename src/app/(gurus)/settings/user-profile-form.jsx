@@ -14,7 +14,6 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { cn, getInitials } from '@/lib/utils'
-import { updateUserProfileAvatar, uploadAvatar } from '@/lib/actions/uploadAvatar'
 
 const formSchema = z.object({
   full_name: z.string().min(1, { message: 'Name is required.' }),
@@ -25,6 +24,7 @@ export default function UserProfileForm({ user }) {
   const supabase = createClientComponentClient()
   const [loading, setLoading] = useState(false)
   const [avatarUrl, setAvatarUrl] = useState(user?.avatar_url)
+  const [avatarFile, setAvatarFile] = useState(null)
   const fileInputRef = useRef(null)
 
   const form = useForm({
@@ -44,9 +44,26 @@ export default function UserProfileForm({ user }) {
   const onSubmit = async (formData) => {
     setLoading(true)
     try {
+      let avatar_url = user?.avatar_url
+
+      // Upload new avatar if changed
+      if (avatarFile) {
+        const { data: uploadData, error: uploadError } = await supabase.storage
+          .from('avatars')
+          .upload(`${user.id}/${Date.now()}.png`, avatarFile)
+
+        if (uploadError) toast.error(uploadError)
+
+        const {
+          data: { publicUrl }
+        } = supabase.storage.from('avatars').getPublicUrl(uploadData.path)
+
+        avatar_url = publicUrl
+      }
+
       const { error } = await supabase
         .from('profiles')
-        .update({ full_name: formData.full_name, email: formData.email, avatar_url: avatarUrl })
+        .update({ full_name: formData.full_name, email: formData.email, avatar_url: avatar_url })
         .eq('id', user?.id)
       if (error) toast.error(error)
       else toast.success('Profile updated successfully')
@@ -57,29 +74,11 @@ export default function UserProfileForm({ user }) {
     }
   }
 
-  // TODO: fix handling avatar picture. Error with RLS(row-level security) on Supabase
-  const handleAvatarChange = async (event) => {
-    const file = event.target.files[0]
-    if (!file) return
-
-    if (!user) {
-      toast.error('No user is logged in')
-      return
-    }
-
-    const avatar_url = await uploadAvatar(file, user.id)
-
-    if (!avatar_url) {
-      toast.error('Failed to upload avatar')
-      return
-    }
-
-    const updatedProfile = await updateUserProfileAvatar(user.id, avatar_url)
-
-    if (updatedProfile) {
-      setAvatarUrl(updatedProfile.avatar_url)
-    } else {
-      toast.error('Failed to update user profile')
+  const handleAvatarChange = (e) => {
+    const file = e.target.files[0]
+    if (file) {
+      setAvatarFile(file)
+      setAvatarUrl(URL.createObjectURL(file))
     }
   }
 

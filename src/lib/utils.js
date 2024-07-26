@@ -214,5 +214,38 @@ export const capitalizeFirstLetter = (str) => {
 }
 
 export const calculateIeltsOverall = (score) => {
-  return ((score?.reading || 0) + (score?.listening || 0) + (score?.writing || 0) + (score?.speaking || 0)) / 4
+  if (!score || typeof score !== 'object') {
+    throw new Error('Invalid input: score must be an object')
+  }
+
+  const validScores = ['reading', 'listening', 'writing', 'speaking'].map((skill) => {
+    const value = score[skill]
+    if (typeof value !== 'number' || value < 0 || value > 9) {
+      throw new Error(`Invalid ${skill} score: must be a number between 0 and 9`)
+    }
+    return value
+  })
+
+  const sum = validScores.reduce((acc, curr) => acc + curr, 0)
+  const average = sum / 4
+
+  // Round to the nearest 0.5
+  return Math.round(average * 2) / 2
+}
+
+/**
+ * Remove "@" from a string
+ * @param {string} input - The input string
+ * @returns {string} - The modified string with "@" removed
+ */
+export const removeAtSymbol = (input) => {
+  return input.startsWith('@') ? input.replace(/@/g, '') : input
+}
+
+export const addAtSymbol = (input) => {
+  return input.startsWith('@') ? input : `@${input}`
+}
+
+export const isUrl = (input) => {
+  return input && input.startsWith('https')
 }

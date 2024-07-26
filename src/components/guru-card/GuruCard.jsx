@@ -8,16 +8,16 @@ import { Card } from '@/components/ui/card'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 
-import { getInitials, replaceSpacesWithPlus } from '@/lib/utils'
+import { getInitials, isUrl, replaceSpacesWithPlus } from '@/lib/utils'
 
 export default function GuruCard({ fullName, image, score, shortInfo, description, socialNetworks, username }) {
   const descriptionRef = useRef(null)
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [isExpandedDescription, setIsExpandedDescription] = useState(false)
   const [isOverflowing, setIsOverflowing] = useState(false)
-  const imagePathOnStore = image.startsWith('/')
-    ? `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${image}`
-    : image
+  const imagePathOnStore = isUrl(image)
+    ? image
+    : `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${image}`
 
   const truncateString = {
     display: '-webkit-box',

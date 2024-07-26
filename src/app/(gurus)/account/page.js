@@ -1,12 +1,13 @@
-import { redirect } from 'next/navigation'
+export const revalidate = 180
 
-import { getUserProfile } from '@/lib/actions/getUserProfile'
+import { redirect } from 'next/navigation'
 import GuruAccountForm from '@/app/(gurus)/account/guru-account-form'
+import { getMentorByUsername } from '@/lib/actions/getMentorByUsername'
 
 export default async function AccountPage() {
-  const profile = await getUserProfile()
+  const mentor = await getMentorByUsername()
 
-  if (!profile?.id) redirect('/login')
+  if (!mentor?.id) redirect('/login')
 
-  return <GuruAccountForm user={profile} />
+  return <GuruAccountForm user={mentor} />
 }

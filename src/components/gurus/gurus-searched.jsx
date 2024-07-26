@@ -48,7 +48,7 @@ export default function GurusSearched() {
         <div className="flex flex-col items-end gap-4">
           <div className="grid gap-3 md:grid-cols-2  lg:grid-cols-3">
             {displayedItems.map(
-              ({ id, full_name, image_path, ielts_score, short_info, description, social_networks }) => (
+              ({ id, full_name, image_path, ielts_score, short_info, description, social_networks, username }) => (
                 <GuruCard
                   key={id}
                   fullName={full_name}
@@ -57,6 +57,7 @@ export default function GurusSearched() {
                   shortInfo={short_info}
                   description={description}
                   socialNetworks={social_networks}
+                  username={username}
                 />
               )
             )}

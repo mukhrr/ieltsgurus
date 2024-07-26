@@ -1,6 +1,6 @@
 import * as z from 'zod'
 
-const scoreSchema = z.preprocess((val) => Number(val), z.number().int().min(0).max(9))
+const scoreSchema = z.preprocess((val) => Number(val), z.number().min(0).max(9))
 
 export const formSchema = z
   .object({

@@ -20,8 +20,11 @@ export default function ProfileButton({ user }) {
 
   const onClickOption = (option) => {
     switch (option) {
-      case 'profile':
+      case 'settings':
         router.push('/settings')
+        break
+      case 'account':
+        router.push('/account')
         break
       case 'feedback':
         window.open('https://ieltsgurus.productroad.com/board/features', '_blank')
@@ -43,7 +46,7 @@ export default function ProfileButton({ user }) {
       <DropdownMenuTrigger asChild>
         <Button variant="secondary" size="icon" className="rounded-full shadow-sm ring-1 ring-gray-950">
           <Avatar className="h-8 w-8 scale-125">
-            <AvatarImage src={user?.picture} />
+            <AvatarImage src={user?.avatar_url} />
             <AvatarFallback>
               {user?.username || user?.full_name ? (
                 getInitials(user?.username || user?.full_name)
@@ -59,8 +62,8 @@ export default function ProfileButton({ user }) {
         <DropdownMenuLabel>{user?.username || user?.full_name || 'My Account'}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem onSelect={() => onClickOption('profile')}>
-            Profile
+          <DropdownMenuItem onSelect={() => onClickOption(user?.username ? 'account' : 'settings')}>
+            {user?.username ? 'Profile' : 'Settings'}
             <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
           </DropdownMenuItem>
         </DropdownMenuGroup>

@@ -3,7 +3,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 
 export default function AccountLoading() {
   return (
-    <Card className="mx-auto mt-8 max-w-md">
+    <Card className="mx-auto mt-8 max-w-2xl">
       <CardHeader>
         <Skeleton className="h-8 w-3/4" />
       </CardHeader>
