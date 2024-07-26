@@ -59,7 +59,7 @@ export default function ProfileButton({ user }) {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent className="w-56" sideOffset={4} align="end">
-        <DropdownMenuLabel>{user?.username || user?.full_name || 'My Account'}</DropdownMenuLabel>
+        <DropdownMenuLabel>{user?.full_name || 'My Account'}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem onSelect={() => onClickOption(user?.username ? 'account' : 'settings')}>
