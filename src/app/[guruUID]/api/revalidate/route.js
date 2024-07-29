@@ -42,13 +42,13 @@ export async function POST(request) {
     case CONTENT_TYPES.POST:
       if (slug) {
         revalidatePath(`/writing/${slug}`)
-        revalidatePath('/writing')
+        revalidatePath('/blog')
       } else {
         return Response.json(
           {
             revalidated: false,
             now: Date.now(),
-            message: 'Missing writing slug to revalidate'
+            message: 'Missing blog slug to revalidate'
           },
           { status: 400 }
         )

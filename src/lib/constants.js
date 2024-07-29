@@ -1,4 +1,4 @@
-import { ArmchairIcon, BookmarkIcon, NavigationIcon, PencilLineIcon, SparklesIcon, Wand2Icon } from 'lucide-react'
+import { PencilLineIcon, SparklesIcon, SwatchBook, Trophy } from 'lucide-react'
 
 export const TWEETS_COLLECTION_ID = 15896982
 
@@ -22,32 +22,32 @@ export const LINKS = [
   {
     href: '/',
     label: 'Home',
-    icon: <SparklesIcon size={16} />
+    icon: <SparklesIcon size={16} />,
+    isDisabled: false
   },
   {
-    href: '/writing',
-    label: 'Writing',
-    icon: <PencilLineIcon size={16} />
+    href: '/blog',
+    label: 'Blog',
+    icon: <PencilLineIcon size={16} />,
+    isDisabled: true
   },
   {
     href: '/journey',
-    label: 'Journey',
-    icon: <NavigationIcon size={16} />
+    label: 'Success Stories',
+    icon: <Trophy size={16} />,
+    isDisabled: true
   },
-  {
-    href: '/stack',
-    label: 'Stack',
-    icon: <Wand2Icon size={16} />
-  },
+  // {
+  //   href: '/stack',
+  //   label: 'Homeworks',
+  //   icon: <NotebookText size={16} />,
+  //   isDisabled: true
+  // },
   {
     href: '/workspace',
-    label: 'Workspace',
-    icon: <ArmchairIcon size={16} />
-  },
-  {
-    href: '/bookmarks',
-    label: 'Bookmarks',
-    icon: <BookmarkIcon size={16} />
+    label: 'Marathons',
+    icon: <SwatchBook size={16} />,
+    isDisabled: true
   }
 ]
 

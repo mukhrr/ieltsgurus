@@ -14,8 +14,8 @@ import { MOBILE_SCROLL_THRESHOLD, SCROLL_AREA_ID } from '@/lib/constants'
 export const FloatingHeader = memo(({ scrollTitle, title, goBackLink, children }) => {
   const [transformValues, setTransformValues] = useState({ translateY: 0, opacity: scrollTitle ? 0 : 1 })
   const pathname = usePathname()
-  const isWritingIndexPage = pathname === '/writing'
-  const isWritingPath = pathname.startsWith('/writing')
+  const isWritingIndexPage = pathname === '/blog'
+  const isWritingPath = pathname.startsWith('/blog')
   const isBookmarksIndexPage = pathname === '/bookmarks'
   const isBookmarkPath = pathname.startsWith('/bookmarks')
 
@@ -80,7 +80,7 @@ export const FloatingHeader = memo(({ scrollTitle, title, goBackLink, children }
                 {(isWritingIndexPage || isBookmarksIndexPage) && (
                   <Button variant="outline" size="xs" asChild>
                     <a
-                      href={isWritingIndexPage ? '/writing.xml' : '/bookmarks.xml'}
+                      href={isWritingIndexPage ? '/blog.xml' : '/bookmarks.xml'}
                       title="RSS feed"
                       target="_blank"
                       rel="noopener noreferrer"
@@ -94,7 +94,7 @@ export const FloatingHeader = memo(({ scrollTitle, title, goBackLink, children }
               </div>
             </div>
           </div>
-          {/* This is a hack to show writing views with framer motion reveal effect */}
+          {/* This is a hack to show blog views with framer motion reveal effect */}
           {scrollTitle && isWritingPath && <div className="flex min-w-[50px] justify-end">{children}</div>}
         </div>
       </div>

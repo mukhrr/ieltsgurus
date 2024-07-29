@@ -10,7 +10,7 @@ import { cn } from '@/lib/utils'
 
 const keyCodePathnameMapping = {
   Digit1: '/',
-  Digit2: '/writing',
+  Digit2: '/blog',
   Digit3: '/journey',
   Digit4: '/stack',
   Digit5: '/workspace',
@@ -28,7 +28,7 @@ export const SideMenu = ({ children, title, isInner }) => {
     if (targetPathname && targetPathname !== pathname) router.push(targetPathname)
   }
 
-  const isWritingPath = pathname.startsWith('/writing')
+  const isWritingPath = pathname.startsWith('/blog')
   const isBookmarksPath = pathname.startsWith('/bookmarks')
 
   return (
@@ -46,7 +46,7 @@ export const SideMenu = ({ children, title, isInner }) => {
               {(isWritingPath || isBookmarksPath) && (
                 <Button variant="outline" size="xs" asChild>
                   <a
-                    href={isWritingPath ? '/writing.xml' : '/bookmarks.xml'}
+                    href={isWritingPath ? '/blog.xml' : '/bookmarks.xml'}
                     title="RSS feed"
                     target="_blank"
                     rel="noopener noreferrer"

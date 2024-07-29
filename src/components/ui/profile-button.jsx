@@ -1,3 +1,6 @@
+import { UserRound } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -10,12 +13,11 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+
 import { getInitials } from '@/lib/utils'
 import { signOut } from '@/lib/auth'
-import { useRouter } from 'next/navigation'
-import { UserRound } from 'lucide-react'
 
-export default function ProfileButton({ user }) {
+export default function ProfileButton({ user, hasFullName }) {
   const router = useRouter()
 
   const onClickOption = (option) => {
@@ -44,21 +46,29 @@ export default function ProfileButton({ user }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="secondary" size="icon" className="rounded-full shadow-sm ring-1 ring-gray-950">
-          <Avatar className="h-8 w-8 scale-125">
-            <AvatarImage src={user?.avatar_url} />
-            <AvatarFallback>
-              {user?.username || user?.full_name ? (
-                getInitials(user?.username || user?.full_name)
-              ) : (
-                <UserRound className="h-4 w-4" />
-              )}
-            </AvatarFallback>
-          </Avatar>
-        </Button>
+        <div className="flex cursor-pointer items-center gap-2">
+          <Button variant="secondary" size="icon" className="rounded-full shadow-sm ring-1 ring-gray-950">
+            <Avatar className="h-8 w-8 scale-125">
+              <AvatarImage src={user?.avatar_url} />
+              <AvatarFallback>
+                {user?.username || user?.full_name ? (
+                  getInitials(user?.username || user?.full_name)
+                ) : (
+                  <UserRound className="h-4 w-4" />
+                )}
+              </AvatarFallback>
+            </Avatar>
+          </Button>
+          {hasFullName && (
+            <div className="flex flex-col ">
+              <span>{user.full_name}</span>
+              <span className="text-gray-400">@{user.username}</span>
+            </div>
+          )}
+        </div>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent className="w-56" sideOffset={4} align="end">
+      <DropdownMenuContent className="w-56" sideOffset={4} align="start">
         <DropdownMenuLabel>{user?.full_name || 'My Account'}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
