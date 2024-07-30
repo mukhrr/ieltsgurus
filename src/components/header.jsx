@@ -94,7 +94,7 @@ export default function Header({ user }) {
                       I am a mentor
                     </Link>
                   )}
-                  <ProfileButton user={user} />
+                  <ProfileButton user={user} hasAccessToOptions />
                 </div>
               ) : (
                 <AuthButton />

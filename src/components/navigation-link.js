@@ -3,17 +3,35 @@
 import { memo } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { ArrowUpRightIcon, AtSignIcon } from 'lucide-react'
+import { ArrowUpRightIcon, AtSignIcon, Facebook, Instagram, Linkedin, Send, X, Youtube } from 'lucide-react'
 
-import { cn } from '@/lib/utils'
+import { cn, isExternalLink } from '@/lib/utils'
 import { Badge } from '@/components/ui/badge'
 
 export const NavigationLink = memo(({ href, label, icon, shortcutNumber, disabled }) => {
   const pathname = usePathname()
-  const iconCmp = icon ?? <AtSignIcon size={16} />
+  const iconCmp = () => {
+    if (typeof icon !== 'string') return icon
 
-  const isInternal = href.startsWith('/')
-  if (!isInternal) {
+    switch (icon) {
+      case 'instagram':
+        return <Instagram size={16} />
+      case 'telegram':
+        return <Send size={16} />
+      case 'linkedin':
+        return <Linkedin size={16} />
+      case 'youtube':
+        return <Youtube size={16} />
+      case 'facebook':
+        return <Facebook size={16} />
+      case 'twitter':
+        return <X size={16} />
+      default:
+        return <AtSignIcon size={16} />
+    }
+  }
+
+  if (isExternalLink(href)) {
     return (
       <a
         key={href}
@@ -23,7 +41,7 @@ export const NavigationLink = memo(({ href, label, icon, shortcutNumber, disable
         className="flex items-center justify-between gap-2 rounded-lg p-2 hover:bg-gray-200"
       >
         <span className="inline-flex items-center gap-2 font-medium">
-          {iconCmp} {label}
+          {iconCmp()} {label}
         </span>
         <ArrowUpRightIcon size={16} />
       </a>
@@ -48,7 +66,7 @@ export const NavigationLink = memo(({ href, label, icon, shortcutNumber, disable
       )}
     >
       <span className="flex items-center gap-2">
-        {iconCmp}
+        {iconCmp()}
         <span className={cn('font-medium', isActive && 'text-white')}>{label}</span>
       </span>
       {disabled && <Badge variant="secondary">Coming soon</Badge>}

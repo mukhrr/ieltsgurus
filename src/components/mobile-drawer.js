@@ -4,7 +4,7 @@ import { MenuContent } from '@/components/menu-content'
 import { Button } from '@/components/ui/button'
 import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer'
 
-export function MobileDrawer() {
+export function MobileDrawer({ mentor, user }) {
   return (
     <Drawer>
       <DrawerTrigger asChild>
@@ -14,7 +14,7 @@ export function MobileDrawer() {
       </DrawerTrigger>
       <DrawerContent className="h-[80%]">
         <div className="overflow-y-auto p-4">
-          <MenuContent />
+          <MenuContent mentor={mentor} user={user} />
         </div>
       </DrawerContent>
     </Drawer>

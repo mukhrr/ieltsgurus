@@ -25,7 +25,7 @@ export function cn(...args) {
  */
 export const isExternalLink = (href) => {
   if (!href) return false
-  return !href.startsWith('/') && !href.startsWith('#')
+  return !href.startsWith('/') && !href.startsWith('#') && href.startsWith('http')
 }
 
 /**
@@ -246,6 +246,25 @@ export const addAtSymbol = (input) => {
   return input.startsWith('@') ? input : `@${input}`
 }
 
-export const isUrl = (input) => {
-  return input && input.startsWith('https')
+export const generateImagePathOnStore = (image) =>
+  isExternalLink(image) ? image : `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${image}`
+
+export const generateSocialNetworkLink = (key, url) => {
+  switch (key) {
+    case 'telegram':
+      return isExternalLink(url) ? url : `https://t.me/${removeAtSymbol(url)}`
+    case 'twitter':
+      return isExternalLink(url) ? url : `https://x.com/${removeAtSymbol(url)}`
+    case 'linkedin':
+      return isExternalLink(url) ? url : `https://www.linkedin.com/in/${removeAtSymbol(url)}`
+    case 'instagram':
+      return isExternalLink(url) ? url : `https://www.instagram.com/${removeAtSymbol(url)}`
+    case 'facebook':
+      return isExternalLink(url) ? url : `https://www.facebook.com/${removeAtSymbol(url)}`
+    case 'youtube':
+      return isExternalLink(url) ? url : `https://www.facebook.com/${addAtSymbol(url)}`
+
+    default:
+      return ''
+  }
 }

@@ -17,16 +17,14 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { toast } from 'sonner'
 
-import { calculateIeltsOverall, getInitials, isUrl } from '@/lib/utils'
+import { calculateIeltsOverall, generateImagePathOnStore, getInitials } from '@/lib/utils'
 import { socialsInputPlaceholder } from './utils/socialsInputPlaceholder'
 import { formSchema } from './utils/formSchema'
 import { checkUsernameUniqueness } from '@/lib/actions/checkUniqueUserName'
 
 export default function GuruAccountForm({ user }) {
   const router = useRouter()
-  const imagePathOnStore = isUrl(user?.image_path)
-    ? user?.image_path
-    : `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${user?.image_path}`
+  const imagePathOnStore = generateImagePathOnStore(user?.image_path)
   const supabase = createClientComponentClient()
   const fileInputRef = useRef(null)
   const [avatarUrl, setAvatarUrl] = useState(user?.avatar_url || imagePathOnStore)

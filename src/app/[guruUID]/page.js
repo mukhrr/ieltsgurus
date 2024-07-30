@@ -1,14 +1,18 @@
 import { Suspense } from 'react'
+import Link from 'next/link'
 
 import { ScrollArea } from '@/components/scroll-area'
-import { LoadingSpinner } from '@/components/loading-spinner'
 import { WritingList } from '@/components/writing-list'
 import { FloatingHeader } from '@/components/floating-header'
 import { PageTitle } from '@/components/page-title'
+import { Button } from '@/components/ui/button'
+
+import { getUserProfile } from '@/lib/actions/getUserProfile'
+import { getMentorByUsername } from '@/lib/actions/getMentorByUsername'
+
+import { capitalizeFirstLetter, getItemsByYear, getSortedPosts } from '@/lib/utils'
+
 import { getAllPosts } from '@/lib/contentful'
-import { getSortedPosts, getItemsByYear } from '@/lib/utils'
-import { redirect } from 'next/navigation'
-import { createClient } from '@/lib/supabase/server'
 
 async function fetchData() {
   const allPosts = await getAllPosts()
@@ -19,23 +23,44 @@ async function fetchData() {
 
 export default async function GuruHome({ params }) {
   const { items } = await fetchData()
-  const supabase = createClient()
-  const {
-    data: { user }
-  } = await supabase.auth.getUser()
 
-  if (!user) redirect('/login')
-  console.log(params)
+  const profile = await getUserProfile()
+  const mentor = await getMentorByUsername(params?.guruUID)
+
+  const isCurrentUserMentor = profile?.username && profile.username === params.guruUID
+
   return (
     <ScrollArea useScrollAreaId>
-      <FloatingHeader scrollTitle="IELTS Gurus" />
-      <div className="content-wrapper animate-in">
+      <FloatingHeader scrollTitle={mentor?.full_name} mentor={mentor} user={profile} />
+      <div className="content-wrapper">
         <div className="content">
-          <PageTitle title="Home" className="lg:hidden" />
+          <PageTitle title={mentor.full_name} />
+          <div>
+            <p>{capitalizeFirstLetter(mentor?.short_info) || capitalizeFirstLetter(mentor?.description)}</p>
+            {isCurrentUserMentor && (
+              <Link href="/account" className="text-gray-400 hover:underline">
+                Edit
+              </Link>
+            )}
+          </div>
 
-          <Suspense fallback={<LoadingSpinner />}>
-            <WritingList items={items} header="Writing" />
-          </Suspense>
+          <Button asChild variant="link" className="inline px-0">
+            <Link href={`/${params?.guruUID}/blog`}>
+              <h2 className="mb-4 mt-8">Blog</h2>
+            </Link>
+          </Button>
+          {!!items?.length && (
+            <Suspense fallback={<p>loading...</p>}>
+              <WritingList items={items} header="Writing" />
+            </Suspense>
+          )}
+          {!items?.length && (
+            <p className="text-sm text-gray-500">
+              {isCurrentUserMentor
+                ? 'You have nothing to show. Start to share knowledge!'
+                : `${mentor.full_name} hasn't written anything yet.`}
+            </p>
+          )}
         </div>
       </div>
     </ScrollArea>
