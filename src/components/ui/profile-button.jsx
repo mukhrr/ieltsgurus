@@ -52,9 +52,6 @@ export default function ProfileButton({ user, hasFullName, hasAccessToOptions })
       case 'account':
         router.push('/account')
         break
-      case 'feedback':
-        window.open('https://ieltsgurus.productroad.com/board/features', '_blank')
-        break
       case 'support':
         window.open('https://t.me/ieltsgurus_support_bot', '_blank')
         break
@@ -80,8 +77,6 @@ export default function ProfileButton({ user, hasFullName, hasAccessToOptions })
             <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
           </DropdownMenuItem>
         </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem onSelect={() => onClickOption('feedback')}>Feedback</DropdownMenuItem>
         <DropdownMenuItem onSelect={() => onClickOption('support')}>Support</DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem onSelect={() => onClickOption('logout')}>

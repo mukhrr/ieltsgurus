@@ -15,6 +15,7 @@ import { buttonVariants } from '@/components/ui/button'
 import useMediaQuery from '@/hooks/useMediaQuery'
 import { isVisibleScrollTop } from '@/lib/atoms/common-atom'
 import { cn } from '@/lib/utils'
+import FeedbackButton from '@/components/feedback-button'
 
 export default function Header({ user }) {
   const [scroll, setScroll] = useState(false)
@@ -57,14 +58,11 @@ export default function Header({ user }) {
           {/*)}*/}
 
           {!isMobile && !user && (
-            <Link
-              href="https://ieltsgurus.productroad.com/board/features"
-              className={cn(buttonVariants({ variant: 'outline' }), 'items-center gap-2 md:flex')}
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              Feedback <MessageSquareShareIcon className="h-4 w-4" />
-            </Link>
+            <FeedbackButton>
+              <span className={cn(buttonVariants({ variant: 'outline' }), 'cursor-pointer items-center gap-2 md:flex')}>
+                Feedback <MessageSquareShareIcon className="h-4 w-4" />
+              </span>
+            </FeedbackButton>
           )}
 
           {(!scroll || !isMobile || pathname !== '/') && (

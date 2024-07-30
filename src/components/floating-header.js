@@ -8,7 +8,7 @@ import { ArrowLeftIcon, RadioIcon } from 'lucide-react'
 
 import { MobileDrawer } from '@/components/mobile-drawer'
 import { Button } from '@/components/ui/button.jsx'
-import { SubmitBookmarkDrawer } from '@/components/submit-bookmark/drawer'
+import { SubmitFeedbackDrawer } from '@/components/submit-feedback/drawer'
 
 import { MOBILE_SCROLL_THRESHOLD, SCROLL_AREA_ID } from '@/lib/constants'
 
@@ -91,7 +91,7 @@ export const FloatingHeader = memo(({ scrollTitle, title, goBackLink, children, 
                     </a>
                   </Button>
                 )}
-                {isBookmarkPath && <SubmitBookmarkDrawer />}
+                {isBookmarkPath && <SubmitFeedbackDrawer />}
               </div>
             </div>
           </div>

@@ -5,7 +5,7 @@ import { useAtomValue } from 'jotai'
 import { useSearchParams } from 'next/navigation'
 import { ChevronUpIcon } from 'lucide-react'
 
-import { Button } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
 import { SearchInput } from '@/components/ui/search-input'
 import FAQ from '@/components/faq'
 import Filters from '@/components/filters'
@@ -15,6 +15,7 @@ import GurusSearched from '@/components/gurus/gurus-searched'
 import { mentorsCount } from '@/lib/atoms/mentors-atom'
 import { mentorFilters } from '@/lib/atoms/filters-atom'
 import { isVisibleScrollTop } from '@/lib/atoms/common-atom'
+import FeedbackButton from '@/components/feedback-button'
 
 export default function GurusIndex() {
   const mentorsAmount = useAtomValue(mentorsCount)
@@ -32,14 +33,13 @@ export default function GurusIndex() {
             <p className="mb-6 text-lg">{mentorsAmount} gurus found and counting</p>
             <SearchInput />
             <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
-              {/*<Button variant="outline">Submit your profile</Button>*/}
-              {/*<span>|</span>*/}
-
-              {/*<FeedbackButton>*/}
-              <Link href="https://ieltsgurus.productroad.com/board/features" rel="noopener noreferrer" target="_blank">
+              <FeedbackButton>
                 <Button variant="secondary">Help us to grow - Share your feedback*</Button>
+              </FeedbackButton>
+
+              <Link className={buttonVariants({ variant: 'secondary' })} href="/account">
+                Submit your profile
               </Link>
-              {/*</FeedbackButton>*/}
 
               <Link href="https://ieltsgurus.productroad.com/roadmap/roadmap" rel="noopener noreferrer" target="_blank">
                 <Button variant="secondary">Roadmap</Button>

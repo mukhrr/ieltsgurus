@@ -20,7 +20,7 @@ const formSchema = z.object({
   email: z.string().email('Invalid email address.').optional().or(z.literal(''))
 })
 
-export function SubmitBookmarkForm({ className, setFormOpen }) {
+export function SubmitFeedbackForm({ className, setFormOpen }) {
   const form = useForm({
     resolver: zodResolver(formSchema),
     // mode: 'onChange',
@@ -81,9 +81,9 @@ export function SubmitBookmarkForm({ className, setFormOpen }) {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="johndoe@gmail.com" {...field} />
+                <Input placeholder="muhammad_ali@gmail.com" {...field} />
               </FormControl>
-              <FormDescription>Optional but helps me to get in touch back to you with a new release.</FormDescription>
+              <FormDescription>Optional but helps us to get in touch back to you with a new release.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -109,7 +109,7 @@ export function SubmitBookmarkForm({ className, setFormOpen }) {
       </form>
       <span className="text-sm">
         Have a technical issue?! Or found wrong information?! <br /> Contact{' '}
-        <a href="mailto:mshakhriyorov8@gmail.com" className="underline" target="_blank" rel="noopener noreferrer">
+        <a href="https://t.me/ieltsgurus_support_bot" className="underline" target="_blank" rel="noopener noreferrer">
           Ieltsgurus support
         </a>
       </span>

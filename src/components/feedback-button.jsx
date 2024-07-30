@@ -1,7 +1,7 @@
 import useMediaQuery from '@/hooks/useMediaQuery'
 
-import { SubmitBookmarkDrawer } from '@/components/submit-bookmark/drawer'
-import { SubmitBookmarkDialog } from '@/components/submit-bookmark/dialog'
+import { SubmitFeedbackDrawer } from '@/components/submit-feedback/drawer'
+import { SubmitFeedbackDialog } from '@/components/submit-feedback/dialog'
 
 const FeedbackButton = ({ children }) => {
   const isMobile = useMediaQuery('(max-width: 600px)')
@@ -9,9 +9,9 @@ const FeedbackButton = ({ children }) => {
   return (
     <>
       {isMobile ? (
-        <SubmitBookmarkDrawer>{children}</SubmitBookmarkDrawer>
+        <SubmitFeedbackDrawer>{children}</SubmitFeedbackDrawer>
       ) : (
-        <SubmitBookmarkDialog>{children}</SubmitBookmarkDialog>
+        <SubmitFeedbackDialog>{children}</SubmitFeedbackDialog>
       )}
     </>
   )
