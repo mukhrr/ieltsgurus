@@ -36,7 +36,8 @@ export default async function GuruHome({ params }) {
         <div className="content">
           <PageTitle title={mentor.full_name} />
           <div>
-            <p>{capitalizeFirstLetter(mentor?.short_info) || capitalizeFirstLetter(mentor?.description)}</p>
+            <p>{capitalizeFirstLetter(mentor?.short_info)}</p>
+            <p>{capitalizeFirstLetter(mentor?.description)}</p>
             {isCurrentUserMentor && (
               <Link href="/account" className="text-gray-400 hover:underline">
                 Edit
