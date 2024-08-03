@@ -80,7 +80,7 @@ export default function ProfileButton({ user, hasFullName, hasAccessToOptions })
         <DropdownMenuItem onSelect={() => onClickOption('support')}>Support</DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem onSelect={() => onClickOption('logout')}>
-          Log out
+          <span className="cursor-pointer text-red-500">Log out</span>
           <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
         </DropdownMenuItem>
       </DropdownMenuContent>

@@ -67,6 +67,11 @@ export default function GuruAccountForm({ user }) {
     }
   }
 
+  const onCancel = (e) => {
+    e.preventDefault()
+    router.back()
+  }
+
   const onSubmit = async (data) => {
     setIsLoading(true)
     try {
@@ -117,6 +122,7 @@ export default function GuruAccountForm({ user }) {
       else toast.success('Success!')
 
       router.push(`/${userName}`)
+      router.refresh()
     } catch (error) {
       console.error('Error updating mentor profile:', error)
       toast.error(error)
@@ -300,6 +306,10 @@ export default function GuruAccountForm({ user }) {
             </div>
           </div>
           <div className="flex justify-end">
+            <Button className="bg-primary hover:bg-primary/90 flex items-center gap-2 text-red-500" onClick={onCancel}>
+              Cancel
+            </Button>
+
             {isSubmitDisabled ? (
               <TooltipProvider>
                 <Tooltip>

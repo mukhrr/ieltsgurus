@@ -41,6 +41,14 @@ export default function GurusIndex() {
                 Submit your profile
               </Link>
 
+              <Link
+                className={buttonVariants({ variant: 'secondary' })}
+                href="https://t.me/ieltsgurus_support_bot"
+                target="_blank"
+              >
+                Claim your account
+              </Link>
+
               <Link href="https://ieltsgurus.productroad.com/roadmap/roadmap" rel="noopener noreferrer" target="_blank">
                 <Button variant="secondary">Roadmap</Button>
               </Link>

@@ -26,13 +26,12 @@ export const MenuContent = ({ mentor, user }) => {
           <NavigationLink href="/" label="Back" icon={<ArrowLeft size={16} />} />
         </div>
         <div className="flex flex-col gap-1">
-          {LINKS.map((link, linkIndex) => (
+          {LINKS.map((link) => (
             <NavigationLink
               key={link.href}
               href={`/${params.guruUID}${link.href}`}
               label={link.label}
               icon={link.icon}
-              shortcutNumber={linkIndex + 1}
               disabled={link.isDisabled}
             />
           ))}

@@ -35,11 +35,14 @@ export default async function GuruHome({ params }) {
       <div className="content-wrapper">
         <div className="content">
           <PageTitle title={mentor.full_name} />
-          <div>
+          <div className="group relative">
             <p>{capitalizeFirstLetter(mentor?.short_info)}</p>
             <p>{capitalizeFirstLetter(mentor?.description)}</p>
             {isCurrentUserMentor && (
-              <Link href="/account" className="text-gray-400 hover:underline">
+              <Link
+                href="/account"
+                className="absolute bottom-0 right-0 hidden text-gray-400 hover:underline group-hover:block"
+              >
                 Edit
               </Link>
             )}

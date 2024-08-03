@@ -210,7 +210,7 @@ export const strToCamelCase = (str) => {
 }
 
 export const capitalizeFirstLetter = (str) => {
-  return str.charAt(0).toUpperCase() + str.slice(1)
+  return str ? str.charAt(0).toUpperCase() + str.slice(1) : ''
 }
 
 export const calculateIeltsOverall = (score) => {
