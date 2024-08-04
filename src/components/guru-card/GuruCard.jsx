@@ -9,7 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { toast } from 'sonner'
 
-import { generateImagePathOnStore, getInitials, replaceSpacesWithPlus } from '@/lib/utils'
+import { generateImagePathOnStore, getInitials } from '@/lib/utils'
 
 export default function GuruCard({ fullName, image, score, shortInfo, description, username }) {
   const descriptionRef = useRef(null)
@@ -24,12 +24,12 @@ export default function GuruCard({ fullName, image, score, shortInfo, descriptio
     WebkitBoxOrient: 'vertical'
   }
 
-  const onCopyMentor = (event, name) => {
+  const onCopyMentor = (event, user) => {
     event.stopPropagation()
     event.preventDefault()
 
-    window.navigator.clipboard.writeText(`https://ieltsgurus.vercel.app/?q=${replaceSpacesWithPlus(name)}`)
-    toast.info(`${name} is copied to clipboard. Now you can share with :)`)
+    window.navigator.clipboard.writeText(`https://ieltsgurus.vercel.app/${user}`)
+    toast.info('Copied to clipboard. Now you can share with :)')
   }
 
   // truncate description if it overflows content
@@ -70,7 +70,7 @@ export default function GuruCard({ fullName, image, score, shortInfo, descriptio
                   size="sm"
                   className="flex items-center gap-1"
                   title="Share mentor"
-                  onClick={(e) => onCopyMentor(e, fullName)}
+                  onClick={(e) => onCopyMentor(e, username)}
                 >
                   <Share2 className="h-4 w-4" />
                 </Button>
@@ -119,7 +119,7 @@ export default function GuruCard({ fullName, image, score, shortInfo, descriptio
                 size="sm"
                 className="flex items-center gap-1"
                 title="Share mentor"
-                onClick={(e) => onCopyMentor(e, fullName)}
+                onClick={(e) => onCopyMentor(e, username)}
               >
                 Share
                 <Share2 className="h-4 w-4" />

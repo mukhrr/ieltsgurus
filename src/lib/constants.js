@@ -29,7 +29,7 @@ export const LINKS = [
     href: '/blog',
     label: 'Blog',
     icon: <PencilLineIcon size={16} />,
-    isDisabled: false
+    isDisabled: true
   },
   {
     href: '/journey',
