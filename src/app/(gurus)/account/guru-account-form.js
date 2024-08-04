@@ -112,7 +112,9 @@ export default function GuruAccountForm({ user }) {
           instagram: data.instagram,
           youtube: data.youtube,
           facebook: data.facebook
-        }
+        },
+        // TODO: make categories submitting flexible
+        categories: ['featured']
       }
 
       // Update or insert mentor data
