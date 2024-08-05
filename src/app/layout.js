@@ -4,7 +4,7 @@ import { GeistSans } from 'geist/font/sans'
 import { JetBrains_Mono } from 'next/font/google'
 import { Provider } from 'jotai'
 
-import '@/globals.css'
+import '@/styles/globals.css'
 
 import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/sonner'
