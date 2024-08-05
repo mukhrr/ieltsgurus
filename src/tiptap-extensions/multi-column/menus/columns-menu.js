@@ -1,3 +1,5 @@
+'use client'
+
 import { BubbleMenu as BaseBubbleMenu } from '@tiptap/react'
 import { useCallback } from 'react'
 import { sticky } from 'tippy.js'

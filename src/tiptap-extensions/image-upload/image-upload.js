@@ -1,3 +1,5 @@
+'use client'
+
 import { Node, ReactNodeViewRenderer } from '@tiptap/react'
 
 import { ImageUpload as ImageUploadComponent } from './view/image-upload'

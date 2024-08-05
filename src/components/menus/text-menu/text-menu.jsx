@@ -1,3 +1,5 @@
+'use client'
+
 import { BubbleMenu } from '@tiptap/react'
 import { memo } from 'react'
 import * as Popover from '@radix-ui/react-popover'

@@ -1,3 +1,5 @@
+'use client'
+
 import { useEffect, useMemo, useState } from 'react'
 
 import { useEditor } from '@tiptap/react'
@@ -11,7 +13,7 @@ import { randomElement } from '@/lib/utils'
 import { initialContent } from '@/lib/mock-data/initialContent'
 
 export const useBlockEditor = ({ ydoc, provider }) => {
-  const [collabState, setCollabState] = useState < WebSocketStatus > WebSocketStatus.Connecting
+  const [collabState, setCollabState] = useState(WebSocketStatus.Connecting)
 
   const editor = useEditor(
     {

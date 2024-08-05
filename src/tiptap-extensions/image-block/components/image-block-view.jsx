@@ -1,3 +1,5 @@
+'use client'
+
 import { cn } from '@/lib/utils'
 import { NodeViewWrapper } from '@tiptap/react'
 import { useCallback, useRef } from 'react'

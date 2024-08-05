@@ -1,3 +1,5 @@
+'use client'
+
 import { NodeViewWrapper } from '@tiptap/react'
 import { useCallback } from 'react'
 

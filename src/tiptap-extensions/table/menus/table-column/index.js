@@ -1,3 +1,5 @@
+'use client'
+
 import { BubbleMenu as BaseBubbleMenu } from '@tiptap/react'
 import React, { useCallback } from 'react'
 import * as PopoverMenu from '@/components/ui/popover-menu'

@@ -1,3 +1,5 @@
+'use client'
+
 import { Node } from '@tiptap/core'
 import { NodeViewWrapper, ReactNodeViewRenderer } from '@tiptap/react'
 import { TableOfContents } from '@/components/table-of-contents'

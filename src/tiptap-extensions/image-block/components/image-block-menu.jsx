@@ -1,6 +1,8 @@
+'use client'
+
 import { BubbleMenu as BaseBubbleMenu } from '@tiptap/react'
 import { useCallback, useRef } from 'react'
-import { Instance, sticky } from 'tippy.js'
+import { sticky } from 'tippy.js'
 import { v4 as uuid } from 'uuid'
 
 import { Toolbar } from '@/components/ui/toolbar'
@@ -10,8 +12,8 @@ import { ImageBlockWidth } from './image-block-width'
 import { getRenderContainer } from '@/lib/utils'
 
 export const ImageBlockMenu = ({ editor, appendTo }) => {
-  const menuRef = useRef < HTMLDivElement > null
-  const tippyInstance = (useRef < Instance) | (null > null)
+  const menuRef = useRef(null)
+  const tippyInstance = useRef(null)
 
   const getReferenceClientRect = useCallback(() => {
     const renderContainer = getRenderContainer(editor, 'node-imageBlock')

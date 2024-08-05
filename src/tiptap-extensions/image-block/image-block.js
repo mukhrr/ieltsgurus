@@ -1,3 +1,5 @@
+'use client'
+
 import { ReactNodeViewRenderer } from '@tiptap/react'
 import { mergeAttributes } from '@tiptap/core'
 
