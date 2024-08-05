@@ -97,11 +97,7 @@ export const SlashCommand = Extension.create({
           }))
 
           const withoutEmptyGroups = withFilteredCommands.filter((group) => {
-            if (group.commands.length > 0) {
-              return true
-            }
-
-            return false
+            return group.commands.length > 0
           })
 
           const withEnabledSettings = withoutEmptyGroups.map((group) => ({
