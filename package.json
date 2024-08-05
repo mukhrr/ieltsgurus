@@ -11,8 +11,7 @@
     "prettier": "prettier --write \"**/*.{html,js,json,md,mdx,mjs}\"",
     "clear-cache": "rm -rf .next",
     "unused": "next-unused",
-    "lint": "eslint . --ext .js,.jsx",
-    "find:unused": "next-unused"
+    "lint": "eslint . --ext .js,.jsx"
   },
   "engines": {
     "node": "18.x"
