@@ -1,98 +1,30 @@
-import { BubbleMenu as BaseBubbleMenu } from '@tiptap/react'
+import { cn } from '@/lib/utils'
+import { NodeViewWrapper } from '@tiptap/react'
 import { useCallback, useRef } from 'react'
-import { sticky } from 'tippy.js'
-import { v4 as uuid } from 'uuid'
 
-import { Toolbar } from '@/components/ui/toolbar'
-import { Icon } from '@/components/ui/icon'
-import { ImageBlockWidth } from './image-block-width'
-import { getRenderContainer } from '@/lib/utils'
+export const ImageBlockView = ({ editor, getPos, node }) => {
+  const imageWrapperRef = useRef(null)
+  const { src } = node.attrs
 
-export const ImageBlockMenu = ({ editor, appendTo }) => {
-  const menuRef = useRef(null)
-  const tippyInstance = useRef(null)
-
-  const getReferenceClientRect = useCallback(() => {
-    const renderContainer = getRenderContainer(editor, 'node-imageBlock')
-    const rect = renderContainer?.getBoundingClientRect() || new DOMRect(-1000, -1000, 0, 0)
-
-    return rect
-  }, [editor])
-
-  const shouldShow = useCallback(() => {
-    const isActive = editor.isActive('imageBlock')
-
-    return isActive
-  }, [editor])
-
-  const onAlignImageLeft = useCallback(() => {
-    editor.chain().focus(undefined, { scrollIntoView: false }).setImageBlockAlign('left').run()
-  }, [editor])
-
-  const onAlignImageCenter = useCallback(() => {
-    editor.chain().focus(undefined, { scrollIntoView: false }).setImageBlockAlign('center').run()
-  }, [editor])
-
-  const onAlignImageRight = useCallback(() => {
-    editor.chain().focus(undefined, { scrollIntoView: false }).setImageBlockAlign('right').run()
-  }, [editor])
-
-  const onWidthChange = useCallback(
-    (value) => {
-      editor.chain().focus(undefined, { scrollIntoView: false }).setImageBlockWidth(value).run()
-    },
-    [editor]
+  const wrapperClassName = cn(
+    node.attrs.align === 'left' ? 'ml-0' : 'ml-auto',
+    node.attrs.align === 'right' ? 'mr-0' : 'mr-auto',
+    node.attrs.align === 'center' && 'mx-auto'
   )
 
+  const onClick = useCallback(() => {
+    editor.commands.setNodeSelection(getPos())
+  }, [getPos, editor.commands])
+
   return (
-    <BaseBubbleMenu
-      editor={editor}
-      pluginKey={`imageBlockMenu-${uuid()}`}
-      shouldShow={shouldShow}
-      updateDelay={0}
-      tippyOptions={{
-        offset: [0, 8],
-        popperOptions: {
-          modifiers: [{ name: 'flip', enabled: false }]
-        },
-        getReferenceClientRect,
-        onCreate: (instance) => {
-          tippyInstance.current = instance
-        },
-        appendTo: () => {
-          return appendTo?.current
-        },
-        plugins: [sticky],
-        sticky: 'popper'
-      }}
-    >
-      <Toolbar.Wrapper shouldShowContent={shouldShow()} ref={menuRef}>
-        <Toolbar.Button
-          tooltip="Align image left"
-          active={editor.isActive('imageBlock', { align: 'left' })}
-          onClick={onAlignImageLeft}
-        >
-          <Icon name="AlignHorizontalDistributeStart" />
-        </Toolbar.Button>
-        <Toolbar.Button
-          tooltip="Align image center"
-          active={editor.isActive('imageBlock', { align: 'center' })}
-          onClick={onAlignImageCenter}
-        >
-          <Icon name="AlignHorizontalDistributeCenter" />
-        </Toolbar.Button>
-        <Toolbar.Button
-          tooltip="Align image right"
-          active={editor.isActive('imageBlock', { align: 'right' })}
-          onClick={onAlignImageRight}
-        >
-          <Icon name="AlignHorizontalDistributeEnd" />
-        </Toolbar.Button>
-        <Toolbar.Divider />
-        <ImageBlockWidth onChange={onWidthChange} value={parseInt(editor.getAttributes('imageBlock').width)} />
-      </Toolbar.Wrapper>
-    </BaseBubbleMenu>
+    <NodeViewWrapper>
+      <div className={wrapperClassName} style={{ width: node.attrs.width }}>
+        <div contentEditable={false} ref={imageWrapperRef}>
+          <img className="block" src={src} alt="" onClick={onClick} />
+        </div>
+      </div>
+    </NodeViewWrapper>
   )
 }
 
-export default ImageBlockMenu
+export default ImageBlockView

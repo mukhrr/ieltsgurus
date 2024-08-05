@@ -28,7 +28,7 @@ export { TaskItem } from '@tiptap/extension-task-item'
 export { TaskList } from '@tiptap/extension-task-list'
 export { FileHandler } from '@tiptap-pro/extension-file-handler'
 
-export { Selection } from './Selection'
+export { Selection } from './selection'
 export { Table, TableCell, TableHeader, TableRow } from './table'
 export { HorizontalRule } from './horizontal-rule'
 export { Heading } from './heading'
