@@ -1,7 +1,7 @@
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useState } from 'react'
 
-import { Button } from '@/components/ui/Button'
-import { Panel } from '@/components/ui/Panel'
+import { Button } from '@/components/ui/button'
+import { Panel } from '@/components/ui/panel'
 
 const EmojiList = forwardRef((props, ref) => {
   const [selectedIndex, setSelectedIndex] = useState(0)

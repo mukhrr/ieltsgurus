@@ -1,7 +1,7 @@
 import { forwardRef } from 'react'
 
 import { cn } from '@/lib/utils'
-import { Icon } from '@/components/ui/Icon'
+import { Icon } from '@/components/ui/icon'
 
 export const CommandButton = forwardRef(({ active, icon, onClick, title }, ref) => {
   const wrapperClass = cn(

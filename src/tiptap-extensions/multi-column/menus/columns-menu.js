@@ -3,9 +3,9 @@ import { useCallback } from 'react'
 import { sticky } from 'tippy.js'
 import { v4 as uuid } from 'uuid'
 
-import { Toolbar } from '@/components/ui/Toolbar'
-import { ColumnLayout } from '../Columns'
-import { Icon } from '@/components/ui/Icon'
+import { Toolbar } from '@/components/ui/toolbar'
+import { ColumnLayout } from '../columns'
+import { Icon } from '@/components/ui/icon'
 
 import { getRenderContainer } from '@/lib/utils'
 

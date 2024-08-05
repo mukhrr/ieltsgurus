@@ -3,8 +3,8 @@ import { useCallback, useRef } from 'react'
 import { sticky } from 'tippy.js'
 import { v4 as uuid } from 'uuid'
 
-import { Toolbar } from '@/components/ui/Toolbar'
-import { Icon } from '@/components/ui/Icon'
+import { Toolbar } from '@/components/ui/toolbar'
+import { Icon } from '@/components/ui/icon'
 import { ImageBlockWidth } from './image-block-width'
 import { getRenderContainer } from '@/lib/utils'
 

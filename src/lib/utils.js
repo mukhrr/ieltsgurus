@@ -1,6 +1,11 @@
 import { cache } from 'react'
 import { twMerge } from 'tailwind-merge'
 import { cx } from 'classix'
+import { isTextSelection } from '@tiptap/core'
+import { WebSocketStatus } from '@hocuspocus/provider'
+
+import { CodeBlock, Figcaption, HorizontalRule, ImageBlock, ImageUpload, Link } from '@/tiptap-extensions'
+import { TableOfContentsNode } from '@/tiptap-extensions/table-of-contents-node'
 
 /**
  * Combines and merges multiple CSS class names or values using the classix and tailwind-merge libraries.
@@ -306,4 +311,70 @@ export const getRenderContainer = (editor, nodeType) => {
   }
 
   return container
+}
+
+// get tiptap collaboration connection text
+export const getConnectionText = (collabState) => {
+  switch (collabState) {
+    case WebSocketStatus.Connected:
+      return `Connected`
+
+    case WebSocketStatus.Connecting:
+      return `Connecting...`
+
+    case WebSocketStatus.Disconnected:
+      return `Disconnected`
+
+    default:
+      return `Connecting...`
+  }
+}
+
+export const isTableGripSelected = (node) => {
+  let container = node
+
+  while (container && !['TD', 'TH'].includes(container.tagName)) {
+    container = container.parentElement
+  }
+
+  const gripColumn = container && container.querySelector && container.querySelector('a.grip-column.selected')
+  const gripRow = container && container.querySelector && container.querySelector('a.grip-row.selected')
+
+  return !!(gripColumn || gripRow)
+}
+
+export const isCustomNodeSelected = (editor, node) => {
+  const customNodes = [
+    HorizontalRule.name,
+    ImageBlock.name,
+    ImageUpload.name,
+    CodeBlock.name,
+    ImageBlock.name,
+    Link.name,
+    Figcaption.name,
+    TableOfContentsNode.name
+  ]
+
+  return customNodes.some((type) => editor.isActive(type)) || isTableGripSelected(node)
+}
+
+export const isTextSelected = ({ editor }) => {
+  const {
+    state: {
+      doc,
+      selection,
+      selection: { empty, from, to }
+    }
+  } = editor
+
+  // Sometime check for `empty` is not enough.
+  // Double-click an empty paragraph returns a node size of 2.
+  // So we check also for an empty text size.
+  const isEmptyTextBlock = !doc.textBetween(from, to).length && isTextSelection(selection)
+
+  return !(empty || isEmptyTextBlock || !editor.isEditable)
+}
+
+export function randomElement(array) {
+  return array[Math.floor(Math.random() * array.length)]
 }

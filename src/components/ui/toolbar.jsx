@@ -1,8 +1,8 @@
 import { forwardRef } from 'react'
 
-import { Surface } from './Surface'
-import { Button } from './Button'
-import { Tooltip } from './Tooltip'
+import { Surface } from './surface'
+import { Button } from './button'
+import { Tooltip } from './tooltip'
 
 import { cn } from '@/lib/utils'
 

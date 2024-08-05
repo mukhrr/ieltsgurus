@@ -1,8 +1,8 @@
 import { useCallback } from 'react'
 
-import { Spinner } from '@/components/ui/Spinner'
-import { Button } from '@/components/ui/Button'
-import { Icon } from '@/components/ui/Icon'
+import { Spinner } from '@/components/ui/spinner'
+import { Button } from '@/components/ui/button'
+import { Icon } from '@/components/ui/icon'
 
 import { useDropZone, useFileUpload, useUploader } from './hooks'
 import { cn } from '@/lib/utils'

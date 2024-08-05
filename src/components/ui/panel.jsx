@@ -1,7 +1,7 @@
 import { forwardRef } from 'react'
 import { cn } from '@/lib/utils'
 import { Slot } from '@radix-ui/react-slot'
-import { Surface } from '../Surface'
+import { Surface } from './surface'
 
 export const Panel = forwardRef(({ asChild, className, children, spacing, noShadow, ...rest }, ref) => {
   const panelClass = cn('p-2', spacing === 'small' && 'p-[0.2rem]', className)

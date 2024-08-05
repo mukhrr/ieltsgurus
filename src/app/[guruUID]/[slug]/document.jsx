@@ -6,7 +6,7 @@ import { useSearchParams } from 'next/navigation'
 import { useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { Doc as YDoc } from 'yjs'
 
-import { BlockEditor } from '@/components/BlockEditor'
+import { BlockEditor } from '@/components/block-editor'
 
 export default function Document({ params }) {
   const [provider, setProvider] = useState(null)

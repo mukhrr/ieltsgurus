@@ -1,5 +1,6 @@
 import { Node, ReactNodeViewRenderer } from '@tiptap/react'
-import { ImageUpload as ImageUploadComponent } from './view/ImageUpload'
+
+import { ImageUpload as ImageUploadComponent } from './view/image-upload'
 
 export const ImageUpload = Node.create({
   name: 'imageUpload',

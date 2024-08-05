@@ -3,19 +3,18 @@
 import { EditorContent } from '@tiptap/react'
 import { useMemo, useRef } from 'react'
 
-import { LinkMenu } from '@/components/menus'
+import { ContentItemMenu, LinkMenu } from '@/components/menus'
 
 import { useBlockEditor } from '@/hooks/useBlockEditor'
 
 import '@/styles/tiptap/index.css'
 
 import { EditorContext } from '@/context/EditorContext'
-import ImageBlockMenu from '@/extensions/ImageBlock/components/ImageBlockMenu'
-import { ColumnsMenu } from '@/extensions/MultiColumn/menus'
-import { TableColumnMenu, TableRowMenu } from '@/extensions/Table/menus'
-import { EditorHeader } from './components/EditorHeader'
-import { TextMenu } from '../menus/TextMenu'
-import { ContentItemMenu } from '../menus/ContentItemMenu'
+import ImageBlockMenu from '@/tiptap-extensions/image-block/components/image-block-menu'
+import { ColumnsMenu } from '@/tiptap-extensions/multi-column/menus'
+import { TableColumnMenu, TableRowMenu } from '@/tiptap-extensions/table/menus'
+import { EditorHeader } from './components/editor-header'
+import { TextMenu } from '../menus/text-menu'
 
 export const BlockEditor = ({ ydoc, provider }) => {
   const menuContainerRef = useRef(null)

@@ -3,8 +3,8 @@ import { cn } from '@/lib/utils'
 import { icons } from 'lucide-react'
 import { forwardRef } from 'react'
 
-import { Surface } from './Surface'
-import { Toolbar } from './Toolbar'
+import { Surface } from './surface'
+import { Toolbar } from './toolbar'
 
 export const Trigger = Popover.Trigger
 export const Portal = Popover.Portal

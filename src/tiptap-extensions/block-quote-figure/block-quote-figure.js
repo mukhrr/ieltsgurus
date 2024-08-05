@@ -1,7 +1,7 @@
 import { mergeAttributes } from '@tiptap/core'
 
 import { Figure } from '../figure'
-import { Quote } from './Quote'
+import { Quote } from './quote'
 import { QuoteCaption } from './quote-caption'
 
 export const BlockquoteFigure = Figure.extend({

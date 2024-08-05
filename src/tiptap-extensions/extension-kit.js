@@ -1,5 +1,6 @@
 'use client'
 
+import { common, createLowlight } from 'lowlight'
 import { API } from '@/lib/api'
 
 import {
@@ -44,7 +45,8 @@ import {
 import { CodeBlockLowlight } from '@tiptap/extension-code-block-lowlight'
 import { ImageUpload } from './image-upload'
 import { TableOfContentsNode } from './table-of-contents-node'
-import { lowlight } from 'lowlight'
+
+const lowlight = createLowlight(common)
 
 export const ExtensionKit = ({ provider }) => [
   Document,

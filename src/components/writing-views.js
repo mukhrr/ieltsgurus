@@ -7,7 +7,7 @@ import { viewCountFormatter } from '@/lib/utils'
 
 export const WritingViews = ({ slug }) => {
   // const viewData = useViewData(slug)
-  const viewData =['']
+  const viewData = ['']
   const { view_count } = viewData?.[0] ?? {}
   if (!view_count) return <m.span key={`${slug}-views-loading`} />
   const formattedViewCount = viewCountFormatter.format(view_count)
