@@ -2,7 +2,7 @@ import { ReactNodeViewRenderer } from '@tiptap/react'
 import { mergeAttributes } from '@tiptap/core'
 
 import { ImageBlockView } from './components/image-block-view'
-import { Image } from '../Image'
+import { Image } from '../image'
 
 export const ImageBlock = Image.extend({
   name: 'imageBlock',
