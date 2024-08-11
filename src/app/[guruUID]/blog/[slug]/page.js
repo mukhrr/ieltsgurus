@@ -24,7 +24,7 @@ async function fetchData(slug) {
   }
 }
 
-export default async function WritingSlug({ params }) {
+export default async function BlogSlug({ params }) {
   const { slug } = params
   const { data } = await fetchData(slug)
 
@@ -53,7 +53,7 @@ export default async function WritingSlug({ params }) {
   return (
     <>
       <ScrollArea className="bg-white" useScrollAreaId>
-        <FloatingHeader scrollTitle={title} goBackLink="/writing">
+        <FloatingHeader scrollTitle={title} goBackLink="/blog">
           <WritingViews slug={slug} />
         </FloatingHeader>
         <div className="content-wrapper">

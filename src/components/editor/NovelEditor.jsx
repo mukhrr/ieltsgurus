@@ -85,12 +85,7 @@ const NovelEditor = () => {
           className="border-muted relative min-h-screen w-full max-w-screen-lg bg-background sm:rounded-lg sm:border sm:shadow-lg"
           editorProps={{
             handleDOMEvents: {
-              keydown: (_view, event) => {
-                if (event.key === 'a' && (event.ctrlKey || event.metaKey)) {
-                  return false
-                }
-                handleCommandNavigation(event)
-              }
+              keydown: (_view, event) => handleCommandNavigation(event)
             },
             handlePaste: (view, event) => handleImagePaste(view, event, uploadFn),
             handleDrop: (view, event, _slice, moved) => handleImageDrop(view, event, moved, uploadFn),
