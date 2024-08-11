@@ -2,16 +2,16 @@ import { EditorBubble, useEditor } from 'novel'
 import { removeAIHighlight } from 'novel/extensions'
 import { Fragment, useEffect } from 'react'
 
-import { AiSelector } from './ai-selector'
-import { Button } from '@/components/ui/button'
-import Magic from '@/components/ui/icons/magic'
+// import { AiSelector } from './ai-selector'
+// import { Button } from '@/components/ui/button'
+// import Magic from '@/components/ui/icons/magic'
 
-const GenerativeMenuSwitch = ({ children, open, onOpenChange }) => {
+const GenerativeMenuSwitch = ({ children, open }) => {
   const { editor } = useEditor()
 
   useEffect(() => {
     if (!open) removeAIHighlight(editor)
-  }, [open])
+  }, [editor, open])
 
   return (
     <EditorBubble

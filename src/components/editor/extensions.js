@@ -1,4 +1,21 @@
-import { TiptapImage, TiptapLink, TaskList, TaskItem, HorizontalRule, StarterKit, Placeholder } from 'novel/extensions'
+import {
+  TiptapImage,
+  TiptapLink,
+  TaskList,
+  TaskItem,
+  StarterKit,
+  TiptapUnderline,
+  MarkdownExtension,
+  CharacterCount,
+  Youtube,
+  Twitter,
+  Color,
+  TextStyle,
+  HighlightExtension,
+  HorizontalRule,
+  Placeholder
+} from 'novel/extensions'
+import { UploadImagesPlugin } from 'novel/plugins'
 
 import { cx } from 'class-variance-authority'
 
@@ -9,6 +26,21 @@ const tiptapLink = TiptapLink.configure({
     class: cx(
       'text-muted-foreground underline underline-offset-[3px] hover:text-primary transition-colors cursor-pointer'
     )
+  }
+})
+
+const tiptapImage = TiptapImage.extend({
+  addProseMirrorPlugins() {
+    return [
+      UploadImagesPlugin({
+        imageClass: cx('opacity-40 rounded-lg border border-stone-200')
+      })
+    ]
+  }
+}).configure({
+  allowBase64: true,
+  HTMLAttributes: {
+    class: cx('rounded-lg border border-muted')
   }
 })
 
@@ -70,4 +102,20 @@ const starterKit = StarterKit.configure({
   gapcursor: false
 })
 
-export const defaultExtensions = [starterKit, placeholder, tiptapLink, TiptapImage, taskList, taskItem, horizontalRule]
+export const defaultExtensions = [
+  starterKit,
+  placeholder,
+  tiptapLink,
+  tiptapImage,
+  taskList,
+  taskItem,
+  horizontalRule,
+  HighlightExtension,
+  TextStyle,
+  Color,
+  TiptapUnderline,
+  MarkdownExtension,
+  CharacterCount,
+  Youtube,
+  Twitter
+]

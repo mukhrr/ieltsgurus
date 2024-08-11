@@ -27,39 +27,38 @@ import { uploadFn } from './image-upload'
 import { TextButtons } from './selectors/text-buttons'
 import { slashCommand, suggestionItems } from './slash-command'
 
-const hljs = require('highlight.js')
+// const hljs = require('highlight.js')
 
 const extensions = [...defaultExtensions, slashCommand]
 
 const NovelEditor = () => {
   const [initialContent, setInitialContent] = useState(null)
   const [saveStatus, setSaveStatus] = useState('Saved')
-  const [charsCount, setCharsCount] = useState()
+  const [charsCount, setCharsCount] = useState(0)
 
   const [openNode, setOpenNode] = useState(false)
   const [openColor, setOpenColor] = useState(false)
   const [openLink, setOpenLink] = useState(false)
   const [openAI, setOpenAI] = useState(false)
 
-  //Apply Codeblock Highlighting on the HTML from editor.getHTML()
-  const highlightCodeblocks = (content) => {
-    const doc = new DOMParser().parseFromString(content, 'text/html')
-    doc.querySelectorAll('pre code').forEach((el) => {
-      // @ts-ignore
-      // https://highlightjs.readthedocs.io/en/latest/api.html?highlight=highlightElement#highlightelement
-      hljs.highlightElement(el)
-    })
-    return new XMLSerializer().serializeToString(doc)
-  }
+  // Apply Code block Highlighting on the HTML from editor.getHTML()
+  // const highlightCodeblocks = (content) => {
+  //   const doc = new DOMParser().parseFromString(content, 'text/html')
+  //   doc.querySelectorAll('pre code').forEach((el) => {
+  //     // @ts-ignore
+  //     // https://highlightjs.readthedocs.io/en/latest/api.html?highlight=highlightElement#highlightelement
+  //     hljs.highlightElement(el)
+  //   })
+  //   return new XMLSerializer().serializeToString(doc)
+  // }
 
   const debouncedUpdates = useDebouncedCallback(async (editor) => {
     const json = editor.getJSON()
-    const text = editor.getText()
-    const wordCount = text.trim().split(/\s+/).length
-    setCharsCount(wordCount)
-    window.localStorage.setItem('html-content', highlightCodeblocks(editor.getHTML()))
+    setCharsCount(editor.storage.characterCount.words())
+    // window.localStorage.setItem('html-content', highlightCodeblocks(editor.getHTML()))
+    // window.localStorage.setItem('markdown', editor.storage.markdown.getMarkdown())
     window.localStorage.setItem('novel-content', JSON.stringify(json))
-    // window.localStorage.setItem('markdown', editor.storage.markdown?.getMarkdown())
+
     setSaveStatus('Saved')
   }, 500)
 
@@ -67,6 +66,8 @@ const NovelEditor = () => {
     const content = window.localStorage.getItem('novel-content')
     if (content) setInitialContent(JSON.parse(content))
     else setInitialContent(defaultEditorContent)
+
+    return () => window.localStorage.removeItem('novel-content')
   }, [])
 
   if (!initialContent) return null
@@ -101,7 +102,7 @@ const NovelEditor = () => {
           }}
           onUpdate={({ editor }) => {
             debouncedUpdates(editor)
-            setSaveStatus('Unsaved')
+            setSaveStatus('Saving...')
           }}
           slotAfter={<ImageResizer />}
         >

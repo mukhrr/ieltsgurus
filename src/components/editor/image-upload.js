@@ -1,7 +1,7 @@
 import { createImageUpload } from 'novel/plugins'
 import { toast } from 'sonner'
 
-const onUpload = (file) => {
+const onUpload = async (file) => {
   const promise = fetch('/api/upload', {
     method: 'POST',
     headers: {
@@ -11,37 +11,8 @@ const onUpload = (file) => {
     body: file
   })
 
-  return new Promise((resolve, reject) => {
-    toast.promise(
-      promise.then(async (res) => {
-        // Successfully uploaded image
-        if (res.status === 200) {
-          const { url } = await res.json()
-          // preload the image
-          const image = new Image()
-          image.src = url
-          image.onload = () => {
-            resolve(url)
-          }
-          // No blob store configured
-        } else if (res.status === 401) {
-          resolve(file)
-          throw new Error('`BLOB_READ_WRITE_TOKEN` environment variable not found, reading image locally instead.')
-          // Unknown error
-        } else {
-          throw new Error('Error uploading image. Please try again.')
-        }
-      }),
-      {
-        loading: 'Uploading image...',
-        success: 'Image uploaded successfully.',
-        error: (e) => {
-          reject(e)
-          return e.message
-        }
-      }
-    )
-  })
+  //This should return a src of the uploaded image
+  return promise
 }
 
 export const uploadFn = createImageUpload({
@@ -50,8 +21,7 @@ export const uploadFn = createImageUpload({
     if (!file.type.includes('image/')) {
       toast.error('File type not supported.')
       return false
-    }
-    if (file.size / 1024 / 1024 > 20) {
+    } else if (file.size / 1024 / 1024 > 20) {
       toast.error('File size too big (max 20MB).')
       return false
     }
