@@ -1,26 +1,26 @@
 import {
   Check,
-  CheckSquare,
   ChevronDown,
-  Code,
   Heading1,
   Heading2,
   Heading3,
+  TextQuote,
   ListOrdered,
   TextIcon,
-  TextQuote
+  Code,
+  CheckSquare
 } from 'lucide-react'
 import { EditorBubbleItem, useEditor } from 'novel'
 
-import { Button } from '@/components/ui/button'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { Popover } from '@radix-ui/react-popover'
+import { PopoverContent, PopoverTrigger } from '@/components//ui/popover'
+import { Button } from '@/components//ui/button'
 
 const items = [
   {
     name: 'Text',
     icon: TextIcon,
     command: (editor) => editor.chain().focus().clearNodes().run(),
-    // I feel like there has to be a more efficient way to do this – feel free to PR if you know how!
     isActive: (editor) =>
       editor.isActive('paragraph') && !editor.isActive('bulletList') && !editor.isActive('orderedList')
   },
@@ -77,6 +77,7 @@ const items = [
 export const NodeSelector = ({ open, onOpenChange }) => {
   const { editor } = useEditor()
   if (!editor) return null
+
   const activeItem = items.filter((item) => item.isActive(editor)).pop() ?? {
     name: 'Multiple'
   }
@@ -90,9 +91,9 @@ export const NodeSelector = ({ open, onOpenChange }) => {
         </Button>
       </PopoverTrigger>
       <PopoverContent sideOffset={5} align="start" className="w-48 p-1">
-        {items.map((item) => (
+        {items.map((item, index) => (
           <EditorBubbleItem
-            key={item.name}
+            key={index}
             onSelect={(editor) => {
               item.command(editor)
               onOpenChange(false)

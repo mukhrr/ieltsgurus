@@ -19,7 +19,6 @@ import { defaultExtensions } from './extensions'
 import { ColorSelector } from './selectors/color-selector'
 import { LinkSelector } from './selectors/link-selector'
 import { NodeSelector } from './selectors/node-selector'
-import { MathSelector } from './selectors/math-selector'
 
 import { defaultEditorContent } from '@/lib/mock-data/defaultEditorContent'
 
@@ -135,7 +134,6 @@ const NovelEditor = () => {
 
             <LinkSelector open={openLink} onOpenChange={setOpenLink} />
             <Separator orientation="vertical" />
-            <MathSelector />
             <Separator orientation="vertical" />
             <TextButtons />
             <Separator orientation="vertical" />

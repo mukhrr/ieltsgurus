@@ -301,6 +301,10 @@ pre {
   }
 }
 
+.tippy-box {
+  @apply backdrop-blur-md
+}
+
 @keyframes animateIn {
   from {
     opacity: 0;
