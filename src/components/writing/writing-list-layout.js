@@ -12,12 +12,18 @@ export const WritingListLayout = ({ list, isMobile }) => {
 
   return (
     <div className={cn(!isMobile && 'flex flex-col gap-1 text-sm')}>
-      {list?.map((post) => {
-        const viewCount = viewData?.find((item) => item.slug === post.slug)?.view_count
-        const isActive = pathname === `/writing/${post.slug}`
+      {list.length ? (
+        list?.map((post) => {
+          const viewCount = viewData?.find((item) => item.slug === post.slug)?.view_count
+          const isActive = pathname === `/writing/${post.slug}`
 
-        return <WritingLink key={post.slug} post={post} viewCount={viewCount} isMobile={isMobile} isActive={isActive} />
-      })}
+          return (
+            <WritingLink key={post.slug} post={post} viewCount={viewCount} isMobile={isMobile} isActive={isActive} />
+          )
+        })
+      ) : (
+        <p>You haven't started writing yet</p>
+      )}
     </div>
   )
 }
