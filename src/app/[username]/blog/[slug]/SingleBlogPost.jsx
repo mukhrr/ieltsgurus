@@ -60,7 +60,7 @@ const SingleBlogPost = ({ id, username }) => {
       const res = await fetch(`/api/blog/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content: updatedPost, title: updatedPost?.content[0]?.content[0]?.text || 'Title' })
+        body: JSON.stringify({ content: updatedPost, title: updatedPost?.content?.[0]?.content?.[0]?.text || 'Title' })
       })
 
       if (!res.ok) {

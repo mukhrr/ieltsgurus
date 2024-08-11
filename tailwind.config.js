@@ -88,7 +88,7 @@ module.exports = {
       }
     }
   },
-  plugins: [require('@tailwindcss/container-queries'), require('tailwindcss-animate')],
+  plugins: [require('@tailwindcss/container-queries'), require('tailwindcss-animate'), require('@tailwindcss/typography')],
   future: {
     hoverOnlyWhenSupported: true
   }
