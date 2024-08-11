@@ -19,8 +19,6 @@ import { UploadImagesPlugin } from 'novel/plugins'
 
 import { cx } from 'class-variance-authority'
 
-// You can overwrite the placeholder with your own configuration
-const placeholder = Placeholder
 const tiptapLink = TiptapLink.configure({
   HTMLAttributes: {
     class: cx(
@@ -104,12 +102,12 @@ const starterKit = StarterKit.configure({
 
 export const defaultExtensions = [
   starterKit,
-  placeholder,
   tiptapLink,
   tiptapImage,
   taskList,
   taskItem,
   horizontalRule,
+  Placeholder,
   HighlightExtension,
   TextStyle,
   Color,

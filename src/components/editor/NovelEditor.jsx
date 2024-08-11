@@ -66,8 +66,6 @@ const NovelEditor = () => {
     const content = window.localStorage.getItem('novel-content')
     if (content) setInitialContent(JSON.parse(content))
     else setInitialContent(defaultEditorContent)
-
-    return () => window.localStorage.removeItem('novel-content')
   }, [])
 
   if (!initialContent) return null
