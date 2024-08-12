@@ -10,9 +10,12 @@ import { capitalizeFirstLetter, generateSocialNetworkLink } from '@/lib/utils'
 import { LINKS } from '@/lib/constants'
 import { buttonVariants } from '@/components/ui/button'
 import ProfileButton from '@/components/ui/profile-button'
+import { useParams } from 'next/navigation'
 
-export const MenuContent = ({ mentor, user }) => {
-  const isCurrentUserMentor = user?.username && user.username === mentor.username
+export const MenuContent = ({ mentor }) => {
+  const params = useParams()
+  const username = params?.guruUID
+  const isCurrentUserMentor = username === mentor.username
 
   return (
     <div className="flex w-full flex-col text-sm">
@@ -29,7 +32,7 @@ export const MenuContent = ({ mentor, user }) => {
           {LINKS.map((link) => (
             <NavigationLink
               key={link.href}
-              href={`/${mentor.username}${link.href}`}
+              href={`/${username}${link.href}`}
               label={link.label}
               icon={link.icon}
               disabled={link.isDisabled}

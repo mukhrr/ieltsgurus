@@ -31,7 +31,7 @@ export default async function GuruHome({ params }) {
 
   return (
     <ScrollArea useScrollAreaId>
-      <FloatingHeader scrollTitle={mentor?.full_name} mentor={mentor} user={profile} />
+      <FloatingHeader scrollTitle={mentor?.full_name} mentor={mentor} />
       <div className="content-wrapper">
         <div className="content">
           <PageTitle title={mentor.full_name} />

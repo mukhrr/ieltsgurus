@@ -165,7 +165,7 @@ export default function GuruAccountForm({ user }) {
                   <AvatarImage src={avatarUrl} />
                   <AvatarFallback>
                     {user?.username || user?.full_name ? (
-                      getInitials(user?.username || user?.full_name)
+                      getInitials(user?.full_name || user?.username)
                     ) : (
                       <UserRound className="h-4 w-4" />
                     )}
@@ -307,8 +307,8 @@ export default function GuruAccountForm({ user }) {
               ))}
             </div>
           </div>
-          <div className="flex justify-end">
-            <Button className="bg-primary hover:bg-primary/90 flex items-center gap-2 text-red-500" onClick={onCancel}>
+          <div className="flex justify-end gap-2">
+            <Button className="flex items-center gap-2 bg-primary text-red-500 hover:bg-primary/90" onClick={onCancel}>
               Cancel
             </Button>
 
@@ -319,7 +319,7 @@ export default function GuruAccountForm({ user }) {
                     <span>
                       <Button
                         type="submit"
-                        className="bg-primary text-primary-foreground hover:bg-primary/90 flex items-center gap-2"
+                        className="flex items-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90"
                         disabled={isSubmitDisabled || isLoading}
                       >
                         Submit
@@ -334,7 +334,7 @@ export default function GuruAccountForm({ user }) {
             ) : (
               <Button
                 type="submit"
-                className="bg-primary text-primary-foreground hover:bg-primary/90 flex items-center gap-2"
+                className="flex items-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90"
                 disabled={isLoading}
               >
                 {isLoading ? <Loader className="animate-spin" /> : null} Submit

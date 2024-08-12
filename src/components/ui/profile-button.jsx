@@ -24,7 +24,7 @@ const TriggerButton = (user, image, hasFullName) => (
         <AvatarImage src={user?.avatar_url || image} />
         <AvatarFallback>
           {user?.username || user?.full_name ? (
-            getInitials(user?.username || user?.full_name)
+            getInitials(user?.full_name || user?.username)
           ) : (
             <UserRound className="h-4 w-4" />
           )}
@@ -73,7 +73,7 @@ export default function ProfileButton({ user, hasFullName, hasAccessToOptions })
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem onSelect={() => onClickOption(user?.username ? 'account' : 'settings')}>
-            {user?.username ? 'Profile' : 'Settings'}
+            {user?.username ? 'Account' : 'Settings'}
             <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
           </DropdownMenuItem>
         </DropdownMenuGroup>

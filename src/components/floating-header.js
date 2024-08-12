@@ -12,7 +12,7 @@ import { SubmitFeedbackDrawer } from '@/components/submit-feedback/drawer'
 
 import { MOBILE_SCROLL_THRESHOLD, SCROLL_AREA_ID } from '@/lib/constants'
 
-export const FloatingHeader = memo(({ scrollTitle, title, goBackLink, children, mentor, user }) => {
+export const FloatingHeader = memo(({ scrollTitle, title, goBackLink, children, mentor }) => {
   const [transformValues, setTransformValues] = useState({ translateY: 0, opacity: scrollTitle ? 0 : 1 })
   const pathname = usePathname()
   const isWritingIndexPage = pathname === '/blog'
@@ -47,7 +47,7 @@ export const FloatingHeader = memo(({ scrollTitle, title, goBackLink, children, 
   }, [scrollTitle])
 
   return (
-    <header className="sticky inset-x-0 top-0 z-10 mx-auto flex h-12 w-full shrink-0 items-center overflow-hidden border-b bg-white text-sm font-medium lg:hidden">
+    <header className="sticky inset-x-0 top-0 z-10 mx-auto flex h-12 w-full shrink-0 items-center overflow-hidden border-b bg-transparent text-sm font-medium backdrop-blur lg:hidden">
       <div className="flex h-full w-full items-center px-3">
         <div className="flex w-full items-center justify-between gap-2">
           <div className="flex flex-1 items-center gap-1">
@@ -58,7 +58,7 @@ export const FloatingHeader = memo(({ scrollTitle, title, goBackLink, children, 
                 </Link>
               </Button>
             ) : (
-              <MobileDrawer mentor={mentor} user={user} />
+              <MobileDrawer mentor={mentor} />
             )}
             <div className="flex flex-1 items-center justify-between">
               {scrollTitle && (

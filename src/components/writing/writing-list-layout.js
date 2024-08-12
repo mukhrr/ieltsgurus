@@ -22,7 +22,7 @@ export const WritingListLayout = ({ list, isMobile }) => {
           )
         })
       ) : (
-        <p>You haven't started writing yet</p>
+        <p>No post has been created yet :(</p>
       )}
     </div>
   )

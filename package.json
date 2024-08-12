@@ -44,6 +44,7 @@
     "ai": "^3.3.5",
     "class-variance-authority": "^0.7.0",
     "classix": "^2.1.36",
+    "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
     "dotenv": "^16.4.5",
     "feed": "^4.2.2",

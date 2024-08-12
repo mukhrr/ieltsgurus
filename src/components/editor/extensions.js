@@ -1,19 +1,18 @@
 import {
-  TiptapImage,
-  TiptapLink,
-  TaskList,
-  TaskItem,
-  StarterKit,
-  TiptapUnderline,
-  MarkdownExtension,
-  CharacterCount,
-  Youtube,
-  Twitter,
   Color,
-  TextStyle,
   HighlightExtension,
   HorizontalRule,
-  Placeholder
+  MarkdownExtension,
+  Placeholder,
+  StarterKit,
+  TaskItem,
+  TaskList,
+  TextStyle,
+  TiptapImage,
+  TiptapLink,
+  TiptapUnderline,
+  Twitter,
+  Youtube
 } from 'novel/extensions'
 import { UploadImagesPlugin } from 'novel/plugins'
 
@@ -113,7 +112,6 @@ export const defaultExtensions = [
   Color,
   TiptapUnderline,
   MarkdownExtension,
-  CharacterCount,
   Youtube,
   Twitter
 ]
