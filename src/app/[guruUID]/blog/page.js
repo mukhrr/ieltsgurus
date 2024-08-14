@@ -35,7 +35,7 @@ export default async function Blog({ params }) {
       {/*  /!*<WritingListLayout list={sortedPosts} isMobile/>*!/*/}
       {/*  {sortedPosts}*/}
       {/*</Suspense>*/}
-      {isCurrentUserMentor && <NovelEditor />}
+      {isCurrentUserMentor && <NovelEditor username={mentor.username} />}
     </ScrollArea>
   )
 }

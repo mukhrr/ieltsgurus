@@ -15,6 +15,8 @@ import { handleImageDrop, handleImagePaste } from 'novel/plugins'
 import { useDebouncedCallback } from 'use-debounce'
 import { Separator } from '@radix-ui/react-select'
 import { Loader } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
 
 import { defaultExtensions } from './extensions'
 import { ColorSelector } from './selectors/color-selector'
@@ -29,42 +31,48 @@ import { defaultEditorContent } from '@/lib/mock-data/defaultEditorContent'
 import { uploadFn } from './image-upload'
 import { slashCommand, suggestionItems } from './slash-command'
 
-// const hljs = require('highlight.js')
-
 const extensions = [...defaultExtensions, slashCommand]
 
-const NovelEditor = () => {
+const NovelEditor = ({ username }) => {
+  const router = useRouter()
   const [initialContent, setInitialContent] = useState(null)
   const [editorState, setEditorState] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
-
+  const [isDisabled, setIsDisabled] = useState(true)
   const [openNode, setOpenNode] = useState(false)
   const [openColor, setOpenColor] = useState(false)
   const [openLink, setOpenLink] = useState(false)
   const [openAI, setOpenAI] = useState(false)
 
-  // Apply Code block Highlighting on the HTML from editor.getHTML()
-  // const highlightCodeblocks = (content) => {
-  //   const doc = new DOMParser().parseFromString(content, 'text/html')
-  //   doc.querySelectorAll('pre code').forEach((el) => {
-  //     // @ts-ignore
-  //     // https://highlightjs.readthedocs.io/en/latest/api.html?highlight=highlightElement#highlightelement
-  //     hljs.highlightElement(el)
-  //   })
-  //   return new XMLSerializer().serializeToString(doc)
-  // }
-
-  const debouncedUpdates = useDebouncedCallback(async (editor) => {
-    const json = editor.getJSON()
-    // window.localStorage.setItem('html-content', highlightCodeblocks(editor.getHTML()))
-    // window.localStorage.setItem('markdown', editor.storage.markdown.getMarkdown())
-    window.localStorage.setItem('novel-content', JSON.stringify(json))
-  }, 500)
-
-  const onSubmitPost = () => {
+  const handleSubmit = async (event) => {
+    event.preventDefault()
     setIsLoading(true)
 
-    setTimeout(() => setIsLoading(false), 500)
+    try {
+      const response = await fetch('/api/blog', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          mentor_username: username,
+          title: 'Title',
+          content: JSON.stringify(initialContent)
+        })
+      })
+
+      if (!response.ok) {
+        toast.error('Failed to submit post')
+      }
+
+      // const data = await response.json()
+      router.push(`/${username}/blog`)
+    } catch (err) {
+      toast.error(err.message)
+      throw new Error(err)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const onCancel = () => {
@@ -72,16 +80,26 @@ const NovelEditor = () => {
     if (editorState) editorState.commands.clearContent()
   }
 
+  const debouncedUpdates = useDebouncedCallback(async (editor) => {
+    const json = editor.getJSON()
+    setInitialContent(json)
+    setIsDisabled(false)
+    window.localStorage.setItem('novel-content', JSON.stringify(json))
+  }, 500)
+
   useEffect(() => {
     const content = window.localStorage.getItem('novel-content')
-    if (content) setInitialContent(JSON.parse(content))
+    if (content) {
+      setInitialContent(JSON.parse(content))
+      setIsDisabled(false)
+    }
     else setInitialContent(defaultEditorContent)
   }, [])
 
   if (!initialContent) return null
 
   return (
-    <div className="relative w-full max-w-screen-lg">
+    <form onSubmit={handleSubmit} className="relative w-full max-w-screen-lg">
       <EditorRoot>
         <EditorContent
           initialContent={initialContent}
@@ -142,16 +160,18 @@ const NovelEditor = () => {
 
       <div className="sticky -bottom-1 right-0 z-10 w-full bg-transparent p-2 pl-12 shadow-2xl backdrop-blur">
         <div className="flex justify-end gap-2">
-          <Button variant="destructive" size="xs" onClick={onCancel}>
-            Clear
-          </Button>
+          {editorState && (
+            <Button variant="destructive" size="xs" onClick={onCancel}>
+              Clear
+            </Button>
+          )}
 
-          <Button size="xs" onClick={onSubmitPost} disabled={isLoading} className="flex  flex-nowrap gap-1">
+          <Button size="xs" type="submit" disabled={isLoading || isDisabled} className="flex  flex-nowrap gap-1">
             {isLoading ? <Loader className="animate-spin" size="18" /> : null} Done
           </Button>
         </div>
       </div>
-    </div>
+    </form>
   )
 }
 
