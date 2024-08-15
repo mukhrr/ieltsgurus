@@ -20,24 +20,21 @@ export default async function Image({ params }) {
     seo: { title, ogImageTitle, ogImageSubtitle }
   } = seoData
 
-  return new ImageResponse(
-    <OpenGraphImage title={ogImageTitle || title} description={ogImageSubtitle} url="writing" />,
-    {
-      ...size,
-      fonts: [
-        {
-          name: 'SF Pro',
-          data: mediumFontData,
-          style: 'normal',
-          weight: 500
-        },
-        {
-          name: 'SF Pro',
-          data: boldFontData,
-          style: 'normal',
-          weight: 600
-        }
-      ]
-    }
-  )
+  return new ImageResponse(<OpenGraphImage title={ogImageTitle || title} description={ogImageSubtitle} url="blog" />, {
+    ...size,
+    fonts: [
+      {
+        name: 'SF Pro',
+        data: mediumFontData,
+        style: 'normal',
+        weight: 500
+      },
+      {
+        name: 'SF Pro',
+        data: boldFontData,
+        style: 'normal',
+        weight: 600
+      }
+    ]
+  })
 }

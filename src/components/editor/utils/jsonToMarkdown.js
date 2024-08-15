@@ -15,7 +15,7 @@ export function jsonToMarkdown(jsonContent) {
     }
 
     if (node.type === 'paragraph') {
-      return node.content.map(processNode).join('')
+      return node.content?.map(processNode).join('')
     }
 
     if (node.type === 'text') {
@@ -35,7 +35,9 @@ export function jsonToMarkdown(jsonContent) {
             case 'code':
               text = `\`${text}\``
               break
-            // Add more cases for other mark types as needed
+            case 'link':
+              text = `[${text}](${mark.attrs.href})`
+              break
           }
         })
       }
@@ -65,6 +67,23 @@ export function jsonToMarkdown(jsonContent) {
 
     if (node.type === 'hardBreak') {
       return '\n'
+    }
+
+    if (node.type === 'taskList') {
+      return node.content.map(processNode).join('\n') + '\n\n'
+    }
+
+    if (node.type === 'taskItem') {
+      const checkbox = node.attrs.checked ? '[x]' : '[ ]'
+      const content = node.content.map(processNode).join('').trim()
+      return `- ${checkbox} ${content}`
+    }
+
+    if (node.type === 'image') {
+      const altText = node.attrs.alt ? escapeMarkdown(node.attrs.alt) : ''
+      const width = node.attrs.width || 500
+      const height = node.attrs.height || 400
+      return `<img src="${node.attrs.src}" alt="${altText}" width="${width}" height="${height}" />\n\n`
     }
 
     if (node.content) {

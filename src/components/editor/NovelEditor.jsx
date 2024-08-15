@@ -66,6 +66,7 @@ const NovelEditor = ({ username }) => {
 
       if (data && data.id) {
         router.push(`/${username}/blog/${data.id}`)
+        window.localStorage.removeItem('novel-content')
       }
     } catch (err) {
       toast.error(err.message)
@@ -85,8 +86,6 @@ const NovelEditor = ({ username }) => {
     setInitialContent(json)
     setIsDisabled(false)
     window.localStorage.setItem('novel-content', JSON.stringify(json))
-    window.localStorage.setItem('novel-html', editor.getHTML())
-    window.localStorage.setItem('markdown', editor.storage.markdown.getMarkdown())
   }, 500)
 
   useEffect(() => {

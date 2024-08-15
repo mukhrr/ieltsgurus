@@ -3,12 +3,14 @@
 import { useEffect, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
+import rehypeRaw from 'rehype-raw'
 
 import { FloatingHeader } from '@/components/floating-header'
 import { WritingViews } from '@/components/writing-views'
 import { ScrollArea } from '@/components/scroll-area'
 import { PageTitle } from '@/components/page-title'
 import { jsonToMarkdown } from '@/components/editor/utils/jsonToMarkdown'
+import { LoadingSpinner } from '@/components/loading-spinner'
 
 const SingleBlogPost = ({ id, username }) => {
   const [post, setPost] = useState(null)
@@ -31,7 +33,7 @@ const SingleBlogPost = ({ id, username }) => {
     }
   }
 
-  if (!post) return <div>Loading...</div>
+  if (!post) return <LoadingSpinner />
 
   return (
     <ScrollArea className="bg-white" useScrollAreaId>
@@ -49,8 +51,13 @@ const SingleBlogPost = ({ id, username }) => {
             }
             className="mb-6 flex flex-col gap-3"
           />
-
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>{`${htmlWithMarkdown}`}</ReactMarkdown>
+          <ReactMarkdown
+            urlTransform={(url) => (url.startsWith('https') ? `${process.env.BASE_SITE_URL}${url}` : url)}
+            remarkPlugins={[remarkGfm]}
+            rehypePlugins={[rehypeRaw]}
+          >
+            {`${htmlWithMarkdown}`}
+          </ReactMarkdown>
         </article>
       </div>
     </ScrollArea>
