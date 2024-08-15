@@ -10,6 +10,7 @@ import { getPageSeo } from '@/lib/contentful'
 import NovelEditor from '@/components/editor/NovelEditor'
 import { getMentorByUsername } from '@/lib/actions/getMentorByUsername'
 import { getUserProfile } from '@/lib/actions/getUserProfile'
+import Editor from '@/components/editor/Editor'
 
 // async function fetchData() {
 //   // const allPosts = await getAllPosts()
@@ -35,7 +36,7 @@ export default async function Blog({ params }) {
       {/*  /!*<WritingListLayout list={sortedPosts} isMobile/>*!/*/}
       {/*  {sortedPosts}*/}
       {/*</Suspense>*/}
-      {isCurrentUserMentor && <NovelEditor username={mentor.username} />}
+      {isCurrentUserMentor && <Editor username={mentor.username} />}
     </ScrollArea>
   )
 }
