@@ -62,14 +62,18 @@ const NovelEditor = ({ username }) => {
       })
 
       if (!response.ok) {
-        toast.error('Failed to submit post')
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to submit post')
       }
 
-      // const data = await response.json()
-      router.push(`/${username}/blog`)
+      toast.success('Post created successfully. Redirecting to the post...')
+      const data = await response.json()
+
+      if (data && data.id) {
+        router.push(`/${username}/blog/${data.id}`)
+      }
     } catch (err) {
       toast.error(err.message)
-      throw new Error(err)
     } finally {
       setIsLoading(false)
     }
@@ -92,8 +96,7 @@ const NovelEditor = ({ username }) => {
     if (content) {
       setInitialContent(JSON.parse(content))
       setIsDisabled(false)
-    }
-    else setInitialContent(defaultEditorContent)
+    } else setInitialContent(defaultEditorContent)
   }, [])
 
   if (!initialContent) return null
