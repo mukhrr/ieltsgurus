@@ -1,49 +1,36 @@
 import supabase from '@/lib/supabase/client'
-import { authenticateMentor } from '@/lib/posts/auth-middleware'
+// import { authenticateMentor } from '@/lib/posts/auth-middleware'
+import { NextResponse } from 'next/server'
 
-export default async function handler(req, res) {
-  const { method } = req
-  const { id } = req.query
+// async function handlePut(req, res, id) {
+//   const authResult = await authenticateMentor(req, res, id)
+//   if ('error' in authResult) return
+//
+//   const { title, content } = req.body
+//
+//   const { data, error } = await supabase.from('blog_posts').update({ title, content }).eq('id', id).single()
+//
+//   if (error) return res.status(500).json({ error: error.message })
+//   return res.status(200).json(data)
+// }
+//
+// async function handleDelete(req, res, id) {
+//   const authResult = await authenticateMentor(req, res, id)
+//   if ('error' in authResult) return
+//
+//   const { error } = await supabase.from('blog_posts').delete().eq('id', id)
+//
+//   if (error) return res.status(500).json({ error: error.message })
+//   return res.status(204).end()
+// }
 
-  switch (method) {
-    case 'GET':
-      return handleGet(req, res, id)
-    case 'PUT':
-      return handlePut(req, res, id)
-    case 'DELETE':
-      return handleDelete(req, res, id)
-    default:
-      res.setHeader('Allow', ['GET', 'PUT', 'DELETE'])
-      res.status(405).end(`Method ${method} Not Allowed`)
-  }
-}
+export async function GET(request, { params }) {
+  const { id } = params
 
-async function handleGet(req, res, id) {
   const { data, error } = await supabase.from('blog_posts').select('*').eq('id', id).single()
 
-  if (error) return res.status(500).json({ error: error.message })
-  if (!data) return res.status(404).json({ error: 'Post not found' })
-  return res.status(200).json(data)
-}
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+  if (!data) return NextResponse.json({ error: 'Post not found' }, { status: 404 })
 
-async function handlePut(req, res, id) {
-  const authResult = await authenticateMentor(req, res, id)
-  if ('error' in authResult) return
-
-  const { title, content } = req.body
-
-  const { data, error } = await supabase.from('blog_posts').update({ title, content }).eq('id', id).single()
-
-  if (error) return res.status(500).json({ error: error.message })
-  return res.status(200).json(data)
-}
-
-async function handleDelete(req, res, id) {
-  const authResult = await authenticateMentor(req, res, id)
-  if ('error' in authResult) return
-
-  const { error } = await supabase.from('blog_posts').delete().eq('id', id)
-
-  if (error) return res.status(500).json({ error: error.message })
-  return res.status(204).end()
+  return NextResponse.json(data)
 }

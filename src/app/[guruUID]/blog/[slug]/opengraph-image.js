@@ -13,12 +13,8 @@ export const size = {
 }
 
 export default async function Image({ params }) {
-  const { slug } = params
-  const [seoData, mediumFontData, boldFontData] = await Promise.all([
-    getWritingSeo(slug),
-    getMediumFont(),
-    getBoldFont()
-  ])
+  const { id } = params
+  const [seoData, mediumFontData, boldFontData] = await Promise.all([getWritingSeo(id), getMediumFont(), getBoldFont()])
   if (!seoData) return null
   const {
     seo: { title, ogImageTitle, ogImageSubtitle }

@@ -18,7 +18,6 @@ import { Loader } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 
-import { defaultExtensions } from './extensions'
 import { ColorSelector } from './selectors/color-selector'
 import { LinkSelector } from './selectors/link-selector'
 import { NodeSelector } from './selectors/node-selector'
@@ -26,6 +25,7 @@ import { TextButtons } from './selectors/text-buttons'
 import GenerativeMenuSwitch from './generative/generative-menu-switch'
 import { Button } from '@/components/ui/button'
 
+import { defaultExtensions } from './extensions'
 import { defaultEditorContent } from '@/lib/mock-data/defaultEditorContent'
 
 import { uploadFn } from './image-upload'
@@ -61,11 +61,6 @@ const NovelEditor = ({ username }) => {
         })
       })
 
-      if (!response.ok) {
-        const errorData = await response.json()
-        throw new Error(errorData.error || 'Failed to submit post')
-      }
-
       toast.success('Post created successfully. Redirecting to the post...')
       const data = await response.json()
 
@@ -74,6 +69,7 @@ const NovelEditor = ({ username }) => {
       }
     } catch (err) {
       toast.error(err.message)
+      throw new Error(err.message || 'Failed to submit post')
     } finally {
       setIsLoading(false)
     }
@@ -89,6 +85,8 @@ const NovelEditor = ({ username }) => {
     setInitialContent(json)
     setIsDisabled(false)
     window.localStorage.setItem('novel-content', JSON.stringify(json))
+    window.localStorage.setItem('novel-html', editor.getHTML())
+    window.localStorage.setItem('markdown', editor.storage.markdown.getMarkdown())
   }, 500)
 
   useEffect(() => {
@@ -102,7 +100,7 @@ const NovelEditor = ({ username }) => {
   if (!initialContent) return null
 
   return (
-    <form onSubmit={handleSubmit} className="relative w-full max-w-screen-lg">
+    <div className="relative w-full max-w-screen-lg">
       <EditorRoot>
         <EditorContent
           initialContent={initialContent}
@@ -169,12 +167,17 @@ const NovelEditor = ({ username }) => {
             </Button>
           )}
 
-          <Button size="xs" type="submit" disabled={isLoading || isDisabled} className="flex  flex-nowrap gap-1">
+          <Button
+            size="xs"
+            onClick={handleSubmit}
+            disabled={isLoading || isDisabled}
+            className="flex  flex-nowrap gap-1"
+          >
             {isLoading ? <Loader className="animate-spin" size="18" /> : null} Done
           </Button>
         </div>
       </div>
-    </form>
+    </div>
   )
 }
 

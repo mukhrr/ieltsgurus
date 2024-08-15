@@ -268,3 +268,11 @@ export const generateSocialNetworkLink = (key, url) => {
       return ''
   }
 }
+//
+// export const jsonToHtml = (jsonContent) => {
+//   const content = typeof jsonContent === 'string' ? JSON.parse(jsonContent) : jsonContent
+//
+//   const html = generateHTML(content, defaultExtensions)
+//
+//   return html
+// }
