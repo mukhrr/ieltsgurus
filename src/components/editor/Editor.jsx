@@ -2,35 +2,14 @@
 
 import { useEffect, useState } from 'react'
 import dynamic from 'next/dynamic'
-import {
-  EditorCommand,
-  EditorCommandEmpty,
-  EditorCommandItem,
-  EditorCommandList,
-  EditorContent,
-  EditorRoot
-} from 'novel'
-import { handleCommandNavigation, ImageResizer } from 'novel/extensions'
-import { handleImageDrop, handleImagePaste } from 'novel/plugins'
-import { useDebouncedCallback } from 'use-debounce'
-import { Separator } from '@radix-ui/react-select'
 import { Loader } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 
-import { ColorSelector } from './selectors/color-selector'
-import { LinkSelector } from './selectors/link-selector'
-import { NodeSelector } from './selectors/node-selector'
-import { TextButtons } from './selectors/text-buttons'
-import GenerativeMenuSwitch from './generative/generative-menu-switch'
 import { Button } from '@/components/ui/button'
-
-import { defaultExtensions } from './extensions'
-import { defaultEditorContent } from '@/lib/mock-data/defaultEditorContent'
-
-import { uploadFn } from './image-upload'
-import { slashCommand, suggestionItems } from './slash-command'
 import NovelEditor from '@/components/editor/NovelEditor'
+
+import { defaultEditorContent } from '@/lib/mock-data/defaultEditorContent'
 
 const Editor = ({ username }) => {
   const router = useRouter()
@@ -92,7 +71,6 @@ const Editor = ({ username }) => {
     <div className="relative w-full max-w-screen-lg">
       <NovelEditor
         initialContent={initialContent}
-        setInitialContent={setInitialContent}
         setEditorState={setEditorState}
         editorClass="relative min-h-screen w-full max-w-screen-lg border-muted bg-background sm:rounded-lg sm:border sm:shadow-lg"
       />

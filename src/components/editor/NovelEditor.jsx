@@ -28,7 +28,7 @@ import { slashCommand, suggestionItems } from './slash-command'
 
 const extensions = [...defaultExtensions, slashCommand]
 
-const NovelEditor = ({ initialContent, setInitialContent, editorClass, setEditorState }) => {
+const NovelEditor = ({ initialContent, editorClass, setEditorState }) => {
   const [openNode, setOpenNode] = useState(false)
   const [openColor, setOpenColor] = useState(false)
   const [openLink, setOpenLink] = useState(false)

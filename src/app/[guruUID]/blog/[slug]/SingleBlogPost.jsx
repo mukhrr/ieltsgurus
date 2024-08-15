@@ -71,7 +71,7 @@ const SingleBlogPost = ({ id, username }) => {
           />
         )}
         <article className="content">
-          <NovelEditor initialContent={initialContent} setInitialContent={setInitialContent} />
+          <NovelEditor initialContent={initialContent} />
         </article>
         {isCurrentUserMentor && (
           <div className="sticky -bottom-1 right-0 z-50 w-full bg-transparent p-2 pl-12 shadow-2xl backdrop-blur">

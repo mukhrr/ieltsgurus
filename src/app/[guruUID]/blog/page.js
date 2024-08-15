@@ -3,14 +3,13 @@
 
 import { ScrollArea } from '@/components/scroll-area'
 import { FloatingHeader } from '@/components/floating-header'
+import Editor from '@/components/editor/Editor'
 // import { LoadingSpinner } from '@/components/loading-spinner'
 // import {getSortedPosts} from '@/lib/utils'
 // import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { getPageSeo } from '@/lib/contentful'
-import NovelEditor from '@/components/editor/NovelEditor'
 import { getMentorByUsername } from '@/lib/actions/getMentorByUsername'
 import { getUserProfile } from '@/lib/actions/getUserProfile'
-import Editor from '@/components/editor/Editor'
 
 // async function fetchData() {
 //   // const allPosts = await getAllPosts()
