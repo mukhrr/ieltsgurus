@@ -62,7 +62,7 @@ const SingleBlogPost = ({ id, username }) => {
       <FloatingHeader scrollTitle={post.title} goBackLink={`/${username}/blog`}>
         <WritingViews slug={id} />
       </FloatingHeader>
-      <div className="content-wrapper">
+      <div className="content-wrapper h-full">
         {(!isEditing || isLoading) && (
           <div
             className={cn('absolute left-0 top-0 z-40 min-h-full min-w-full', {
@@ -70,7 +70,7 @@ const SingleBlogPost = ({ id, username }) => {
             })}
           />
         )}
-        <article className="content">
+        <article className="content h-full">
           <NovelEditor initialContent={initialContent} />
         </article>
         {isCurrentUserMentor && (

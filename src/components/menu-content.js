@@ -27,7 +27,7 @@ export const MenuContent = ({ mentor }) => {
           </Link>
           <NavigationLink href="/" label="Back" icon={<ArrowLeft size={16} />} />
         </div>
-        <ProfileButton hasFullName user={mentor} hasAccessToOptions={isCurrentUserMentor} />
+        <ProfileButton hasFullName mentor={mentor} hasAccessToOptions={isCurrentUserMentor} />
         <div className="flex flex-col gap-1">
           {LINKS.map((link) => (
             <NavigationLink

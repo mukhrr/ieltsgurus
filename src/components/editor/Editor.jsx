@@ -10,15 +10,20 @@ import { Button } from '@/components/ui/button'
 import NovelEditor from '@/components/editor/NovelEditor'
 
 import { defaultEditorContent } from '@/lib/mock-data/defaultEditorContent'
+import useEditorEmpty from '@/hooks/useEditorEmpty'
 
 const Editor = ({ username }) => {
   const router = useRouter()
   const [editorState, setEditorState] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
-  const [isDisabled, setIsDisabled] = useState(true)
   const [initialContent, setInitialContent] = useState(null)
 
+  // TODO: fix the custom hook so that it returns correct boolean
+  const isDisabled = useEditorEmpty()
+
   const handleSubmit = async (event) => {
+    if (isDisabled) return
+
     event.preventDefault()
     setIsLoading(true)
 
@@ -57,12 +62,9 @@ const Editor = ({ username }) => {
 
   useEffect(() => {
     const content = window.localStorage.getItem('novel-content')
-    if (content) {
-      setInitialContent(JSON.parse(content))
-      setIsDisabled(false)
-    } else setInitialContent(defaultEditorContent)
 
-    return () => localStorage.removeItem('novel-content')
+    if (content) setInitialContent(JSON.parse(content))
+    else setInitialContent(defaultEditorContent)
   }, [editorState])
 
   if (!initialContent) return null
@@ -89,7 +91,7 @@ const Editor = ({ username }) => {
             disabled={isLoading || isDisabled}
             className="flex  flex-nowrap gap-1"
           >
-            {isLoading ? <Loader className="animate-spin" size="18" /> : null} Done
+            {isLoading ? <Loader className="animate-spin" size="18" /> : null} Publish
           </Button>
         </div>
       </div>

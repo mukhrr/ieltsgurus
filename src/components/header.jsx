@@ -93,7 +93,7 @@ export default function Header({ user }) {
                       I am a mentor
                     </Link>
                   )}
-                  <ProfileButton user={user} hasAccessToOptions />
+                  <ProfileButton mentor={user} hasAccessToOptions />
                 </div>
               ) : (
                 <AuthButton />

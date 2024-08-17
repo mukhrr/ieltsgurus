@@ -35,6 +35,8 @@ const NovelEditor = ({ initialContent, editorClass, setEditorState }) => {
   const [openAI, setOpenAI] = useState(false)
 
   const debouncedUpdates = useDebouncedCallback(async (editor) => {
+    if (setEditorState) setEditorState(editor)
+
     const json = editor.getJSON()
     window.localStorage.setItem('novel-content', JSON.stringify(json))
   }, 500)
@@ -56,7 +58,6 @@ const NovelEditor = ({ initialContent, editorClass, setEditorState }) => {
           }
         }}
         onUpdate={({ editor }) => {
-          if (setEditorState) setEditorState(editor)
           debouncedUpdates(editor)
         }}
         slotAfter={<ImageResizer />}

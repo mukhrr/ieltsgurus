@@ -12,6 +12,7 @@ import {
   TiptapLink,
   TiptapUnderline,
   Twitter,
+  UpdatedImage,
   Youtube
 } from 'novel/extensions'
 import { UploadImagesPlugin } from 'novel/plugins'
@@ -23,6 +24,12 @@ const tiptapLink = TiptapLink.configure({
     class: cx(
       'text-muted-foreground underline underline-offset-[3px] hover:text-primary transition-colors cursor-pointer'
     )
+  }
+})
+
+const updatedImage = UpdatedImage.configure({
+  HTMLAttributes: {
+    class: cx('rounded-lg border border-muted')
   }
 })
 
@@ -103,6 +110,7 @@ export const defaultExtensions = [
   starterKit,
   tiptapLink,
   tiptapImage,
+  updatedImage,
   taskList,
   taskItem,
   horizontalRule,

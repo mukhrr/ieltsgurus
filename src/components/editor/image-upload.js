@@ -1,7 +1,7 @@
 import { createImageUpload } from 'novel/plugins'
 import { toast } from 'sonner'
 
-const onUpload = async (file) => {
+const onUpload = (file) => {
   const promise = fetch('/api/upload', {
     method: 'POST',
     headers: {
@@ -11,8 +11,33 @@ const onUpload = async (file) => {
     body: file
   })
 
-  //This should return a src of the uploaded image
-  return promise
+  return new Promise((resolve) => {
+    toast.promise(
+      promise.then(async (res) => {
+        if (res.ok) {
+          const data = await res.json()
+          if (data.url) {
+            // preload the image
+            let image = new Image()
+            image.src = data.url
+            image.onload = () => {
+              resolve(data.url)
+            }
+          } else {
+            throw new Error('No URL in response')
+          }
+        } else {
+          const errorData = await res.json()
+          throw new Error(errorData.error || 'Error uploading image')
+        }
+      }),
+      {
+        loading: 'Uploading image...',
+        success: 'Image uploaded successfully.',
+        error: (e) => e.message
+      }
+    )
+  })
 }
 
 export const uploadFn = createImageUpload({
