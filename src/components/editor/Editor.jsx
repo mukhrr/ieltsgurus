@@ -19,7 +19,7 @@ const Editor = ({ username }) => {
   const [initialContent, setInitialContent] = useState(null)
 
   // TODO: fix the custom hook so that it returns correct boolean
-  const isDisabled = useEditorEmpty()
+  const isDisabled = useEditorEmpty(initialContent)
 
   const handleSubmit = async (event) => {
     if (isDisabled) return

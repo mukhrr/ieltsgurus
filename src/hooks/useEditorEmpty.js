@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 
-function useEditorEmpty(localStorageKey = 'novel-content') {
+function useEditorEmpty(editorContent) {
   const [isEmpty, setIsEmpty] = useState(true)
-  const editorContentString = localStorage.getItem(localStorageKey)
+  const editorContentString = JSON.stringify(editorContent)
 
   useEffect(() => {
     const checkEditorContent = () => {
@@ -12,8 +12,6 @@ function useEditorEmpty(localStorageKey = 'novel-content') {
       }
 
       try {
-        const editorContent = JSON.parse(editorContentString)
-
         if (editorContent.content.length === 0) {
           setIsEmpty(true)
           return
@@ -35,15 +33,7 @@ function useEditorEmpty(localStorageKey = 'novel-content') {
     }
 
     checkEditorContent()
-
-    // Optional: Add event listener to check when localStorage changes
-    window.addEventListener('storage', checkEditorContent)
-
-    // Cleanup
-    return () => {
-      window.removeEventListener('storage', checkEditorContent)
-    }
-  }, [editorContentString])
+  }, [editorContent, editorContentString])
 
   return isEmpty
 }
