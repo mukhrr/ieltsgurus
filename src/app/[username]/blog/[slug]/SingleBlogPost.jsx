@@ -11,6 +11,7 @@ import { ScrollArea } from '@/components/scroll-area'
 import { LoadingSpinner } from '@/components/loading-spinner'
 import { Button } from '@/components/ui/button'
 import NovelEditor from '@/components/editor/NovelEditor'
+
 import { cn } from '@/lib/utils'
 
 const SingleBlogPost = ({ id, username }) => {
@@ -21,10 +22,6 @@ const SingleBlogPost = ({ id, username }) => {
   const [isEditing, setIsEditing] = useState(false)
 
   const isCurrentUserMentor = params?.username === username
-
-  useEffect(() => {
-    if (id) fetchPost(id)
-  }, [id])
 
   const fetchPost = async (postId) => {
     try {
@@ -43,6 +40,8 @@ const SingleBlogPost = ({ id, username }) => {
   }
 
   const updatePost = async () => {
+    if (!isEditing) return
+
     setIsLoading(true)
   }
 
@@ -50,6 +49,10 @@ const SingleBlogPost = ({ id, username }) => {
     setIsEditing(false)
     fetchPost(id)
   }
+
+  useEffect(() => {
+    if (id) fetchPost(id)
+  }, [id])
 
   useEffect(() => {
     return () => localStorage.removeItem('novel-content')
@@ -62,7 +65,11 @@ const SingleBlogPost = ({ id, username }) => {
       <FloatingHeader scrollTitle={post.title} goBackLink={`/${username}/blog`}>
         <WritingViews slug={id} />
       </FloatingHeader>
-      <div className="content-wrapper h-full">
+      <div
+        className={cn('content-wrapper', {
+          'overflow-hidden': isLoading
+        })}
+      >
         {(!isEditing || isLoading) && (
           <div
             className={cn('absolute left-0 top-0 z-40 min-h-full min-w-full', {
@@ -72,32 +79,34 @@ const SingleBlogPost = ({ id, username }) => {
         )}
         <article className="content h-full">
           <NovelEditor initialContent={initialContent} />
+
+          {isCurrentUserMentor && (
+            <div className="sticky -bottom-1 right-0 z-50 w-full bg-transparent p-2 pl-12 shadow-2xl backdrop-blur">
+              {isEditing ? (
+                <div className="flex justify-end gap-2">
+                  <Button variant="destructive" size="xs" onClick={onCancel}>
+                    Cancel
+                  </Button>
+
+                  <Button size="xs" onClick={updatePost} disabled={isLoading} className="flex  flex-nowrap gap-1">
+                    {isLoading ? <Loader className="animate-spin" size="18" /> : null}{' '}
+                    {isLoading ? 'Publishing...' : 'Publish'}
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex justify-end gap-2">
+                  <Button variant="destructive" size="xs" onClick={() => {}}>
+                    Delete
+                  </Button>
+
+                  <Button size="xs" onClick={() => setIsEditing(true)}>
+                    Edit
+                  </Button>
+                </div>
+              )}
+            </div>
+          )}
         </article>
-        {isCurrentUserMentor && (
-          <div className="sticky -bottom-1 right-0 z-50 w-full bg-transparent p-2 pl-12 shadow-2xl backdrop-blur">
-            {isEditing ? (
-              <div className="flex justify-end gap-2">
-                <Button variant="destructive" size="xs" onClick={onCancel}>
-                  Cancel
-                </Button>
-
-                <Button size="xs" onClick={updatePost} disabled={isLoading} className="flex  flex-nowrap gap-1">
-                  {isLoading ? <Loader className="animate-spin" size="18" /> : null} Publish
-                </Button>
-              </div>
-            ) : (
-              <div className="flex justify-end gap-2">
-                <Button variant="destructive" size="xs" onClick={() => {}}>
-                  Delete
-                </Button>
-
-                <Button size="xs" onClick={() => setIsEditing(true)}>
-                  Edit
-                </Button>
-              </div>
-            )}
-          </div>
-        )}
       </div>
     </ScrollArea>
   )

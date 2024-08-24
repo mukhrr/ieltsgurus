@@ -70,7 +70,7 @@ const Editor = ({ username }) => {
   if (!initialContent) return null
 
   return (
-    <div className="relative w-full max-w-screen-lg">
+    <div className="content relative w-full">
       <NovelEditor
         initialContent={initialContent}
         setEditorState={setEditorState}
