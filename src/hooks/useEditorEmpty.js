@@ -12,7 +12,7 @@ function useEditorEmpty(editorContent) {
       }
 
       try {
-        if (editorContent.content.length === 0) {
+        if (!editorContent?.content?.length) {
           setIsEmpty(true)
           return
         }

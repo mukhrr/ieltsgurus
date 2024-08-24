@@ -7,7 +7,6 @@ import { Provider } from 'jotai'
 import '@/assets/styles/globals.css'
 import '@/assets/styles/prosemirror.css'
 
-import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/sonner'
 
 import { defaultUrl, sharedDescription, sharedTitle } from '@/app/shared-metadata'
@@ -26,9 +25,7 @@ export default function RootLayout({ children }) {
     <Provider>
       <html lang="en" className={`${GeistSans.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
         <body suppressHydrationWarning>
-          <ThemeProvider attribute="class" defaultTheme="light" disableTransitionOnChange>
-            {children}
-          </ThemeProvider>
+          {children}
 
           <Analytics />
           <SpeedInsights />

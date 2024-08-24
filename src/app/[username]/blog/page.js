@@ -7,7 +7,6 @@ import Editor from '@/components/editor/Editor'
 // import { LoadingSpinner } from '@/components/loading-spinner'
 // import {getSortedPosts} from '@/lib/utils'
 // import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
-import { getPageSeo } from '@/lib/contentful'
 import { getMentorByUsername } from '@/lib/actions/getMentorByUsername'
 import { getUserProfile } from '@/lib/actions/getUserProfile'
 
@@ -41,12 +40,9 @@ export default async function Blog({ params }) {
 }
 
 export async function generateMetadata() {
-  const seoData = await getPageSeo('writing')
-  if (!seoData) return null
+  const title = 'test blog title'
+  const description = 'test blog description'
 
-  const {
-    seo: { title, description }
-  } = seoData
   const siteUrl = '/blog'
 
   return {

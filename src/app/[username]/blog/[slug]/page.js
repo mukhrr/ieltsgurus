@@ -1,4 +1,3 @@
-import { getWritingSeo } from '@/lib/contentful'
 import SingleBlogPost from './SingleBlogPost'
 
 export default async function BlogSlug({ params }) {
@@ -7,19 +6,13 @@ export default async function BlogSlug({ params }) {
 
 export async function generateMetadata({ params }) {
   const { slug } = params
-  const seoData = await getWritingSeo(slug)
-  if (!seoData) return null
-
-  const {
-    date,
-    seo: { title, description },
-    sys: { firstPublishedAt, publishedAt: updatedAt }
-  } = seoData
+  const title = 'test blog title'
+  const description = 'test blog description'
+  const date = '12.22.2024'
 
   const siteUrl = `/${params.username}/blog/${slug}`
-  const postDate = date || firstPublishedAt
-  const publishedTime = new Date(postDate).toISOString()
-  const modifiedTime = new Date(updatedAt).toISOString()
+  const publishedTime = new Date(date).toISOString()
+  const modifiedTime = new Date(date).toISOString()
 
   return {
     title,
@@ -29,7 +22,7 @@ export async function generateMetadata({ params }) {
       description,
       type: 'article',
       publishedTime,
-      ...(updatedAt && {
+      ...(date && {
         modifiedTime
       }),
       url: siteUrl

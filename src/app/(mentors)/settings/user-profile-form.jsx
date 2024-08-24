@@ -96,8 +96,8 @@ export default function UserProfileForm({ user }) {
                 <Avatar className="h-8 w-8 scale-125">
                   <AvatarImage src={avatarUrl} />
                   <AvatarFallback>
-                    {user?.username || user?.full_name ? (
-                      getInitials(user?.username || user?.full_name)
+                    {user?.full_name || user?.username ? (
+                      getInitials(user?.full_name || user?.username)
                     ) : (
                       <UserRound className="h-4 w-4" />
                     )}

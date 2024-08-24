@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react'
 import { useAtom, useAtomValue } from 'jotai'
 import { useSearchParams } from 'next/navigation'
 
-import GuruCard from '@/components/guru-card/GuruCard'
-import Loading from '@/app/(gurus)/loading'
+import MentorCard from '@/components/mentor-card/MentorCard'
+import Loading from '@/app/(mentors)/loading'
 
 import { searchedMentors } from '@/lib/atoms/mentors-atom'
 import { fetchMentorsByFilter } from '@/lib/actions/fetchMentorsByFilter'
@@ -15,7 +15,7 @@ import { Button } from '@/components/ui/button'
 const LOADING_CARDS_AMOUNT = 3
 const ITEMS_PER_PAGE = 9
 
-export default function GurusSearched() {
+export default function MentorsSearched() {
   const searchParams = useSearchParams()
   const [searched, setSearched] = useAtom(searchedMentors)
   const [isLoading, setIsLoading] = useState(true)
@@ -48,7 +48,7 @@ export default function GurusSearched() {
         <div className="flex flex-col items-end gap-4">
           <div className="grid gap-3 md:grid-cols-2  lg:grid-cols-3">
             {displayedItems.map(({ id, full_name, image_path, ielts_score, short_info, description, username }) => (
-              <GuruCard
+              <MentorCard
                 key={id}
                 fullName={full_name}
                 image={image_path}

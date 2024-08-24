@@ -9,7 +9,7 @@ import { FEEDBACK_SUBMISSION_COUNT_COOKIE_NAME, MAX_FEEDBACK_SUBMISSIONS_PER_DAY
 export async function submitFeedback(formData) {
   const cookieStore = cookies()
   // Fake promise to simulate submitting the form
-  await new Promise((resolve) => setTimeout(resolve, 2000))
+  await new Promise((resolve) => setTimeout(resolve, 600))
 
   const formSubmissionCountCookie = cookieStore.get(FEEDBACK_SUBMISSION_COUNT_COOKIE_NAME)
   if (formSubmissionCountCookie?.value >= MAX_FEEDBACK_SUBMISSIONS_PER_DAY) {

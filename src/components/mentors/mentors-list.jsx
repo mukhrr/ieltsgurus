@@ -3,18 +3,18 @@
 import { useEffect, useState } from 'react'
 import { useSetAtom } from 'jotai'
 
-import GuruCard from '@/components/guru-card/GuruCard'
-import Loading from '@/app/(gurus)/loading'
+import { Button } from '@/components/ui/button'
+import MentorCard from '@/components/mentor-card/MentorCard'
+import Loading from '@/app/(mentors)/loading'
 
 import { fetchMentorsByCategory } from '@/lib/actions/fetchMentorsByCategory'
 import { CATEGORIES } from '@/lib/constants'
 import { mentorsCount } from '@/lib/atoms/mentors-atom'
 import { fetchMentorsCount } from '@/lib/actions/fetchMentorsCount'
-import { Button } from '@/components/ui/button'
 
 const ITEMS_PER_PAGE = 6
 
-export default function GurusList({ category }) {
+export default function MentorsList({ category }) {
   const [isLoading, setIsLoading] = useState(true)
   const [mentors, setMentors] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
@@ -55,7 +55,7 @@ export default function GurusList({ category }) {
         <div className="flex flex-col items-end gap-4">
           <div className="grid gap-3 md:grid-cols-2  lg:grid-cols-3">
             {displayedItems.map(({ id, full_name, image_path, ielts_score, short_info, description, username }) => (
-              <GuruCard
+              <MentorCard
                 key={id}
                 fullName={full_name}
                 image={image_path}

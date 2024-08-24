@@ -1,6 +1,8 @@
 import supabase from '@/lib/supabase/client'
 
-export const checkUsernameUniqueness = async ({ username, setIsLoading, form }) => {
+export const checkUsernameUniqueness = async ({ username, currentUsername, setIsLoading, form }) => {
+  if (username === currentUsername) return
+
   setIsLoading(true)
   try {
     const { data: existingUser, error } = await supabase
@@ -14,7 +16,7 @@ export const checkUsernameUniqueness = async ({ username, setIsLoading, form }) 
       return
     }
 
-    if (existingUser) {
+    if (existingUser && existingUser?.username !== currentUsername) {
       form.setError('username', {
         type: 'manual',
         message: 'This username is already taken. Please choose another.'

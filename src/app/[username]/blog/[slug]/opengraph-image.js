@@ -1,12 +1,10 @@
 import { ImageResponse } from 'next/og'
 
 import { OpenGraphImage } from '@/components/og-image'
-import { getWritingSeo } from '@/lib/contentful'
-import { getMediumFont, getBoldFont } from '@/lib/fonts'
+import { getBoldFont, getMediumFont } from '@/lib/fonts'
 import { sharedImage } from '@/app/shared-metadata'
 
 export const runtime = 'edge'
-export const alt = 'Writing'
 export const size = {
   width: sharedImage.width,
   height: sharedImage.height
@@ -14,11 +12,13 @@ export const size = {
 
 export default async function Image({ params }) {
   const { id } = params
-  const [seoData, mediumFontData, boldFontData] = await Promise.all([getWritingSeo(id), getMediumFont(), getBoldFont()])
-  if (!seoData) return null
-  const {
-    seo: { title, ogImageTitle, ogImageSubtitle }
-  } = seoData
+  console.log(id)
+  const [mediumFontData, boldFontData] = await Promise.all([getMediumFont(), getBoldFont()])
+  if (!id) return null
+
+  const title = 'test post title'
+  const ogImageTitle = 'test post image title'
+  const ogImageSubtitle = 'test post image subtitle'
 
   return new ImageResponse(<OpenGraphImage title={ogImageTitle || title} description={ogImageSubtitle} url="blog" />, {
     ...size,

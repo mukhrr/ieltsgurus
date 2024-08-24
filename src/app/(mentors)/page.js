@@ -9,8 +9,8 @@ import { Button, buttonVariants } from '@/components/ui/button'
 import { SearchInput } from '@/components/ui/search-input'
 import FAQ from '@/components/faq'
 import Filters from '@/components/filters'
-import GurusList from '@/components/gurus/gurus-list'
-import GurusSearched from '@/components/gurus/gurus-searched'
+import MentorsList from '@/components/mentors/mentors-list'
+import MentorsSearched from '@/components/mentors/mentors-searched'
 
 import { mentorsCount } from '@/lib/atoms/mentors-atom'
 import { mentorFilters } from '@/lib/atoms/filters-atom'
@@ -63,15 +63,15 @@ export default function GurusIndex() {
 
       <Filters />
 
-      {(searchParams.get('q')?.length > 0 || filters?.length > 0) && <GurusSearched />}
+      {(searchParams.get('q')?.length > 0 || filters?.length > 0) && <MentorsSearched />}
 
-      <GurusList category="TRENDING" />
-      <GurusList category="WRITING" />
-      <GurusList category="SPEAKING" />
-      <GurusList category="LISTENING" />
-      <GurusList category="READING" />
-      <GurusList category="NINERS" />
-      <GurusList category="FEATURED" />
+      <MentorsList category="TRENDING" />
+      <MentorsList category="WRITING" />
+      <MentorsList category="SPEAKING" />
+      <MentorsList category="LISTENING" />
+      <MentorsList category="READING" />
+      <MentorsList category="NINERS" />
+      <MentorsList category="FEATURED" />
 
       <FAQ />
 

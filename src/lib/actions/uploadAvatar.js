@@ -2,30 +2,15 @@ import supabase from '@/lib/supabase/client'
 import { toast } from 'sonner'
 
 export async function uploadAvatar(file, userId) {
-  const fileName = `${userId}/${new Date().getTime()}_${file.name}`
+  const { data: uploadData, error: uploadError } = await supabase.storage
+    .from('avatars')
+    .upload(`${userId}/${Date.now()}.png`, file)
 
-  const { error } = await supabase.storage.from('avatars').upload(fileName, file, {
-    upsert: true
-  })
+  if (uploadError) toast.error(uploadError)
 
-  if (error) {
-    console.log(error)
-    toast.error('Error while uploading avatar')
-    return null
-  }
+  const {
+    data: { publicUrl }
+  } = supabase.storage.from('avatars').getPublicUrl(uploadData.path)
 
-  const { publicURL } = supabase.storage.from('avatars').getPublicUrl(fileName)
-
-  return publicURL
-}
-
-export async function updateUserProfileAvatar(userId, avatarUrl) {
-  const { data, error } = await supabase.from('profiles').update({ avatar_url: avatarUrl }).eq('id', userId)
-
-  if (error) {
-    toast.error(error)
-    return null
-  }
-
-  return data
+  return { publicUrl }
 }

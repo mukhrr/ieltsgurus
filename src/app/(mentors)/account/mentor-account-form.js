@@ -21,8 +21,9 @@ import { calculateIeltsOverall, generateImagePathOnStore, getInitials } from '@/
 import { socialsInputPlaceholder } from './utils/socialsInputPlaceholder'
 import { formSchema } from './utils/formSchema'
 import { checkUsernameUniqueness } from '@/lib/actions/checkUniqueUserName'
+import { uploadAvatar } from '@/lib/actions/uploadAvatar'
 
-export default function GuruAccountForm({ user }) {
+export default function MentorAccountForm({ user }) {
   const router = useRouter()
   const imagePathOnStore = generateImagePathOnStore(user?.image_path)
   const supabase = createClientComponentClient()
@@ -59,14 +60,6 @@ export default function GuruAccountForm({ user }) {
     }
   })
 
-  const handleAvatarChange = (e) => {
-    const file = e.target.files[0]
-    if (file) {
-      setAvatarFile(file)
-      setAvatarUrl(URL.createObjectURL(file))
-    }
-  }
-
   const onCancel = (e) => {
     e.preventDefault()
     router.back()
@@ -77,19 +70,11 @@ export default function GuruAccountForm({ user }) {
     try {
       let avatar_url = user?.avatar_url
 
+      // TODO: fix upload image
       // Upload new avatar if changed
       if (avatarFile) {
-        const { data: uploadData, error: uploadError } = await supabase.storage
-          .from('avatars')
-          .upload(`${user.id}/${Date.now()}.png`, avatarFile)
-
-        if (uploadError) toast.error(uploadError)
-
-        const {
-          data: { publicUrl }
-        } = supabase.storage.from('avatars').getPublicUrl(uploadData.path)
-
-        avatar_url = publicUrl
+        console.log(avatarFile)
+        // avatar_url = await uploadAvatar(avatarFile, user.id)
       }
 
       const mentorData = {
@@ -130,6 +115,14 @@ export default function GuruAccountForm({ user }) {
       toast.error(error)
     } finally {
       setIsLoading(false)
+    }
+  }
+
+  const handleAvatarChange = (e) => {
+    const file = e.target.files[0]
+    if (file) {
+      setAvatarFile(file)
+      setAvatarUrl(URL.createObjectURL(file))
     }
   }
 
@@ -217,6 +210,7 @@ export default function GuruAccountForm({ user }) {
                         if (e.target.value) {
                           checkUsernameUniqueness({
                             username: e.target.value,
+                            currentUsername: user.username,
                             setIsLoading: setIsCheckingUserName,
                             form
                           })

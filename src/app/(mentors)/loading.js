@@ -1,4 +1,4 @@
-import CardLoading from '@/components/guru-card/CardLoading'
+import CardLoading from '@/components/mentor-card/CardLoading'
 
 export default function Loading({ itemsAmount = 9 }) {
   return (

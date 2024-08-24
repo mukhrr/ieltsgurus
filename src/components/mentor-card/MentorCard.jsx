@@ -11,7 +11,7 @@ import { toast } from 'sonner'
 
 import { generateImagePathOnStore, getInitials } from '@/lib/utils'
 
-export default function GuruCard({ fullName, image, score, shortInfo, description, username }) {
+export default function MentorCard({ fullName, image, score, shortInfo, description, username }) {
   const descriptionRef = useRef(null)
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [isExpandedDescription, setIsExpandedDescription] = useState(false)

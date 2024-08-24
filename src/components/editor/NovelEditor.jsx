@@ -21,10 +21,10 @@ import { NodeSelector } from './selectors/node-selector'
 import { TextButtons } from './selectors/text-buttons'
 import GenerativeMenuSwitch from './generative/generative-menu-switch'
 
-import { defaultExtensions } from './extensions'
+import { defaultExtensions } from './helpers/extensions'
 
-import { uploadFn } from './image-upload'
-import { slashCommand, suggestionItems } from './slash-command'
+import { uploadFn } from './helpers/image-upload'
+import { slashCommand, suggestionItems } from './helpers/slash-command'
 
 const extensions = [...defaultExtensions, slashCommand]
 
