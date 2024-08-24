@@ -30,6 +30,7 @@ export default function Header({ user }) {
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll)
+
     return () => {
       window.removeEventListener('scroll', handleScroll)
     }
@@ -41,7 +42,7 @@ export default function Header({ user }) {
         <div className="mr-4 md:flex">
           <Link href="/" className="mr-6 flex items-center space-x-2">
             <Image width="24" height="24" src="/assets/logo.png" alt="Logo" className="hidden border-0 md:block" />
-            <span className="font-bold sm:inline-block">IELTS GURUS</span>
+            <span className="font-bold sm:inline-block">IELTStify</span>
           </Link>
         </div>
 
@@ -52,7 +53,7 @@ export default function Header({ user }) {
           {/*{!isVisibleTop && !isMobile && (*/}
           {/*  <iframe*/}
           {/*    src="https://github.com/sponsors/mukhrr/button"*/}
-          {/*    title="Sponsor IELTSGURUS"*/}
+          {/*    title="Sponsor IELTStify"*/}
           {/*    className="h-[32px] w-[114px] rounded-md border-0 bg-transparent"*/}
           {/*  />*/}
           {/*)}*/}
@@ -92,7 +93,7 @@ export default function Header({ user }) {
                       I am a mentor
                     </Link>
                   )}
-                  <ProfileButton user={user} hasAccessToOptions />
+                  <ProfileButton mentor={user} hasAccessToOptions />
                 </div>
               ) : (
                 <AuthButton />

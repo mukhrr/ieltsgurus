@@ -1,6 +1,6 @@
 import { cache } from 'react'
 import { twMerge } from 'tailwind-merge'
-import { cx } from 'classix'
+import clsx from 'clsx'
 
 /**
  * Combines and merges multiple CSS class names or values using the classix and tailwind-merge libraries.
@@ -12,7 +12,7 @@ import { cx } from 'classix'
  * @returns - A merged string containing the combined CSS class names or values.
  */
 export function cn(...args) {
-  return twMerge(cx(...args))
+  return twMerge(clsx(args))
 }
 
 /**
@@ -268,3 +268,11 @@ export const generateSocialNetworkLink = (key, url) => {
       return ''
   }
 }
+//
+// export const jsonToHtml = (jsonContent) => {
+//   const content = typeof jsonContent === 'string' ? JSON.parse(jsonContent) : jsonContent
+//
+//   const html = generateHTML(content, defaultExtensions)
+//
+//   return html
+// }

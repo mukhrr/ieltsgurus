@@ -1,10 +1,11 @@
 'use client'
 
-import { usePathname, useRouter } from 'next/navigation'
-import { RadioIcon } from 'lucide-react'
+import { useParams, usePathname, useRouter } from 'next/navigation'
+import { Plus } from 'lucide-react'
 
 import { ScrollArea } from '@/components/scroll-area'
 import { Button } from '@/components/ui/button.jsx'
+
 import { useKeyPress } from '@/hooks/useKeyPress'
 import { cn } from '@/lib/utils'
 
@@ -19,7 +20,9 @@ const keyCodePathnameMapping = {
 
 export const SideMenu = ({ children, title, isInner }) => {
   const router = useRouter()
+  const params = useParams()
   const pathname = usePathname()
+
   useKeyPress(onKeyPress, Object.keys(keyCodePathnameMapping))
 
   function onKeyPress(event) {
@@ -28,8 +31,7 @@ export const SideMenu = ({ children, title, isInner }) => {
     if (targetPathname && targetPathname !== pathname) router.push(targetPathname)
   }
 
-  const isWritingPath = pathname.startsWith('/blog')
-  const isBookmarksPath = pathname.startsWith('/bookmarks')
+  const isWritingPath = pathname.startsWith(`/${params?.username}/blog`)
 
   return (
     <ScrollArea
@@ -43,16 +45,11 @@ export const SideMenu = ({ children, title, isInner }) => {
           <div className="flex items-center justify-between">
             <span className="text-sm font-semibold tracking-tight">{title}</span>
             <div className="flex items-center gap-2">
-              {(isWritingPath || isBookmarksPath) && (
+              {isWritingPath && (
                 <Button variant="outline" size="xs" asChild>
-                  <a
-                    href={isWritingPath ? '/blog.xml' : '/bookmarks.xml'}
-                    title="RSS feed"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <RadioIcon size={16} className="mr-2" />
-                    RSS feed
+                  <a href={`/${params?.username}/blog`} title="Blog" rel="noopener noreferrer">
+                    <Plus size={16} className="mr-2" />
+                    New post
                   </a>
                 </Button>
               )}

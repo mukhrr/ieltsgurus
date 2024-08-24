@@ -17,14 +17,14 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { generateImagePathOnStore, getInitials } from '@/lib/utils'
 import { signOut } from '@/lib/auth'
 
-const TriggerButton = (user, image, hasFullName) => (
+const TriggerButton = (mentor, image, hasFullName) => (
   <div className="flex cursor-pointer items-center gap-2">
     <Button variant="secondary" size="icon" className="rounded-full shadow-sm ring-1 ring-gray-950">
       <Avatar className="h-8 w-8 scale-125">
-        <AvatarImage src={user?.avatar_url || image} />
+        <AvatarImage src={mentor?.avatar_url || image} />
         <AvatarFallback>
-          {user?.username || user?.full_name ? (
-            getInitials(user?.username || user?.full_name)
+          {mentor?.username || mentor?.full_name ? (
+            getInitials(mentor?.full_name || mentor?.username)
           ) : (
             <UserRound className="h-4 w-4" />
           )}
@@ -33,16 +33,16 @@ const TriggerButton = (user, image, hasFullName) => (
     </Button>
     {hasFullName && (
       <div className="flex flex-col ">
-        <span>{user?.full_name}</span>
-        <span className="text-gray-400">@{user?.username}</span>
+        <span>{mentor?.full_name}</span>
+        <span className="text-gray-400">@{mentor?.username}</span>
       </div>
     )}
   </div>
 )
 
-export default function ProfileButton({ user, hasFullName, hasAccessToOptions }) {
+export default function ProfileButton({ mentor, hasFullName, hasAccessToOptions }) {
   const router = useRouter()
-  const imagePathOnStore = generateImagePathOnStore(user?.image_path)
+  const imagePathOnStore = generateImagePathOnStore(mentor?.image_path)
 
   const onClickOption = (option) => {
     switch (option) {
@@ -55,6 +55,9 @@ export default function ProfileButton({ user, hasFullName, hasAccessToOptions })
       case 'support':
         window.open('https://t.me/ieltsgurus_support_bot', '_blank')
         break
+      case 'login':
+        router.push('/login')
+        break
       case 'logout':
         signOut()
         break
@@ -66,14 +69,14 @@ export default function ProfileButton({ user, hasFullName, hasAccessToOptions })
 
   return hasAccessToOptions ? (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>{TriggerButton(user, imagePathOnStore, hasFullName)}</DropdownMenuTrigger>
+      <DropdownMenuTrigger asChild>{TriggerButton(mentor, imagePathOnStore, hasFullName)}</DropdownMenuTrigger>
 
       <DropdownMenuContent className="w-56" sideOffset={4} align="start">
-        <DropdownMenuLabel>{user?.full_name || 'My Account'}</DropdownMenuLabel>
+        <DropdownMenuLabel>{mentor?.full_name || 'My Account'}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem onSelect={() => onClickOption(user?.username ? 'account' : 'settings')}>
-            {user?.username ? 'Profile' : 'Settings'}
+          <DropdownMenuItem onSelect={() => onClickOption(mentor?.username ? 'account' : 'settings')}>
+            {mentor?.username ? 'Account' : 'Settings'}
             <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
           </DropdownMenuItem>
         </DropdownMenuGroup>
@@ -86,6 +89,6 @@ export default function ProfileButton({ user, hasFullName, hasAccessToOptions })
       </DropdownMenuContent>
     </DropdownMenu>
   ) : (
-    TriggerButton(user, imagePathOnStore, hasFullName)
+    TriggerButton(mentor, imagePathOnStore, hasFullName)
   )
 }

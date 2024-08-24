@@ -10,9 +10,12 @@ import { capitalizeFirstLetter, generateSocialNetworkLink } from '@/lib/utils'
 import { LINKS } from '@/lib/constants'
 import { buttonVariants } from '@/components/ui/button'
 import ProfileButton from '@/components/ui/profile-button'
+import { useParams } from 'next/navigation'
 
-export const MenuContent = ({ mentor, user }) => {
-  const isCurrentUserMentor = user?.username && user.username === mentor.username
+export const MenuContent = ({ mentor }) => {
+  const params = useParams()
+  const username = params?.username
+  const isCurrentUserMentor = username === mentor.username
 
   return (
     <div className="flex w-full flex-col text-sm">
@@ -20,16 +23,16 @@ export const MenuContent = ({ mentor, user }) => {
         <div className="flex items-center justify-between border-b border-gray-200 pb-2">
           <Link href="/" className="mr-6 flex items-center space-x-2">
             <Image width="24" height="24" src="/assets/logo.png" alt="Logo" className="border-0" />
-            <span className="font-bold sm:inline-block">IELTS GURUS</span>
+            <span className="font-bold sm:inline-block">IELTStify</span>
           </Link>
           <NavigationLink href="/" label="Back" icon={<ArrowLeft size={16} />} />
         </div>
-        <ProfileButton hasFullName user={mentor} hasAccessToOptions={isCurrentUserMentor} />
+        <ProfileButton hasFullName mentor={mentor} hasAccessToOptions={isCurrentUserMentor} />
         <div className="flex flex-col gap-1">
           {LINKS.map((link) => (
             <NavigationLink
               key={link.href}
-              href={`/${mentor.username}${link.href}`}
+              href={`/${username}${link.href}`}
               label={link.label}
               icon={link.icon}
               disabled={link.isDisabled}

@@ -28,7 +28,7 @@ export default function GuruCard({ fullName, image, score, shortInfo, descriptio
     event.stopPropagation()
     event.preventDefault()
 
-    window.navigator.clipboard.writeText(`https://ieltsgurus.vercel.app/${user}`)
+    window.navigator.clipboard.writeText(`https://ieltstify.vercel.app/${user}`)
     toast.info('Copied to clipboard. Now you can share with :)')
   }
 
