@@ -75,7 +75,7 @@
   }
 
   article {
-    @apply flex flex-col;
+    @apply flex flex-col justify-between;
   }
 
   p {

@@ -11,10 +11,11 @@ export const size = {
 }
 
 export default async function Image({ params }) {
-  const { id } = params
-  console.log(id)
+  const { slug } = params
+  console.log(slug)
   const [mediumFontData, boldFontData] = await Promise.all([getMediumFont(), getBoldFont()])
-  if (!id) return null
+
+  if (!slug) return null
 
   const title = 'test post title'
   const ogImageTitle = 'test post image title'

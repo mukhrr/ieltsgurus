@@ -66,18 +66,18 @@ const SingleBlogPost = ({ id, username }) => {
         <WritingViews slug={id} />
       </FloatingHeader>
       <div
-        className={cn('content-wrapper', {
+        className={cn('pt-4', {
           'overflow-hidden': isLoading
         })}
       >
         {(!isEditing || isLoading) && (
           <div
-            className={cn('absolute left-0 top-0 z-40 min-h-full min-w-full', {
+            className={cn('absolute left-0 top-0 z-40 min-h-screen min-w-full', {
               'animate-pulse bg-gray-100': isEditing
             })}
           />
         )}
-        <article className="content h-full">
+        <article className="content min-h-screen">
           <NovelEditor initialContent={initialContent} />
 
           {isCurrentUserMentor && (

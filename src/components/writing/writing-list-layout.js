@@ -1,24 +1,22 @@
 'use client'
 
-import { usePathname } from 'next/navigation'
+import { useParams, usePathname } from 'next/navigation'
 
 import { WritingLink } from '@/components/writing-link'
-// import { useViewData } from '@/hooks/useViewData'
 import { cn } from '@/lib/utils'
 
 export const WritingListLayout = ({ list, isMobile }) => {
-  const viewData = ['']
   const pathname = usePathname()
+  const params = useParams()
 
   return (
     <div className={cn(!isMobile && 'flex flex-col gap-1 text-sm')}>
       {list.length ? (
         list?.map((post) => {
-          const viewCount = viewData?.find((item) => item.slug === post.slug)?.view_count
-          const isActive = pathname === `/writing/${post.slug}`
+          const isActive = pathname === `/${params.username}/blog/${post.id}`
 
           return (
-            <WritingLink key={post.slug} post={post} viewCount={viewCount} isMobile={isMobile} isActive={isActive} />
+            <WritingLink key={post.id} post={post} isMobile={isMobile} isActive={isActive} username={params.username} />
           )
         })
       ) : (

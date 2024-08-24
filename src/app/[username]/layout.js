@@ -49,7 +49,7 @@ export default async function GuruLayout({ children, params }) {
   return (
     <div className="lg:flex">
       <SideMenu className="relative hidden lg:flex">
-        <MenuContent mentor={mentor} user={profile} />
+        <MenuContent mentor={{ ...mentor, image_path: mentor?.image_path || profile?.avatar_url }} user={profile} />
       </SideMenu>
       <div className="flex flex-1">{children}</div>
     </div>

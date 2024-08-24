@@ -21,7 +21,6 @@ import { calculateIeltsOverall, generateImagePathOnStore, getInitials } from '@/
 import { socialsInputPlaceholder } from './utils/socialsInputPlaceholder'
 import { formSchema } from './utils/formSchema'
 import { checkUsernameUniqueness } from '@/lib/actions/checkUniqueUserName'
-import { uploadAvatar } from '@/lib/actions/uploadAvatar'
 
 export default function MentorAccountForm({ user }) {
   const router = useRouter()
