@@ -14,7 +14,7 @@ import { useParams } from 'next/navigation'
 
 export const MenuContent = ({ mentor }) => {
   const params = useParams()
-  const username = params?.guruUID
+  const username = params?.username
   const isCurrentUserMentor = username === mentor.username
 
   return (
@@ -23,7 +23,7 @@ export const MenuContent = ({ mentor }) => {
         <div className="flex items-center justify-between border-b border-gray-200 pb-2">
           <Link href="/" className="mr-6 flex items-center space-x-2">
             <Image width="24" height="24" src="/assets/logo.png" alt="Logo" className="border-0" />
-            <span className="font-bold sm:inline-block">IELTS GURUS</span>
+            <span className="font-bold sm:inline-block">IELTStify</span>
           </Link>
           <NavigationLink href="/" label="Back" icon={<ArrowLeft size={16} />} />
         </div>

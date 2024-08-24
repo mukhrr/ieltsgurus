@@ -149,11 +149,6 @@
     @apply my-6 border-gray-200;
   }
 
-  img,
-  object {
-    @apply rounded-xl border;
-  }
-
   pre {
     @apply overflow-x-auto break-normal rounded-b-lg border-x border-b border-gray-200 bg-white p-3 text-left text-xs leading-slacker;
   }

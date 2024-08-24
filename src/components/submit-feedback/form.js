@@ -110,7 +110,7 @@ export function SubmitFeedbackForm({ className, setFormOpen }) {
       <span className="text-sm">
         Have a technical issue?! Or found wrong information?! <br /> Contact{' '}
         <a href="https://t.me/ieltsgurus_support_bot" className="underline" target="_blank" rel="noopener noreferrer">
-          Ieltsgurus support
+          Ieltstify support
         </a>
       </span>
     </Form>

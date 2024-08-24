@@ -4,25 +4,25 @@ import { Link } from '@/components/link'
 
 const FAQ_ITEMS = [
   {
-    question: 'What is IELTS GURUS?',
+    question: 'What is IELTStify?',
     answer:
-      'IELTS GURUS is a platform that features top IELTS instructors and links to their channels, providing invaluable content and resources for IELTS preparation.'
+      'IELTStify is a platform that features top IELTS instructors and links to their channels, providing invaluable content and resources for IELTS preparation.'
   },
   {
-    question: 'How can IELTS GURUS help me with my IELTS preparation?',
+    question: 'How can IELTStify help me with my IELTS preparation?',
     answer:
       'The platform offers direct access to content from experienced IELTS instructors, including tips, strategies, and practice materials to help you succeed in the IELTS exam.'
   },
   {
-    question: 'Is IELTS GURUS free to use?',
-    answer: 'Yes, accessing the resources and instructor channels on IELTS GURUS is completely free.'
+    question: 'Is IELTStify free to use?',
+    answer: 'Yes, accessing the resources and instructor channels on IELTStify is completely free.'
   },
   {
     question: 'Is that all?! Just a list of IELTS mentors?',
     answer: 'For now, YES! We are actively working on new features.'
   },
   {
-    question: 'What features are coming soon to IELTS GURUS?',
+    question: 'What features are coming soon to IELTStify?',
     answer:
       'We are working on adding new features such as personalized AI mock examiners, study plans, mentor blogs, and community forums to enhance your learning experience.',
     link: {
@@ -34,11 +34,11 @@ const FAQ_ITEMS = [
 
 const FAQItem = ({ question, answer, link }) => (
   <Collapsible>
-    <CollapsibleTrigger className="hover:bg-muted flex w-full items-center justify-between rounded-md bg-background px-4 py-3 text-lg font-bold transition-colors">
+    <CollapsibleTrigger className="flex w-full items-center justify-between rounded-md bg-background px-4 py-3 text-lg font-bold transition-colors hover:bg-muted">
       {question}
       <ChevronDownIcon className="h-5 w-5 transition-transform data-[state=open]:rotate-180" />
     </CollapsibleTrigger>
-    <CollapsibleContent className="text-muted-foreground px-4 pt-2">
+    <CollapsibleContent className="px-4 pt-2 text-muted-foreground">
       {answer} {link && <Link href={link.path}>{link.text}</Link>}
     </CollapsibleContent>
   </Collapsible>

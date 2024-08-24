@@ -22,11 +22,11 @@ import { getUserProfile } from '@/lib/actions/getUserProfile'
 
 export default async function Blog({ params }) {
   const profile = await getUserProfile()
-  const mentor = await getMentorByUsername(params?.guruUID)
+  const mentor = await getMentorByUsername(params?.username)
   // const sortedPosts = await fetchData()
   // console.log(sortedPosts)
 
-  const isCurrentUserMentor = profile?.id && profile?.username === params?.guruUID
+  const isCurrentUserMentor = profile?.id && profile?.username === params?.username
 
   return (
     <ScrollArea className="min-h-screen">

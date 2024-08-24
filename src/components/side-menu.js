@@ -31,7 +31,7 @@ export const SideMenu = ({ children, title, isInner }) => {
     if (targetPathname && targetPathname !== pathname) router.push(targetPathname)
   }
 
-  const isWritingPath = pathname.startsWith(`/${params?.guruUID}/blog`)
+  const isWritingPath = pathname.startsWith(`/${params?.username}/blog`)
 
   return (
     <ScrollArea
@@ -47,7 +47,7 @@ export const SideMenu = ({ children, title, isInner }) => {
             <div className="flex items-center gap-2">
               {isWritingPath && (
                 <Button variant="outline" size="xs" asChild>
-                  <a href={`/${params?.guruUID}/blog`} title="Blog" rel="noopener noreferrer">
+                  <a href={`/${params?.username}/blog`} title="Blog" rel="noopener noreferrer">
                     <Plus size={16} className="mr-2" />
                     New post
                   </a>

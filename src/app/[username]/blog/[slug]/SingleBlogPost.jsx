@@ -20,7 +20,7 @@ const SingleBlogPost = ({ id, username }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
 
-  const isCurrentUserMentor = params?.guruUID === username
+  const isCurrentUserMentor = params?.username === username
 
   useEffect(() => {
     if (id) fetchPost(id)

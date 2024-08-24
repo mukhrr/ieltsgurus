@@ -8,11 +8,11 @@ import { getMentorByUsername } from '@/lib/actions/getMentorByUsername'
 import { generateImagePathOnStore } from '@/lib/utils'
 
 export async function generateMetadata({ params }) {
-  const mentor = await getMentorByUsername(params?.guruUID)
+  const mentor = await getMentorByUsername(params?.username)
 
   if (!mentor?.username) {
     return {
-      title: 'IELTS GURUS'
+      title: 'IELTStify'
     }
   }
 
@@ -42,7 +42,7 @@ export async function generateMetadata({ params }) {
 
 export default async function GuruLayout({ children, params }) {
   const profile = await getUserProfile()
-  const mentor = await getMentorByUsername(params?.guruUID)
+  const mentor = await getMentorByUsername(params?.username)
 
   if (!mentor?.username) redirect('/')
 

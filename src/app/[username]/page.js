@@ -25,9 +25,9 @@ export default async function GuruHome({ params }) {
   const { items } = await fetchData()
 
   const profile = await getUserProfile()
-  const mentor = await getMentorByUsername(params?.guruUID)
+  const mentor = await getMentorByUsername(params?.username)
 
-  const isCurrentUserMentor = profile?.username && profile.username === params.guruUID
+  const isCurrentUserMentor = profile?.username && profile.username === params.username
 
   return (
     <ScrollArea useScrollAreaId>
@@ -49,7 +49,7 @@ export default async function GuruHome({ params }) {
           </div>
 
           <Button asChild variant="link" className="inline px-0">
-            <Link href={`/${params?.guruUID}/blog`}>
+            <Link href={`/${params?.username}/blog`}>
               <h2 className="mb-4 mt-8">Blog</h2>
             </Link>
           </Button>
