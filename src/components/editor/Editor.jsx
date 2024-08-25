@@ -35,17 +35,17 @@ const Editor = ({ username }) => {
         },
         body: JSON.stringify({
           mentor_username: username,
-          title: 'Title',
+          title: initialContent?.content[0]?.content[0]?.text || 'Title',
           content: JSON.stringify(initialContent)
         })
       })
 
-      toast.success('Post created successfully. Redirecting to the post...')
+      toast.success('Published successfully.')
       const data = await response.json()
 
       if (data && data.id) {
+        localStorage.removeItem('novel-content')
         router.push(`/${username}/blog/${data.id}`)
-        window.localStorage.removeItem('novel-content')
       }
     } catch (err) {
       toast.error(err.message)

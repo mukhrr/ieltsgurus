@@ -1,24 +1,22 @@
 'use client'
 
 import { memo, useEffect, useState } from 'react'
-import { usePathname } from 'next/navigation'
+import { useParams, usePathname } from 'next/navigation'
 import Link from 'next/link'
 import Balancer from 'react-wrap-balancer'
-import { ArrowLeftIcon, RadioIcon } from 'lucide-react'
+import { ArrowLeftIcon, Plus } from 'lucide-react'
 
 import { MobileDrawer } from '@/components/mobile-drawer'
 import { Button } from '@/components/ui/button.jsx'
-import { SubmitFeedbackDrawer } from '@/components/submit-feedback/drawer'
 
 import { MOBILE_SCROLL_THRESHOLD, SCROLL_AREA_ID } from '@/lib/constants'
 
 export const FloatingHeader = memo(({ scrollTitle, title, goBackLink, children, mentor }) => {
   const [transformValues, setTransformValues] = useState({ translateY: 0, opacity: scrollTitle ? 0 : 1 })
   const pathname = usePathname()
-  const isWritingIndexPage = pathname === '/blog'
+  const params = useParams()
+  const isWritingIndexPage = pathname === `/${params.username}/blog`
   const isWritingPath = pathname.startsWith('/blog')
-  const isBookmarksIndexPage = pathname === '/bookmarks'
-  const isBookmarkPath = pathname.startsWith('/bookmarks')
 
   useEffect(() => {
     const scrollAreaElem = document.querySelector(`#${SCROLL_AREA_ID}`)
@@ -78,20 +76,19 @@ export const FloatingHeader = memo(({ scrollTitle, title, goBackLink, children, 
                 </Balancer>
               )}
               <div className="flex items-center gap-2">
-                {(isWritingIndexPage || isBookmarksIndexPage) && (
-                  <Button variant="outline" size="xs" asChild>
-                    <a
-                      href={isWritingIndexPage ? '/blog.xml' : '/bookmarks.xml'}
-                      title="RSS feed"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <RadioIcon size={16} className="mr-2" />
-                      RSS feed
+                {isWritingIndexPage && (
+                  <Button
+                    variant="outline"
+                    size="xs"
+                    asChild
+                    onClick={() => window.localStorage.removeItem('novel-content')}
+                  >
+                    <a href={`/${mentor?.username}/blog/create`} title="Blog" rel="noopener noreferrer">
+                      <Plus size={16} className="mr-2" />
+                      New post
                     </a>
                   </Button>
                 )}
-                {isBookmarkPath && <SubmitFeedbackDrawer />}
               </div>
             </div>
           </div>

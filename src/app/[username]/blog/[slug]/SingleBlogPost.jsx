@@ -1,9 +1,10 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import { Loader } from 'lucide-react'
 import dynamic from 'next/dynamic'
+import { toast } from 'sonner'
 
 import { FloatingHeader } from '@/components/floating-header'
 import { WritingViews } from '@/components/writing-views'
@@ -11,15 +12,18 @@ import { ScrollArea } from '@/components/scroll-area'
 import { LoadingSpinner } from '@/components/loading-spinner'
 import { Button } from '@/components/ui/button'
 import NovelEditor from '@/components/editor/NovelEditor'
+import { DeleteConfirmationDialog } from './DeleteConfirmationDialog'
 
 import { cn } from '@/lib/utils'
 
 const SingleBlogPost = ({ id, username }) => {
   const params = useParams()
+  const router = useRouter()
   const [post, setPost] = useState(null)
   const [initialContent, setInitialContent] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
 
   const isCurrentUserMentor = params?.username === username
 
@@ -48,7 +52,7 @@ const SingleBlogPost = ({ id, username }) => {
       const res = await fetch(`/api/blog/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content: updatedPost })
+        body: JSON.stringify({ content: updatedPost, title: updatedPost?.content[0]?.content[0]?.text || 'Title' })
       })
 
       if (!res.ok) {
@@ -61,6 +65,28 @@ const SingleBlogPost = ({ id, username }) => {
       console.error('Error fetching post:', error)
     } finally {
       setIsLoading(false)
+    }
+  }
+
+  const handleDelete = async () => {
+    setIsLoading(true)
+    try {
+      const res = await fetch(`/api/blog/${id}`, {
+        method: 'DELETE'
+      })
+
+      if (!res.ok) {
+        throw new Error('Failed to delete blog post')
+      }
+
+      toast.success('Post deleted successfully')
+      router.push(`/${username}/blog`)
+    } catch (error) {
+      console.error('Error deleting post:', error)
+      toast.error('Failed to delete post')
+    } finally {
+      setIsLoading(false)
+      setIsDeleteDialogOpen(false)
     }
   }
 
@@ -85,13 +111,13 @@ const SingleBlogPost = ({ id, username }) => {
         <WritingViews slug={id} />
       </FloatingHeader>
       <div
-        className={cn('pt-4', {
+        className={cn('relative pt-4', {
           'overflow-hidden': isLoading
         })}
       >
         {(!isEditing || isLoading) && (
           <div
-            className={cn('absolute left-0 top-0 z-40 min-h-screen min-w-full', {
+            className={cn('absolute bottom-0 left-0 top-0 z-40 min-h-screen min-w-full', {
               'animate-pulse bg-gray-100': isEditing
             })}
           />
@@ -114,7 +140,7 @@ const SingleBlogPost = ({ id, username }) => {
                 </div>
               ) : (
                 <div className="flex justify-end gap-2">
-                  <Button variant="destructive" size="xs" onClick={() => {}}>
+                  <Button variant="destructive" size="xs" onClick={() => setIsDeleteDialogOpen(true)}>
                     Delete
                   </Button>
 
@@ -127,6 +153,12 @@ const SingleBlogPost = ({ id, username }) => {
           )}
         </article>
       </div>
+      <DeleteConfirmationDialog
+        isOpen={isDeleteDialogOpen}
+        onClose={() => setIsDeleteDialogOpen(false)}
+        onDelete={handleDelete}
+        isDeleting={isLoading}
+      />
     </ScrollArea>
   )
 }

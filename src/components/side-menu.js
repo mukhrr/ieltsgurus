@@ -46,7 +46,12 @@ export const SideMenu = ({ children, title, isInner }) => {
             <span className="text-sm font-semibold tracking-tight">{title}</span>
             <div className="flex items-center gap-2">
               {isWritingPath && (
-                <Button variant="outline" size="xs" asChild>
+                <Button
+                  variant="outline"
+                  size="xs"
+                  asChild
+                  onClick={() => window.localStorage.removeItem('novel-content')}
+                >
                   <a href={`/${params?.username}/blog`} title="Blog" rel="noopener noreferrer">
                     <Plus size={16} className="mr-2" />
                     New post
