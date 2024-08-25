@@ -4,7 +4,7 @@ import { domAnimation, LazyMotion } from 'framer-motion'
 import { cn, getDateTimeFormat } from '@/lib/utils'
 
 export const WritingLink = ({ post, isMobile, isActive, username }) => {
-  const date = post.created_at || post.sys.firstPublishedAt
+  const date = post.created_at
   const formattedDate = getDateTimeFormat(date)
 
   return (

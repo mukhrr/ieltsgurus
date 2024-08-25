@@ -11,19 +11,17 @@ export const size = {
   height: sharedImage.height
 }
 
-export default async function Image() {
+export default async function Image({ params }) {
   const [mediumFontData, boldFontData] = await Promise.all([getMediumFont(), getBoldFont()])
 
-  const title = 'test blog title'
-  const ogImageTitle = 'test blog image title'
-  const ogImageSubtitle = 'test blog image subtitle'
-  const description = 'test blog description'
+  const title = `${params.username}'s blog on ieltstify`
+  const description = `Read, enjoy, share ${params.username}'s posts!`
 
   return new ImageResponse(
     (
       <OpenGraphImage
-        title={ogImageTitle || title}
-        description={ogImageSubtitle || description}
+        title={title}
+        description={description}
         icon={
           <svg
             xmlns="http://www.w3.org/2000/svg"

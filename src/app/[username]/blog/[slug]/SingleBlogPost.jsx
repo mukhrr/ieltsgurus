@@ -41,8 +41,27 @@ const SingleBlogPost = ({ id, username }) => {
 
   const updatePost = async () => {
     if (!isEditing) return
+    const updatedPost = localStorage.getItem('novel-content')
 
     setIsLoading(true)
+    try {
+      const res = await fetch(`/api/blog/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content: updatedPost })
+      })
+
+      if (!res.ok) {
+        throw new Error('Failed to update blog post')
+      }
+      setIsEditing(false)
+
+      return res.json()
+    } catch (error) {
+      console.error('Error fetching post:', error)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const onCancel = () => {

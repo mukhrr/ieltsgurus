@@ -1,13 +1,11 @@
 'use client'
 
 import Link from 'next/link'
-import { domAnimation, LazyMotion, m } from 'framer-motion'
+import { domAnimation, LazyMotion } from 'framer-motion'
 
-import { cn, dateWithDayAndMonthFormatter, dateWithMonthAndYearFormatter, viewCountFormatter } from '@/lib/utils'
+import { cn, dateWithDayAndMonthFormatter, dateWithMonthAndYearFormatter } from '@/lib/utils'
 
-export const WritingList = ({ items }) => {
-  const viewData = ['']
-
+export const WritingList = ({ items, username }) => {
   return (
     <LazyMotion features={domAnimation}>
       <div className="text-sm">
@@ -17,7 +15,6 @@ export const WritingList = ({ items }) => {
             <span className="grid grid-cols-4 items-center md:grid-cols-8">
               <span className="col-span-1 text-left">Date</span>
               <span className="col-span-2 md:col-span-6">Title</span>
-              <span className="col-span-1 text-right">Views</span>
             </span>
           </span>
         </div>
@@ -29,22 +26,14 @@ export const WritingList = ({ items }) => {
             return (
               <ul className="group/list list-none" key={year}>
                 {itemsArr.map((item, itemIndex) => {
-                  const {
-                    title,
-                    slug,
-                    date,
-                    sys: { firstPublishedAt }
-                  } = item
-                  const dateObj = new Date(date || firstPublishedAt)
+                  const { title, id, created_at } = item
+                  const dateObj = new Date(created_at)
                   const dateWithDayAndMonth = dateWithDayAndMonthFormatter.format(dateObj)
                   const dateWithMonthAndYear = dateWithMonthAndYearFormatter.format(dateObj)
 
-                  const { view_count } = viewData?.find((item) => item.slug === slug) ?? {}
-                  const formattedViewCount = view_count ? viewCountFormatter.format(view_count) : null
-
                   return (
                     <li
-                      key={slug}
+                      key={id}
                       className="group/list-item grid grid-cols-6 p-0 group-hover/list-wrapper:text-gray-300"
                     >
                       <span
@@ -56,36 +45,19 @@ export const WritingList = ({ items }) => {
                         {itemIndex === 0 ? year : ''}
                       </span>
                       <Link
-                        href={`/writing/${slug}`}
+                        href={`/${username}/blog/${id}`}
                         className="col-span-6 group-hover/list-item:text-gray-900 md:col-span-5"
                       >
                         <span className="grid grid-cols-4 items-center gap-2 border-t border-gray-200 py-4 md:grid-cols-8">
                           <span className="col-span-1 text-left tabular-nums">
-                            <time dateTime={date} className="hidden md:block" suppressHydrationWarning>
+                            <time dateTime={created_at} className="hidden md:block" suppressHydrationWarning>
                               {dateWithDayAndMonth}
                             </time>
-                            <time dateTime={date} className="md:hidden" suppressHydrationWarning>
+                            <time dateTime={created_at} className="md:hidden" suppressHydrationWarning>
                               {dateWithMonthAndYear}
                             </time>
                           </span>
                           <span className="col-span-2 line-clamp-4 md:col-span-6">{title}</span>
-                          <span className="col-span-1">
-                            {formattedViewCount ? (
-                              <m.span
-                                key={`${slug}-views`}
-                                className="flex justify-end tabular-nums"
-                                title={`${formattedViewCount} views`}
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                                transition={{ duration: 0.3 }}
-                              >
-                                {formattedViewCount}
-                              </m.span>
-                            ) : (
-                              <m.span key={`${slug}-views-loading`} />
-                            )}
-                          </span>
                         </span>
                       </Link>
                     </li>

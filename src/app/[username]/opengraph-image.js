@@ -1,8 +1,8 @@
 import { ImageResponse } from 'next/og'
 
 import { OpenGraphImage } from '@/components/og-image'
-import { getMediumFont, getBoldFont } from '@/lib/fonts'
-import { sharedTitle, sharedDescription, sharedImage } from '@/app/shared-metadata'
+import { getBoldFont, getMediumFont } from '@/lib/fonts'
+import { sharedDescription, sharedImage, sharedTitle } from '@/app/shared-metadata'
 
 export const runtime = 'edge'
 export const alt = sharedTitle
@@ -11,12 +11,6 @@ export const size = {
   height: sharedImage.height
 }
 export const contentType = sharedImage.type
-
-/* export const getImage = async () => {
-  const response = await fetch(new URL('@/assets/me.jpg', import.meta.url))
-  const font = await response.arrayBuffer()
-  return font
-} */
 
 export default async function Image() {
   const [mediumFontData, boldFontData] = await Promise.all([getMediumFont(), getBoldFont()])

@@ -4,21 +4,18 @@ import { SideMenu } from '@/components/side-menu'
 import { LoadingSpinner } from '@/components/loading-spinner'
 import { WritingListLayout } from '@/components/writing/writing-list-layout'
 
-// import debug from 'debug'
-// const log = debug('app:writing-layout')
-
 async function fetchBlogPosts() {
-  const res = await fetch(`${process.env.NEXT_PROJECT_API_URL}/api/blog`, { next: { revalidate: 60 } })
+  const res = await fetch(`${process.env.NEXT_PROJECT_API_URL}/api/blog`, { cache: 'no-store' })
   if (!res.ok) {
     throw new Error('Failed to fetch blog posts')
   }
   const data = await res.json()
 
-  return data
+  return { data }
 }
 
 export default async function WritingLayout({ children }) {
-  const posts = await fetchBlogPosts()
+  const { data: posts } = await fetchBlogPosts()
 
   return (
     <>

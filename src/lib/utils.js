@@ -139,7 +139,7 @@ export const viewCountFormatter = new Intl.NumberFormat('nl-NL')
  */
 export const getItemsByYear = (items) => {
   return items.reduce((acc, item) => {
-    const year = new Date(item.date || item.sys.firstPublishedAt).getFullYear()
+    const year = new Date(item.created_at).getFullYear()
     const yearArr = acc.find((item) => item[0] === year)
     if (!yearArr) {
       acc.push([year, [item]])

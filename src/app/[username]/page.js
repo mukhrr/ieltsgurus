@@ -10,19 +10,21 @@ import { Button } from '@/components/ui/button'
 import { getUserProfile } from '@/lib/actions/getUserProfile'
 import { getMentorByUsername } from '@/lib/actions/getMentorByUsername'
 
-import { capitalizeFirstLetter, getItemsByYear, getSortedPosts } from '@/lib/utils'
+import { capitalizeFirstLetter, getItemsByYear } from '@/lib/utils'
 
-import { getAllPosts } from '@/lib/contentful'
+async function fetchBlogPosts() {
+  const res = await fetch(`${process.env.NEXT_PROJECT_API_URL}/api/blog`, { next: { revalidate: 60 } })
+  if (!res.ok) {
+    throw new Error('Failed to fetch blog posts')
+  }
+  const data = await res.json()
+  const items = getItemsByYear(data)
 
-async function fetchData() {
-  const allPosts = await getAllPosts()
-  const sortedPosts = getSortedPosts(allPosts)
-  const items = getItemsByYear(sortedPosts)
   return { items }
 }
 
-export default async function GuruHome({ params }) {
-  const { items } = await fetchData()
+export default async function MentorHome({ params }) {
+  const { items } = await fetchBlogPosts()
 
   const profile = await getUserProfile()
   const mentor = await getMentorByUsername(params?.username)
@@ -55,7 +57,7 @@ export default async function GuruHome({ params }) {
           </Button>
           {!!items?.length && (
             <Suspense fallback={<p>loading...</p>}>
-              <WritingList items={items} header="Writing" />
+              <WritingList items={items} header="Blog" username={params.username} />
             </Suspense>
           )}
           {!items?.length && (
