@@ -33,7 +33,7 @@ const onUpload = (file) => {
       }),
       {
         loading: 'Uploading image...',
-        success: 'Image uploaded successfully.',
+        success: 'Image uploaded.',
         error: (e) => e.message
       }
     )

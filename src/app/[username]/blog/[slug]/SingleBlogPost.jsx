@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
-import { Loader } from 'lucide-react'
+import { Copy, Loader, Send, Share } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import { toast } from 'sonner'
 
@@ -13,8 +13,16 @@ import { LoadingSpinner } from '@/components/loading-spinner'
 import { Button } from '@/components/ui/button'
 import NovelEditor from '@/components/editor/NovelEditor'
 import { DeleteConfirmationDialog } from './DeleteConfirmationDialog'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu'
 
 import { cn } from '@/lib/utils'
+
+import { defaultUrl } from '@/app/shared-metadata'
 
 const SingleBlogPost = ({ id, username }) => {
   const params = useParams()
@@ -125,32 +133,38 @@ const SingleBlogPost = ({ id, username }) => {
         <article className="content min-h-screen">
           <NovelEditor initialContent={initialContent} />
 
-          {isCurrentUserMentor && (
-            <div className="sticky -bottom-1 right-0 z-50 w-full bg-transparent p-2 pl-12 shadow-2xl backdrop-blur">
-              {isEditing ? (
-                <div className="flex justify-end gap-2">
-                  <Button variant="destructive" size="xs" onClick={onCancel}>
-                    Cancel
-                  </Button>
+          <div className="sticky -bottom-1 right-0 z-50 w-full bg-transparent p-2 pl-12 shadow-2xl backdrop-blur">
+            {isCurrentUserMentor ? (
+              <div className="flex items-center justify-between">
+                <ShareButton />
 
-                  <Button size="xs" onClick={updatePost} disabled={isLoading} className="flex  flex-nowrap gap-1">
-                    {isLoading ? <Loader className="animate-spin" size="18" /> : null}{' '}
-                    {isLoading ? 'Publishing...' : 'Publish'}
-                  </Button>
-                </div>
-              ) : (
-                <div className="flex justify-end gap-2">
-                  <Button variant="destructive" size="xs" onClick={() => setIsDeleteDialogOpen(true)}>
-                    Delete
-                  </Button>
+                {isEditing ? (
+                  <div className="flex items-center justify-end gap-2">
+                    <Button variant="destructive" size="xs" onClick={onCancel}>
+                      Cancel
+                    </Button>
 
-                  <Button size="xs" onClick={() => setIsEditing(true)}>
-                    Edit
-                  </Button>
-                </div>
-              )}
-            </div>
-          )}
+                    <Button size="xs" onClick={updatePost} disabled={isLoading} className="flex  flex-nowrap gap-1">
+                      {isLoading ? <Loader className="animate-spin" size="18" /> : null}{' '}
+                      {isLoading ? 'Publishing...' : 'Publish'}
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="flex items-center justify-end gap-2">
+                    <Button variant="destructive" size="xs" onClick={() => setIsDeleteDialogOpen(true)}>
+                      Delete
+                    </Button>
+
+                    <Button size="xs" onClick={() => setIsEditing(true)}>
+                      Edit
+                    </Button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <ShareButton />
+            )}
+          </div>
         </article>
       </div>
       <DeleteConfirmationDialog
@@ -160,6 +174,42 @@ const SingleBlogPost = ({ id, username }) => {
         isDeleting={isLoading}
       />
     </ScrollArea>
+  )
+}
+
+const ShareButton = () => {
+  const pathname = window.location.pathname
+  const url = defaultUrl + pathname
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(url)
+    toast.success('Link copied!')
+  }
+
+  const handleTelegramShare = () => {
+    const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(url)}`
+    window.open(telegramUrl, '_blank')
+  }
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Share className="cursor-point" />
+      </DropdownMenuTrigger>
+
+      <DropdownMenuContent sideOffset={4} align="start">
+        <DropdownMenuLabel>
+          <div className="flex flex-col gap-2">
+            <span onClick={handleCopy} aria-hidden="true" className="flex cursor-pointer items-center gap-1">
+              <Copy className="w-10 text-gray-500" /> Copy
+            </span>
+            <span onClick={handleTelegramShare} aria-hidden="true" className="flex cursor-pointer items-center gap-1">
+              <Send className="w-10 text-gray-500" /> Share on Telegram
+            </span>
+          </div>
+        </DropdownMenuLabel>
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }
 
