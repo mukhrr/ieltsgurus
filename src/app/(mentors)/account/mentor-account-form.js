@@ -69,11 +69,19 @@ export default function MentorAccountForm({ user }) {
     try {
       let avatar_url = user?.avatar_url
 
-      // TODO: fix upload image
       // Upload new avatar if changed
       if (avatarFile) {
-        console.log(avatarFile)
-        // avatar_url = await uploadAvatar(avatarFile, user.id)
+        const { data: uploadData, error: uploadError } = await supabase.storage
+          .from('avatars')
+          .upload(`${user.user_id}/${Date.now()}.png`, avatarFile)
+
+        if (uploadError) toast.error(uploadError)
+
+        const {
+          data: { publicUrl }
+        } = supabase.storage.from('avatars').getPublicUrl(uploadData.path)
+
+        avatar_url = publicUrl
       }
 
       const mentorData = {
