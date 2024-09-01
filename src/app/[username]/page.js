@@ -12,8 +12,8 @@ import { getMentorByUsername } from '@/lib/actions/getMentorByUsername'
 
 import { capitalizeFirstLetter, getItemsByYear } from '@/lib/utils'
 
-async function fetchBlogPosts() {
-  const res = await fetch(`${process.env.NEXT_PROJECT_API_URL}/api/blog`, { cache: 'no-cache' })
+async function fetchBlogPosts(username) {
+  const res = await fetch(`${process.env.NEXT_PROJECT_API_URL}/api/blog?username=${encodeURIComponent(username)}`, { cache: 'no-cache' })
   if (!res.ok) {
     throw new Error('Failed to fetch blog posts')
   }
@@ -24,7 +24,7 @@ async function fetchBlogPosts() {
 }
 
 export default async function MentorHome({ params }) {
-  const { items } = await fetchBlogPosts()
+  const { items } = await fetchBlogPosts(params.username)
 
   const profile = await getUserProfile()
   const mentor = await getMentorByUsername(params?.username)

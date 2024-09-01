@@ -4,8 +4,8 @@ import { SideMenu } from '@/components/side-menu'
 import { LoadingSpinner } from '@/components/loading-spinner'
 import { WritingListLayout } from '@/components/writing/writing-list-layout'
 
-async function fetchBlogPosts() {
-  const res = await fetch(`${process.env.NEXT_PROJECT_API_URL}/api/blog`, { cache: 'no-store' })
+async function fetchBlogPosts(username) {
+  const res = await fetch(`${process.env.NEXT_PROJECT_API_URL}/api/blog?username=${encodeURIComponent(username)}`, { cache: 'no-cache' })
   if (!res.ok) {
     throw new Error('Failed to fetch blog posts')
   }
@@ -14,8 +14,8 @@ async function fetchBlogPosts() {
   return { data }
 }
 
-export default async function WritingLayout({ children }) {
-  const { data: posts } = await fetchBlogPosts()
+export default async function WritingLayout({ children, params }) {
+  const { data: posts } = await fetchBlogPosts(params.username)
 
   return (
     <>

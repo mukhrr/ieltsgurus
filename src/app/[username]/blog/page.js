@@ -9,18 +9,19 @@ import Editor from '@/components/editor/Editor'
 import { getMentorByUsername } from '@/lib/actions/getMentorByUsername'
 import { getUserProfile } from '@/lib/actions/getUserProfile'
 
-async function fetchBlogPosts() {
-  const res = await fetch(`${process.env.NEXT_PROJECT_API_URL}/api/blog`, { cache: 'no-store' })
+async function fetchBlogPosts(username) {
+  const res = await fetch(`${process.env.NEXT_PROJECT_API_URL}/api/blog?username=${encodeURIComponent(username)}`, { cache: 'no-cache' })
   if (!res.ok) {
     throw new Error('Failed to fetch blog posts')
   }
+
   return await res.json()
 }
 
 export default async function Blog({ params }) {
   const profile = await getUserProfile()
   const mentor = await getMentorByUsername(params?.username)
-  const posts = await fetchBlogPosts()
+  const posts = await fetchBlogPosts(params.username)
 
   const isCurrentUserMentor = profile?.id && profile?.username === params?.username
 
