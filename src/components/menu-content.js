@@ -3,19 +3,18 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowLeft } from 'lucide-react'
-import { NavigationLink } from '@/components/navigation-link'
-
-import { capitalizeFirstLetter, generateSocialNetworkLink } from '@/lib/utils'
-
-import { LINKS } from '@/lib/constants'
-import { buttonVariants } from '@/components/ui/button'
-import ProfileButton from '@/components/ui/profile-button'
 import { useParams } from 'next/navigation'
 
-export const MenuContent = ({ mentor }) => {
+import { NavigationLink } from '@/components/navigation-link'
+import ProfileButton from '@/components/ui/profile-button'
+
+import { capitalizeFirstLetter, generateSocialNetworkLink } from '@/lib/utils'
+import { LINKS } from '@/lib/constants'
+import { buttonVariants } from '@/components/ui/button'
+
+export const MenuContent = ({ mentor, user }) => {
   const params = useParams()
-  const username = params?.username
-  const isCurrentUserMentor = username === mentor.username
+  const isCurrentUserMentor = user?.username === mentor.username
 
   return (
     <div className="flex w-full flex-col text-sm">
@@ -27,12 +26,12 @@ export const MenuContent = ({ mentor }) => {
           </Link>
           <NavigationLink href="/" label="Back" icon={<ArrowLeft size={16} />} />
         </div>
-        <ProfileButton hasFullName mentor={mentor} hasAccessToOptions={isCurrentUserMentor} />
+        <ProfileButton hasFullName mentor={mentor} user={user} />
         <div className="flex flex-col gap-1">
           {LINKS.map((link) => (
             <NavigationLink
               key={link.href}
-              href={`/${username}${link.href}`}
+              href={`/${params.username}${link.href}`}
               label={link.label}
               icon={link.icon}
               disabled={link.isDisabled}

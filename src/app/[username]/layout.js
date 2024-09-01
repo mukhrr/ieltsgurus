@@ -3,9 +3,9 @@ import { redirect } from 'next/navigation'
 import { SideMenu } from '@/components/side-menu'
 import { MenuContent } from '@/components/menu-content'
 
-import { getUserProfile } from '@/lib/actions/getUserProfile'
 import { getMentorByUsername } from '@/lib/actions/getMentorByUsername'
 import { generateImagePathOnStore } from '@/lib/utils'
+import { getUserProfile } from '@/lib/actions/getUserProfile'
 
 export async function generateMetadata({ params }) {
   const mentor = await getMentorByUsername(params?.username)
@@ -40,7 +40,7 @@ export async function generateMetadata({ params }) {
   }
 }
 
-export default async function GuruLayout({ children, params }) {
+export default async function MentorLayout({ children, params }) {
   const profile = await getUserProfile()
   const mentor = await getMentorByUsername(params?.username)
 
@@ -49,7 +49,7 @@ export default async function GuruLayout({ children, params }) {
   return (
     <div className="lg:flex">
       <SideMenu className="relative hidden lg:flex">
-        <MenuContent mentor={{ ...mentor, image_path: mentor?.image_path || profile?.avatar_url }} user={profile} />
+        <MenuContent mentor={mentor} user={profile} />
       </SideMenu>
       <div className="flex flex-1">{children}</div>
     </div>

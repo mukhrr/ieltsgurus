@@ -7,4 +7,4 @@ export const sharedImage = {
 }
 
 export const defaultUrl =
-  process.env.NODE_ENV === 'production' ? `https://ieltstify.vercel.app` : 'http://localhost:3000'
+  process.env.NODE_ENV === 'production' ? `https://ieltstify.com` : 'http://localhost:3000'

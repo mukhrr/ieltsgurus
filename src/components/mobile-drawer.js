@@ -14,7 +14,7 @@ export function MobileDrawer({ mentor }) {
       </DrawerTrigger>
       <DrawerContent className="h-[80%]">
         <div className="overflow-y-auto p-4">
-          <MenuContent mentor={mentor} />
+          <MenuContent mentor={mentor} user={mentor} />
         </div>
       </DrawerContent>
     </Drawer>

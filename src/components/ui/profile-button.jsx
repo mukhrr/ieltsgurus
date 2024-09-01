@@ -40,7 +40,7 @@ const TriggerButton = (mentor, image, hasFullName) => (
   </div>
 )
 
-export default function ProfileButton({ mentor, hasFullName, hasAccessToOptions }) {
+export default function ProfileButton({ mentor, hasFullName, user }) {
   const router = useRouter()
   const imagePathOnStore = generateImagePathOnStore(mentor?.image_path)
 
@@ -67,7 +67,7 @@ export default function ProfileButton({ mentor, hasFullName, hasAccessToOptions 
     }
   }
 
-  return hasAccessToOptions ? (
+  return user?.username === mentor.username ? (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>{TriggerButton(mentor, imagePathOnStore, hasFullName)}</DropdownMenuTrigger>
 

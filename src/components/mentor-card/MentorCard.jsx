@@ -28,7 +28,7 @@ export default function MentorCard({ fullName, image, score, shortInfo, descript
     event.stopPropagation()
     event.preventDefault()
 
-    window.navigator.clipboard.writeText(`https://ieltstify.vercel.app/${user}`)
+    window.navigator.clipboard.writeText(`https://ieltstify.com/${user}`)
     toast.info('Copied to clipboard. Now you can share with :)')
   }
 

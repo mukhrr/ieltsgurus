@@ -6,6 +6,7 @@
   },
   "scripts": {
     "dev": "next dev",
+    "debug-dev": "DEBUG=app:* next dev",
     "build": "next build",
     "start": "next start",
     "prettier": "prettier --write \"**/*.{html,js,json,md,mdx,mjs}\"",

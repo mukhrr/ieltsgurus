@@ -3,7 +3,7 @@ export const defaultEditorContent = {
   content: [
     {
       type: 'heading',
-      attrs: { level: 1 },
+      attrs: { level: 3 },
       content: [{ type: 'text', text: 'start writing something cool...' }]
     }
   ]

@@ -33,7 +33,7 @@ export const OpenGraphImage = ({ title, description, icon, url }) => {
           borderRadius: 9999
         }}
       >
-        {`ieltstify.vercel.app${url ? `/${url}` : ''}`}
+        {`ieltstify.com${url ? `/${url}` : ''}`}
       </div>
       <span
         style={{

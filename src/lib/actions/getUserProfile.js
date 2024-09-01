@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 
 export async function getUserProfile() {
   const serverSupabase = createClient()
+
   const {
     data: { user }
   } = await serverSupabase.auth.getUser()
