@@ -5,28 +5,29 @@ import { Link } from '@/components/link'
 const FAQ_ITEMS = [
   {
     question: 'What is IELTStify?',
-    answer:
-      'IELTStify is a platform that features top IELTS instructors and links to their channels, providing invaluable content and resources for IELTS preparation.'
+    answer: 'IELTStify is a platform that features top IELTS instructors, providing invaluable content and resources for IELTS preparation. It now includes instructor blogs, account management features, and more.'
   },
   {
     question: 'How can IELTStify help me with my IELTS preparation?',
-    answer:
-      'The platform offers direct access to content from experienced IELTS instructors, including tips, strategies, and practice materials to help you succeed in the IELTS exam.'
+    answer: 'The platform offers direct access to content from experienced IELTS instructors, including tips, strategies, and practice materials. You can now read instructor blogs for in-depth IELTS tips and manage your account for a personalized experience.'
   },
   {
     question: 'Is IELTStify free to use?',
-    answer: 'Yes, accessing the resources and instructor channels on IELTStify is completely free.'
+    answer: 'Yes! It is totally free to use.'
   },
   {
-    question: 'Is that all?! Just a list of IELTS mentors?',
-    answer: 'For now, YES! We are actively working on new features.'
+    question: 'What new features are available in IELTStify?',
+    answer: 'IELTStify introduces instructor blogs on IELTS tips, account management features for users, and enhanced content delivery. These additions provide a more comprehensive and personalized IELTS preparation experience.'
   },
   {
-    question: 'What features are coming soon to IELTStify?',
-    answer:
-      'We are working on adding new features such as personalized AI mock examiners, study plans, mentor blogs, and community forums to enhance your learning experience.',
+    question: 'Can instructors now contribute their own content to IELTStify?',
+    answer: 'Yes, IELTS instructors can now run their own blogs on the platform, sharing valuable tips and insights directly with users.'
+  },
+  {
+    question: 'Are there any upcoming features for IELTStify?',
+    answer: 'We are continuously improving IELTStify. Future updates may include features like personalized AI mock examiners, study plans, learning marathons, and community forums to further enhance your learning experience.',
     link: {
-      text: 'Here you can see the Roadmap',
+      text: 'Check our Roadmap for upcoming features',
       path: 'https://ieltsgurus.productroad.com/roadmap/roadmap'
     }
   }
