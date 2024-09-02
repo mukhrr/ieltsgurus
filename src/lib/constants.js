@@ -61,7 +61,7 @@ export const MAX_FEEDBACK_SUBMISSIONS_PER_DAY = 5
 export const FEEDBACK_SUBMISSION_COUNT_COOKIE_NAME = 'feedback_submission_count'
 
 export const CATEGORIES = {
-  TRENDING: "Today's Trending IELTS Gurus",
+  TRENDING: "Today's Trending IELTS mentors",
   WRITING: 'Top WRITING Instructors',
   SPEAKING: 'Top SPEAKING Instructors',
   LISTENING: 'Top LISTENING Instructors',

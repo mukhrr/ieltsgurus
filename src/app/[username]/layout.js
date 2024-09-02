@@ -18,10 +18,10 @@ export async function generateMetadata({ params }) {
 
   return {
     title: mentor.full_name,
-    description: `Learn IELTS with ${mentor.full_name}, an experienced mentor on IELTS GURUS.`,
+    description: `Learn IELTS with ${mentor.full_name}, an experienced mentor on IELTStify.`,
     openGraph: {
       title: mentor.full_name,
-      description: `Learn IELTS with ${mentor.full_name}, an experienced mentor on IELTS GURUS.`,
+      description: `Learn IELTS with ${mentor.full_name}, an experienced mentor on IELTStify.`,
       images: [
         {
           url: generateImagePathOnStore(mentor.image_path),
@@ -34,7 +34,7 @@ export async function generateMetadata({ params }) {
     twitter: {
       card: 'summary_large_image',
       title: mentor.full_name,
-      description: `Learn IELTS with ${mentor.full_name}, an experienced mentor on IELTS GURUS.`,
+      description: `Learn IELTS with ${mentor.full_name}, an experienced mentor on IELTStify.`,
       images: [generateImagePathOnStore(mentor.image_path)]
     }
   }
